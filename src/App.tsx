@@ -1,3 +1,4 @@
+import tbConf from "../public/toolboxconfig"
 import BlocksToolbox from './features/blocks/BlocksToolbox'
 
 function App() {
