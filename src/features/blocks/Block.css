@@ -3,6 +3,12 @@
     outline: 1px solid #b9bfcb;
 }
 
+.toolbox-block-description {
+    padding-top: 10px;
+    font-size: 0.7rem;
+    font-style: italic;
+}
+
 .toolbox-block-tag {
     display: inline-block;
     color: white;
