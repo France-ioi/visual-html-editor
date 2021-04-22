@@ -1,11 +1,14 @@
 import './BlocksToolbox.css'
-import {ToolboxConfiguration, ToolboxCategory, ToolboxCategoryBlocks} from "../../toolboxconfig"
+import {ToolboxConfiguration} from "../../toolboxconfig"
 import BlocksCategory from './BlocksCategory'
 
 function BlocksToolbox({categories}: ToolboxConfiguration) {
   return (
     <div className={'toolbox'}>
-      <h1>Hi</h1>
+      {categories.map(category => {
+        return <BlocksCategory key={category.id} name={category.name} blocks={category.blocks}
+                               highlight={category.highlight} id={category.id}/>
+      })}
     </div>
   )
 }
