@@ -26,7 +26,7 @@ function BlocksCategory(props: ToolboxCategory) {
       </span>
       <div className={'toolbox-category-blocks'}>
         {props.blocks.map(block => {
-          return <Block key={block.tag} tag={block.tag} paired={block.paired} desc={block.desc}/>
+          return <Block key={block.id} tag={block.tag} paired={block.paired} desc={block.desc}/>
         })}
       </div>
     </div>
