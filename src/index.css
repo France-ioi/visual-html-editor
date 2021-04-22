@@ -1,0 +1,16 @@
+/* Simple style reset */
+* {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    list-style: none;
+    vertical-align: middle;
+}
+
+.App {
+    height: 100vh;
+}
