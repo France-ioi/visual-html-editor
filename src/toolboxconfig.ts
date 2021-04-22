@@ -7,7 +7,7 @@ export interface ToolboxCategoryBlocks {
 }
 
 export interface ToolboxCategory {
-  id: Number,
+  id: number,
   name: String,
   highlight: String,
   blocks: Array<ToolboxCategoryBlocks>
