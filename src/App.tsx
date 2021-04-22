@@ -1,12 +1,12 @@
-import tbConf from "../public/toolboxconfig"
+import tbConf from "./toolboxconfig"
 import BlocksToolbox from './features/blocks/BlocksToolbox'
 
 function App() {
   return (
     <div className="App">
-      <BlocksToolbox/>
+      <BlocksToolbox categories={tbConf}/>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

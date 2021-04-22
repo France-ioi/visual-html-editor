@@ -1,6 +1,10 @@
 import './BlocksToolbox.css'
 
-function BlocksToolbox() {
+interface BlocksToolboxProps {
+  categories: Object
+}
+
+function BlocksToolbox({categories}: BlocksToolboxProps) {
   return (
     <div className={'toolbox'}>
       <h1>Hi toolbox</h1>
