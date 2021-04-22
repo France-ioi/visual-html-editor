@@ -1,5 +1,6 @@
 import './BlocksCategory.css'
-import {ToolboxCategory} from "../../toolboxconfig";
+import {ToolboxCategory} from "../../toolboxconfig"
+import Block from "./Block"
 
 function BlocksCategory(props: ToolboxCategory) {
   const categoryStyle = {
