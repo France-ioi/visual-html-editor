@@ -3,4 +3,5 @@
     background-color: #dfe7f4;
     height: 100%;
     max-width: 15rem;
+    overflow: auto;
 }
