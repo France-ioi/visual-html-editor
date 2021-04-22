@@ -1,7 +1,7 @@
 // Configure your desired categories as objects in categories array
 // Configure category blocks as objects in blocks array
 export interface ToolboxCategoryBlocks {
-  tag: String,
+  tag: string,
   paired: Boolean,
   desc: String
 }
