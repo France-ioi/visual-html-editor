@@ -7,9 +7,21 @@ function BlocksCategory(props: ToolboxCategory) {
     borderLeft: `10px solid ${props.highlight}`
   }
 
+  function toggleCategory(e: any) {
+    const categoryBlocksDiv = e.target.nextElementSibling
+    let categoryBlocksDivInnerHeight = 0
+
+    categoryBlocksDiv.childNodes.forEach((block: any) => {
+      categoryBlocksDivInnerHeight += block.clientHeight
+    })
+
+    categoryBlocksDiv.classList.toggle('unrolled')
+    categoryBlocksDiv.style = categoryBlocksDiv.classList.contains('unrolled') ? 'max-height: ' + categoryBlocksDivInnerHeight + 'px' : 'max-height: 0'
+  }
+
   return (
     <div className={'toolbox-category'} style={categoryStyle}>
-      <span className={'toolbox-category-title'}>
+      <span className={'toolbox-category-title'} onClick={toggleCategory}>
         {props.name}
       </span>
       <div className={'toolbox-category-blocks'}>
