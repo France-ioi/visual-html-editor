@@ -1,22 +1,22 @@
-interface ToolboxCategoryBlocks {
+// Configure your desired categories as objects in categories array
+// Configure category blocks as objects in blocks array
+export interface ToolboxCategoryBlocks {
   tag: String,
   paired: Boolean,
   desc: String
 }
 
-interface ToolboxCategory {
+export interface ToolboxCategory {
   id: Number,
   name: String,
   highlight: String,
   blocks: Array<ToolboxCategoryBlocks>
 }
 
-interface ToolboxConfiguration {
+export interface ToolboxConfiguration {
   categories: Array<ToolboxCategory>
 }
 
-// Configure your desired categories as objects in categories array
-// Configure category blocks as objects in blocks array
 const tbConf: ToolboxConfiguration = {
   categories: [
     {

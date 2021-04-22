@@ -4,7 +4,7 @@ import BlocksToolbox from './features/blocks/BlocksToolbox'
 function App() {
   return (
     <div className="App">
-      <BlocksToolbox categories={tbConf}/>
+      <BlocksToolbox categories={tbConf.categories}/>
     </div>
   )
 }

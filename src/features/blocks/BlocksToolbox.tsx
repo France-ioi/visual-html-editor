@@ -1,14 +1,11 @@
 import './BlocksToolbox.css'
+import {ToolboxConfiguration, ToolboxCategory, ToolboxCategoryBlocks} from "../../toolboxconfig"
 import BlocksCategory from './BlocksCategory'
 
-interface BlocksToolboxProps {
-  categories: Object
-}
-
-function BlocksToolbox({categories}: BlocksToolboxProps) {
+function BlocksToolbox({categories}: ToolboxConfiguration) {
   return (
     <div className={'toolbox'}>
-      <h1>Hi toolbox</h1>
+      <h1>Hi</h1>
     </div>
   )
 }
