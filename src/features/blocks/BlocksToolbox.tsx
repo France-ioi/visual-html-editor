@@ -1,4 +1,5 @@
 import './BlocksToolbox.css'
+import BlocksCategory from './BlocksCategory'
 
 interface BlocksToolboxProps {
   categories: Object
