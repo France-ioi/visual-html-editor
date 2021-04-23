@@ -1,6 +1,8 @@
+import {TOGGLE_CATEGORY} from "./actionTypes"
+
 // TODO Define actions
-export const tempAction = () => {
+export const toggleCategoryAction = () => {
   return {
-    type: 'TEMP'
+    type: TOGGLE_CATEGORY
   }
 }
