@@ -1,11 +1,12 @@
 import './Block.css'
 import {ToolboxCategoryBlocks} from "../../toolboxconfig";
+import {ReactNode} from "react";
 
 function Block(props: ToolboxCategoryBlocks) {
   const openingTag = '<' + props.tag + '>'
   const closingTag = '</' + props.tag + '>'
 
-  let description
+  let description: ReactNode
   if (props.desc) {
     description = <div className={'toolbox-block-description'}>{props.desc}</div>
   }
