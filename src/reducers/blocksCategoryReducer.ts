@@ -15,7 +15,7 @@ type Action = {
 const blocksCategoryReducer = (state: CategoryState = initialCategoryState, action: Action) => {
   switch (action.type) {
     case TOGGLE_CATEGORY:
-      return {...state, toggled: true}
+      return state.toggled = !state.toggled
     default:
       return state
   }
