@@ -7,7 +7,8 @@ function BlocksCategory(props: ToolboxCategory) {
     borderLeft: `10px solid ${props.highlight}`
   }
 
-  function toggleCategory(e: any) {
+  function toggleCategory(e: MouseEvent) {
+    // TODO Transfer toggled status to state and do something to avoid 'is possibly null' TS warning for e.target.nextElementSibling
     const categoryBlocksDiv = e.target.nextElementSibling
     let categoryBlocksDivInnerHeight = 0
 
