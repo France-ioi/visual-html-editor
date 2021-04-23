@@ -1,12 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import {Provider} from "react-redux"
+import {enableAllPlugins} from "immer"
+import store from "./store"
 import './index.css'
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import App from './App'
+import reportWebVitals from './reportWebVitals'
+
+enableAllPlugins() // enable full immer functionality
 
 ReactDOM.render(
   <React.StrictMode>
-    <App/>
+    <Provider store={store}>
+      <App/>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
