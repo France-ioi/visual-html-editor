@@ -11,11 +11,11 @@ export interface ToolboxCategory {
   id: number,
   name: String,
   highlight: String,
-  blocks: Array<ToolboxCategoryBlocks>
+  blocks: ToolboxCategoryBlocks[]
 }
 
 export interface ToolboxConfiguration {
-  categories: Array<ToolboxCategory>
+  categories: ToolboxCategory[]
 }
 
 const tbConf: ToolboxConfiguration = {
@@ -123,7 +123,6 @@ const tbConf: ToolboxConfiguration = {
           paired: true,
           desc: 'This is a textarea tag'
         }
-
       ]
     },
     {
