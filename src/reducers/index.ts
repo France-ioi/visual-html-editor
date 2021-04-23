@@ -1,6 +1,8 @@
-// TODO Import all reducers and combine them
+import blocksCategoryReducer from "./blocksCategoryReducer"
 import {combineReducers} from "redux"
 
-const rootReducer = combineReducers({})
+const rootReducer = combineReducers({
+  blocksCategoryReducer: blocksCategoryReducer
+})
 
 export default rootReducer
