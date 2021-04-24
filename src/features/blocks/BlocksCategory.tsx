@@ -20,6 +20,7 @@ function BlocksCategory(props: ToolboxCategory) {
   // Handle max-height property of .toolbox-category-blocks for accordion effect
   if (props.toggled && categoryBlocksRef.current) {
     let categoryBlocksInnerHeight = 0
+    // TODO Figure out correct type for '(block)'
     categoryBlocksRef.current.childNodes.forEach((block: any) => {
       categoryBlocksInnerHeight += block.clientHeight
     })
