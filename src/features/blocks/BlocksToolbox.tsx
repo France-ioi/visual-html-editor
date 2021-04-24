@@ -13,6 +13,7 @@ function BlocksToolbox({categories}: ToolboxConfiguration) {
             blocks={category.blocks}
             highlight={category.highlight}
             id={category.id}
+            toggled={category.toggled}
           />
         )
       })}

@@ -2,7 +2,7 @@ import './BlocksCategory.css'
 import {ToolboxCategory} from "../../toolboxconfig"
 import Block from "./Block"
 import {toggleCategoryAction} from "../../store/features/blocks/blocksCategory"
-import {useAppSelector, useAppDispatch} from "../../hooks"
+import {useAppDispatch} from "../../hooks"
 
 function BlocksCategory(props: ToolboxCategory) {
   const dispatch = useAppDispatch()
