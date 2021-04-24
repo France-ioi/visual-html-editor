@@ -1,33 +1,30 @@
+import tbConf, {ToolboxConfiguration} from "../../../toolboxconfig"
+import {produce} from 'immer'
+
 // TODO Define action types
 enum CategoryAction {
   ToggleCategory = 'category/toggle'
 }
 
 // TODO Define actions
-export const toggleCategoryAction = () => ({
-  type: CategoryAction.ToggleCategory
+export const toggleCategoryAction = (categoryId: Number) => ({
+  type: CategoryAction.ToggleCategory,
+  payload: categoryId
 })
 
 // TODO Define reducers
-interface CategoryState {
-  toggled: boolean
-}
-
-const initialCategoryState: CategoryState = {
-  toggled: false
-}
-
 type Action = {
-  type: CategoryAction.ToggleCategory
+  type: CategoryAction.ToggleCategory,
+  payload: Number
 }
 
-const blocksCategoryReducer = (state: CategoryState = initialCategoryState, action: Action) => {
+const blocksCategoryReducer = (state: ToolboxConfiguration = tbConf, action: Action) => {
   switch (action.type) {
     case "category/toggle":
-      return {
-        ...state,
-        toggled: !state.toggled
-      }
+      return produce(state, draftState => {
+        const foundCategory = draftState.categories.find(c => c.id === action.payload)
+        if (foundCategory) foundCategory.toggled = !foundCategory.toggled
+      })
     default:
       return state
   }

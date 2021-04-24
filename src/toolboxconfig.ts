@@ -11,6 +11,7 @@ export interface ToolboxCategory {
   id: number,
   name: String,
   highlight: String,
+  toggled?: boolean,
   blocks: ToolboxCategoryBlocks[]
 }
 

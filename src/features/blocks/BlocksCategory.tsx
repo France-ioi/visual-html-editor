@@ -5,11 +5,10 @@ import {toggleCategoryAction} from "../../store/features/blocks/blocksCategory"
 import {useAppSelector, useAppDispatch} from "../../hooks"
 
 function BlocksCategory(props: ToolboxCategory) {
-  const isToggled = useAppSelector(state => state.blocksCategoryReducer)
   const dispatch = useAppDispatch()
 
-  function toggleCategory() {
-    dispatch(toggleCategoryAction())
+  function toggleCategory(categoryId: Number) {
+    dispatch(toggleCategoryAction(categoryId))
   }
 
   const categoryStyle = {
@@ -18,7 +17,7 @@ function BlocksCategory(props: ToolboxCategory) {
 
   return (
     <div className={'toolbox-category'} style={categoryStyle}>
-      <span className={'toolbox-category-title'} onClick={() => toggleCategory()}>
+      <span className={'toolbox-category-title'} onClick={() => toggleCategory(props.id)}>
         {props.name}
       </span>
       <div className={'toolbox-category-blocks'}>
