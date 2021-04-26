@@ -15,7 +15,7 @@ function Block(props: ToolboxCategoryBlocks) {
     description =
       <div
         className={'toolbox-block-description'}
-        style={props.toggled ? {maxHeight: "20px"} : {maxHeight: "0"}}
+        style={props.toggled ? {maxHeight: props.maxHeight + "px"} : {maxHeight: "0"}}
       >
         <span ref={blockDescriptionRef}>{props.desc}</span>
       </div>

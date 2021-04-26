@@ -69,6 +69,7 @@ const blocksReducer = (state: ToolboxConfiguration = tbConf, action: Actions) =>
     case 'block/toggleDescription':
       return produce(state, draftState => {
         const parentCategory = draftState.categories.find(c => c.blocks.find(b => b.id === action.payload.block))
+        const addHeight = action.payload.blockRef.current.getBoundingClientRect().height
         if (parentCategory) {
           parentCategory.openDesc = action.payload.block
           parentCategory.blocks.forEach(b => {
@@ -77,12 +78,12 @@ const blocksReducer = (state: ToolboxConfiguration = tbConf, action: Actions) =>
                 parentCategory.openDesc = undefined
               }
               b.toggled = !b.toggled
+              b.maxHeight = addHeight
             } else {
               b.toggled = false
             }
           })
-          let addHeight = action.payload.blockRef.current.getBoundingClientRect().height
-          if (calcHeight === true) {
+          if (calcHeight) {
             parentCategory.maxHeight += addHeight
             calcHeight = false
           }
