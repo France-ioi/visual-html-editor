@@ -25,6 +25,7 @@ function Block(props: ToolboxCategoryBlocks) {
             :
             ''
         }
+        <span className={'chevron-right'}></span>
         {description}
       </span>
     </div>
