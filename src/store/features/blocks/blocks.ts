@@ -26,7 +26,7 @@ export const toggleCategoryAction = (categoryId: Number, categoryRef: MutableRef
 // Reducers
 type Actions = ToggleCategory
 
-const blocksCategoryReducer = (state: ToolboxConfiguration = tbConf, action: Actions) => {
+const blocksReducer = (state: ToolboxConfiguration = tbConf, action: Actions) => {
   switch (action.type) {
     case 'category/toggle':
       // Calculate total height of all child block components for accordion animation
@@ -49,4 +49,4 @@ const blocksCategoryReducer = (state: ToolboxConfiguration = tbConf, action: Act
   }
 }
 
-export default blocksCategoryReducer
+export default blocksReducer

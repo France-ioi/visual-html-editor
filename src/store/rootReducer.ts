@@ -1,8 +1,8 @@
-import blocksCategoryReducer from "./features/blocks/blocks"
+import blocksReducer from "./features/blocks/blocks"
 import {combineReducers} from "redux"
 
 const rootReducer = combineReducers({
-  blocksCategoryReducer: blocksCategoryReducer
+  blocksReducer: blocksReducer
 })
 
 export default rootReducer
