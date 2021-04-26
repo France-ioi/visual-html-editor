@@ -12,6 +12,7 @@ export interface ToolboxCategory {
   name: String,
   highlight: String,
   toggled?: boolean,
+  maxHeight?: Number
   blocks: ToolboxCategoryBlocks[]
 }
 
