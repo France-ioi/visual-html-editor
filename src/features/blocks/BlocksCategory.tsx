@@ -6,6 +6,7 @@ import {useAppDispatch} from "../../hooks"
 import {useRef} from "react";
 
 function BlocksCategory(props: ToolboxCategory) {
+  // TODO Handle description onClick
   const categoryBlocksRef = useRef<HTMLDivElement>(null)
   const dispatch = useAppDispatch()
 
@@ -18,6 +19,7 @@ function BlocksCategory(props: ToolboxCategory) {
   }
 
   // Handle max-height property of .toolbox-category-blocks for accordion effect
+  // TODO Transfer logic into action effect
   if (props.toggled && categoryBlocksRef.current) {
     let categoryBlocksInnerHeight = 0;
     (categoryBlocksRef.current.childNodes as NodeListOf<HTMLDivElement>).forEach((block: HTMLDivElement) => {
@@ -35,7 +37,15 @@ function BlocksCategory(props: ToolboxCategory) {
       </span>
       <div className={'toolbox-category-blocks'} ref={categoryBlocksRef}>
         {props.blocks.map(block => {
-          return <Block key={block.id} tag={block.tag} paired={block.paired} desc={block.desc} id={undefined}/>
+          return (
+            <Block
+              key={block.id}
+              tag={block.tag}
+              paired={block.paired}
+              desc={block.desc}
+              id={undefined}
+            />
+          )
         })}
       </div>
     </div>
