@@ -1,11 +1,11 @@
 // Configure your desired categories as objects in categories array
 // Configure category blocks as objects in blocks array
 export interface ToolboxCategoryBlocks {
-  id?: number,
+  id: number,
   tag: string,
   paired: Boolean,
-  desc: String
-  toggled?: Boolean
+  desc: String,
+  toggled?: Boolean,
   maxHeight?: Number
 }
 
@@ -14,7 +14,8 @@ export interface ToolboxCategory {
   name: String,
   highlight: String,
   toggled?: boolean,
-  maxHeight?: Number
+  maxHeight?: Number,
+  openDesc?: ToolboxCategoryBlocks["id"],
   blocks: ToolboxCategoryBlocks[]
 }
 

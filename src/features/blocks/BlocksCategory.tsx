@@ -10,7 +10,7 @@ function BlocksCategory(props: ToolboxCategory) {
   const categoryBlocksRef = useRef<HTMLDivElement>(null)
   const dispatch = useAppDispatch()
 
-  function toggleCategory(categoryId: Number, categoryRef: MutableRefObject<any>) {
+  function toggleCategory(categoryId: number, categoryRef: MutableRefObject<any>) {
     dispatch(toggleCategoryAction(categoryId, categoryRef))
   }
 
@@ -33,7 +33,7 @@ function BlocksCategory(props: ToolboxCategory) {
               desc={block.desc}
               toggled={block.toggled}
               maxHeight={block.maxHeight}
-              id={undefined}
+              id={block.id}
             />
           )
         })}

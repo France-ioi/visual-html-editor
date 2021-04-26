@@ -15,6 +15,7 @@ function BlocksToolbox({categories}: ToolboxConfiguration) {
             id={category.id}
             toggled={category.toggled}
             maxHeight={category.maxHeight}
+            openDesc={category.openDesc}
           />
         )
       })}
