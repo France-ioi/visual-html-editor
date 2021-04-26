@@ -1,4 +1,4 @@
-import blocksCategoryReducer from "./features/blocks/blocksCategory"
+import blocksCategoryReducer from "./features/blocks/blocks"
 import {combineReducers} from "redux"
 
 const rootReducer = combineReducers({

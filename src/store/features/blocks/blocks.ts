@@ -2,34 +2,33 @@ import tbConf, {ToolboxConfiguration} from "../../../toolboxconfig"
 import {produce} from 'immer'
 import {MutableRefObject} from "react";
 
-// TODO Define action types
-enum CategoryAction {
-  ToggleCategory = 'category/toggle'
+// Define actions
+const TOGGLE_CATEGORY = 'category/toggle'
+
+// Type actions
+type ToggleCategory = {
+  type: typeof TOGGLE_CATEGORY,
+  payload: {
+    category: Number,
+    blocksDivRef: MutableRefObject<any>
+  }
 }
 
-// TODO Define actions
-export const toggleCategoryAction = (categoryId: Number, categoryRef: MutableRefObject<any>) => ({
-  type: CategoryAction.ToggleCategory,
+// Action creators
+export const toggleCategoryAction = (categoryId: Number, categoryRef: MutableRefObject<any>): ToggleCategory => ({
+  type: TOGGLE_CATEGORY,
   payload: {
     category: categoryId,
     blocksDivRef: categoryRef
   }
 })
 
-// TODO Define reducers
-type Payload = {
-  category: Number,
-  blocksDivRef: MutableRefObject<any>
-}
+// Reducers
+type Actions = ToggleCategory
 
-type Action = {
-  type: CategoryAction.ToggleCategory,
-  payload: Payload
-}
-
-const blocksCategoryReducer = (state: ToolboxConfiguration = tbConf, action: Action) => {
+const blocksCategoryReducer = (state: ToolboxConfiguration = tbConf, action: Actions) => {
   switch (action.type) {
-    case "category/toggle":
+    case 'category/toggle':
       // Calculate total height of all child block components for accordion animation
       let maxHeight = 0;
       (action.payload.blocksDivRef.current.childNodes as NodeListOf<HTMLDivElement>).forEach((block: HTMLDivElement) => {
@@ -43,6 +42,8 @@ const blocksCategoryReducer = (state: ToolboxConfiguration = tbConf, action: Act
           foundCategory.toggled ? foundCategory.maxHeight = maxHeight : foundCategory.maxHeight = 0
         }
       })
+    // case "category/toggleDescription":
+    //   return state
     default:
       return state
   }

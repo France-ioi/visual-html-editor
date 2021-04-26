@@ -1,7 +1,7 @@
 import './BlocksCategory.css'
 import {ToolboxCategory} from "../../toolboxconfig"
 import Block from "./Block"
-import {toggleCategoryAction} from "../../store/features/blocks/blocksCategory"
+import {toggleCategoryAction} from "../../store/features/blocks/blocks"
 import {useAppDispatch} from "../../hooks"
 import {MutableRefObject, useRef} from "react";
 
