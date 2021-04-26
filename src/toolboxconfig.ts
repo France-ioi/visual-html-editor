@@ -5,6 +5,8 @@ export interface ToolboxCategoryBlocks {
   tag: string,
   paired: Boolean,
   desc: String
+  toggled?: Boolean
+  maxHeight?: Number
 }
 
 export interface ToolboxCategory {

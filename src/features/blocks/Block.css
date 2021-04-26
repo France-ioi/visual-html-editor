@@ -4,9 +4,12 @@
 }
 
 .toolbox-block-description {
-    padding-top: 10px;
     font-size: 0.7rem;
     font-style: italic;
+    height: auto;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
 }
 
 .toolbox-block-tag {
@@ -71,5 +74,5 @@
     border-right: 2px solid;
     transform: rotate(-45deg);
     right: 10px;
-    top: 8px
+    top: 7px
 }
