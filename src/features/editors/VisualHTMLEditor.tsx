@@ -1,7 +1,7 @@
 import './VisualHTMLEditor.css'
 import {visualHTMLEditor} from "../../editorconfig"
 import Highlight, {defaultProps} from "prism-react-renderer"
-import light from 'prism-react-renderer/themes/duotoneLight'
+import light from 'prism-react-renderer/themes/vsLight'
 
 function VisualHTMLEditor(props: visualHTMLEditor) {
   return (
