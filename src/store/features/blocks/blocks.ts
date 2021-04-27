@@ -3,12 +3,14 @@ import {produce} from 'immer'
 import {MutableRefObject} from "react";
 
 // Define actions
-const TOGGLE_CATEGORY = 'category/toggle'
-const TOGGLE_BLOCK_DESCRIPTION = 'block/toggleDescription'
+export enum ActionTypes {
+  BlocksCategoryToggle = 'Blocks.Category.Toggle',
+  BlocksBlockDescriptionToggle = 'Blocks.Block.Description.Toggle'
+}
 
 // Type actions
 type ToggleCategory = {
-  type: typeof TOGGLE_CATEGORY,
+  type: typeof ActionTypes.BlocksCategoryToggle,
   payload: {
     category: number,
     blocksDivRef: MutableRefObject<any>
@@ -16,7 +18,7 @@ type ToggleCategory = {
 }
 
 type ToggleBlockDescription = {
-  type: typeof TOGGLE_BLOCK_DESCRIPTION,
+  type: typeof ActionTypes.BlocksBlockDescriptionToggle,
   payload: {
     block: number,
     blockRef: MutableRefObject<any>
@@ -25,7 +27,7 @@ type ToggleBlockDescription = {
 
 // Action creators
 export const toggleCategoryAction = (categoryId: number, categoryRef: MutableRefObject<any>): ToggleCategory => ({
-  type: TOGGLE_CATEGORY,
+  type: ActionTypes.BlocksCategoryToggle,
   payload: {
     category: categoryId,
     blocksDivRef: categoryRef
@@ -33,7 +35,7 @@ export const toggleCategoryAction = (categoryId: number, categoryRef: MutableRef
 })
 
 export const toggleBlockDescriptionAction = (blockId: number, blockRef: MutableRefObject<any>): ToggleBlockDescription => ({
-  type: TOGGLE_BLOCK_DESCRIPTION,
+  type: ActionTypes.BlocksBlockDescriptionToggle,
   payload: {
     block: blockId,
     blockRef: blockRef
@@ -46,7 +48,7 @@ type Actions = ToggleCategory | ToggleBlockDescription
 let calcHeight = true
 const blocksReducer = (state: ToolboxConfiguration = tbConf, action: Actions) => {
   switch (action.type) {
-    case 'category/toggle':
+    case ActionTypes.BlocksCategoryToggle:
       // Calculate total height of all child block components for accordion animation
       let maxHeight = 0;
       (action.payload.blocksDivRef.current.childNodes as NodeListOf<HTMLDivElement>).forEach((block: HTMLDivElement) => {
@@ -66,7 +68,7 @@ const blocksReducer = (state: ToolboxConfiguration = tbConf, action: Actions) =>
           }
         }
       })
-    case 'block/toggleDescription':
+    case ActionTypes.BlocksBlockDescriptionToggle:
       return produce(state, draftState => {
         const parentCategory = draftState.categories.find(c => c.blocks.find(b => b.id === action.payload.block))
         const addHeight = action.payload.blockRef.current.getBoundingClientRect().height
