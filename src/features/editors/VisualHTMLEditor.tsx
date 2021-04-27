@@ -1,14 +1,13 @@
 import './VisualHTMLEditor.css'
 import {visualHTMLEditor} from "../../editorconfig"
 import Highlight, {defaultProps} from "prism-react-renderer"
-import light from 'prism-react-renderer/themes/vsLight'
+import light from 'prism-react-renderer/themes/duotoneLight'
 
 function VisualHTMLEditor(props: visualHTMLEditor) {
   return (
-    <div className={'container'}>
-      <Highlight {...defaultProps} code={props.value} language="markdown" theme={light}>
-        {({className, style, tokens, getLineProps, getTokenProps}) => (
-          <pre style={style}>
+    <Highlight {...defaultProps} code={props.value} language="markdown" theme={light}>
+      {({className, style, tokens, getLineProps, getTokenProps}) => (
+        <pre style={style}>
           {tokens.map((line, i) => (
             <div key={i} {...getLineProps({line, key: i})} className={'line'}>
               <span className={'line-number'}>{i + 1}</span>
@@ -20,9 +19,8 @@ function VisualHTMLEditor(props: visualHTMLEditor) {
             </div>
           ))}
         </pre>
-        )}
-      </Highlight>
-    </div>
+      )}
+    </Highlight>
   )
 }
 

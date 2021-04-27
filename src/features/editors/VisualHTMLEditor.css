@@ -1,8 +1,6 @@
-.container {
-    height: 100%;
-}
-
 pre {
+    /* Width 100% minus width of toolbox component */
+    width: calc(100% - 18rem);
     text-align: left;
     padding: 0.5em;
     overflow: auto;
