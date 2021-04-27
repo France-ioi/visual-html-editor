@@ -3,16 +3,30 @@ import {ToolboxCategory} from "../../toolboxconfig"
 import Block from "./Block"
 import {toggleCategoryAction} from "../../store/features/blocks/blocks"
 import {useAppDispatch} from "../../hooks"
-import {MutableRefObject, useRef} from "react";
+import {useRef} from "react";
 
 function BlocksCategory(props: ToolboxCategory) {
-  // TODO Handle description onClick
   const categoryBlocksRef = useRef<HTMLDivElement>(null)
   const dispatch = useAppDispatch()
 
-  function toggleCategory(categoryId: number, categoryRef: MutableRefObject<any>) {
-    dispatch(toggleCategoryAction(categoryId, categoryRef))
+  function toggleCategory(categoryId: number) {
+    dispatch(toggleCategoryAction(categoryId))
   }
+
+  (function () {
+    let maxHeight = 0
+    let blocksContainer = categoryBlocksRef.current
+    if (blocksContainer) {
+      if (props.toggled) {
+        (blocksContainer.childNodes as NodeListOf<HTMLDivElement>).forEach((block) => {
+          maxHeight += block.clientHeight
+        })
+      } else {
+        maxHeight = 0
+      }
+      blocksContainer.style.maxHeight = maxHeight + "px"
+    }
+  })()
 
   const categoryStyle = {
     borderLeft: `10px solid ${props.highlight}`
@@ -20,10 +34,10 @@ function BlocksCategory(props: ToolboxCategory) {
 
   return (
     <div className={'toolbox-category'} style={categoryStyle}>
-      <span className={'toolbox-category-title'} onClick={() => toggleCategory(props.id, categoryBlocksRef)}>
+      <span className={'toolbox-category-title'} onClick={() => toggleCategory(props.id)}>
         {props.name}
       </span>
-      <div className={'toolbox-category-blocks'} ref={categoryBlocksRef} style={{maxHeight: props.maxHeight + "px"}}>
+      <div className={'toolbox-category-blocks'} ref={categoryBlocksRef}>
         {props.blocks.map(block => {
           return (
             <Block

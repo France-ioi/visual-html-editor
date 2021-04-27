@@ -12,8 +12,7 @@ export enum ActionTypes {
 type ToggleCategory = {
   type: typeof ActionTypes.BlocksCategoryToggle,
   payload: {
-    category: number,
-    blocksDivRef: MutableRefObject<any>
+    category: number
   }
 }
 
@@ -26,11 +25,10 @@ type ToggleBlockDescription = {
 }
 
 // Action creators
-export const toggleCategoryAction = (categoryId: number, categoryRef: MutableRefObject<any>): ToggleCategory => ({
+export const toggleCategoryAction = (categoryId: number): ToggleCategory => ({
   type: ActionTypes.BlocksCategoryToggle,
   payload: {
-    category: categoryId,
-    blocksDivRef: categoryRef
+    category: categoryId
   }
 })
 
@@ -49,17 +47,10 @@ let calcHeight = true
 const blocksReducer = (state: ToolboxConfiguration = tbConf, action: Actions) => {
   switch (action.type) {
     case ActionTypes.BlocksCategoryToggle:
-      // Calculate total height of all child block components for accordion animation
-      let maxHeight = 0;
-      (action.payload.blocksDivRef.current.childNodes as NodeListOf<HTMLDivElement>).forEach((block: HTMLDivElement) => {
-        maxHeight += block.clientHeight
-      })
-      // Update state
       return produce(state, draftState => {
         const foundCategory = draftState.categories.find(c => c.id === action.payload.category)
         if (foundCategory) {
           foundCategory.toggled = !foundCategory.toggled
-          foundCategory.toggled ? foundCategory.maxHeight = maxHeight : foundCategory.maxHeight = 0
           // Set calcHeight
           if (foundCategory.openDesc) {
             calcHeight = false
@@ -86,7 +77,6 @@ const blocksReducer = (state: ToolboxConfiguration = tbConf, action: Actions) =>
             }
           })
           if (calcHeight) {
-            parentCategory.maxHeight += addHeight
             calcHeight = false
           }
         }
