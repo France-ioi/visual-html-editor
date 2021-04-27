@@ -1,6 +1,6 @@
 import './Block.css'
 import {ToolboxCategoryBlocks} from "../../toolboxconfig";
-import {useRef} from "react";
+import {useEffect, useRef} from "react";
 import {useAppDispatch} from "../../hooks";
 import {toggleBlockDescriptionAction} from "../../store/features/blocks/blocks";
 
@@ -14,17 +14,19 @@ function Block(props: ToolboxCategoryBlocks) {
     dispatch(toggleBlockDescriptionAction(block))
   }
 
-  (function () {
-    let maxHeight = 0
-    if (blockDescriptionRef.current && blockDescriptionRef.current.firstElementChild) {
-      if (props.toggled) {
-        maxHeight = blockDescriptionRef.current.firstElementChild.getBoundingClientRect().height
-      } else {
-        maxHeight = 0
+  useEffect(() => {
+    (function () {
+      let maxHeight = 0
+      if (blockDescriptionRef.current && blockDescriptionRef.current.firstElementChild) {
+        if (props.toggled) {
+          maxHeight = blockDescriptionRef.current.firstElementChild.getBoundingClientRect().height
+        } else {
+          maxHeight = 0
+        }
+        blockDescriptionRef.current.style.maxHeight = maxHeight + "px"
       }
-      blockDescriptionRef.current.style.maxHeight = maxHeight + "px"
-    }
-  })()
+    })()
+  }, [props.toggled])
 
   return (
     <div className={'toolbox-block'} onClick={() => toggleBlockDescription(props.id)}>
