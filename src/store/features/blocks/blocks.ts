@@ -53,11 +53,12 @@ const blocksReducer = (state: ToolboxConfiguration = tbConf, action: Actions) =>
       return produce(state, draftState => {
         const parentCategory = draftState.categories.find(c => c.blocks.find(b => b.id === action.payload.block))
         if (parentCategory) {
-          parentCategory.openDesc = action.payload.block
           parentCategory.blocks.forEach(b => {
             if (b.id === action.payload.block) {
               if (b.toggled) {
                 parentCategory.openDesc = null
+              } else {
+                parentCategory.openDesc = action.payload.block
               }
               b.toggled = !b.toggled
             } else {

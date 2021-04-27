@@ -29,11 +29,10 @@ function BlocksCategory(props: ToolboxCategory) {
         } else {
           maxHeight = 0
         }
-        console.log(maxHeight)
         blocksContainer.style.maxHeight = maxHeight + "px"
       }
     })()
-  }, [props.toggled, props.openDesc, props.blocks])
+  }, [props.toggled, props.blocks])
 
   return (
     <div className={'toolbox-category'} style={categoryStyle}>
