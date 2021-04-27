@@ -1,10 +1,12 @@
+import {DragEvent, ReactNode} from "react";
+
 interface DraggableType {
   dataItem: string,
-  children: any
+  children: ReactNode
 }
 
 function Draggable(props: DraggableType) {
-  function startDrag(event: { dataTransfer: { setData: (arg0: string, arg1: string) => void } }) {
+  function startDrag(event: DragEvent & { dataTransfer?: DataTransfer }) {
     event.dataTransfer.setData("drag-item", props.dataItem)
   }
 
