@@ -1,0 +1,19 @@
+.toolbox-category-title {
+    color: #7c7c7c;
+    display: block;
+    padding: 15px;
+    background-color: #f1f2f7;
+    border-bottom: 2px solid #ecedf2;
+    cursor: pointer;
+}
+
+.toolbox-category-title:hover {
+    opacity: 90%;
+}
+
+.toolbox-category-blocks {
+    height: auto;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
