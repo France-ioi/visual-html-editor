@@ -15,7 +15,7 @@ export interface ToolboxCategory {
   highlight: String,
   toggled?: boolean,
   maxHeight?: Number,
-  openDesc?: ToolboxCategoryBlocks["id"],
+  openDesc?: ToolboxCategoryBlocks["id"] | null,
   blocks: ToolboxCategoryBlocks[]
 }
 

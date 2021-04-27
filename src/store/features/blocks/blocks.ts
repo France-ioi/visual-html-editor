@@ -77,7 +77,7 @@ const blocksReducer = (state: ToolboxConfiguration = tbConf, action: Actions) =>
           parentCategory.blocks.forEach(b => {
             if (b.id === action.payload.block) {
               if (b.toggled) {
-                parentCategory.openDesc = undefined
+                parentCategory.openDesc = null
               }
               b.toggled = !b.toggled
               b.maxHeight = addHeight
