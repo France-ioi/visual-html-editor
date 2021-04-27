@@ -40,7 +40,6 @@ export const toggleBlockDescriptionAction = (blockId: number): ToggleBlockDescri
 // Reducers
 type Actions = ToggleCategory | ToggleBlockDescription
 
-let calcHeight = true
 const blocksReducer = (state: ToolboxConfiguration = tbConf, action: Actions) => {
   switch (action.type) {
     case ActionTypes.BlocksCategoryToggle:
@@ -48,12 +47,6 @@ const blocksReducer = (state: ToolboxConfiguration = tbConf, action: Actions) =>
         const foundCategory = draftState.categories.find(c => c.id === action.payload.category)
         if (foundCategory) {
           foundCategory.toggled = !foundCategory.toggled
-          // Set calcHeight
-          if (foundCategory.openDesc) {
-            calcHeight = false
-          } else {
-            calcHeight = true
-          }
         }
       })
     case ActionTypes.BlocksBlockDescriptionToggle:
@@ -71,9 +64,6 @@ const blocksReducer = (state: ToolboxConfiguration = tbConf, action: Actions) =>
               b.toggled = false
             }
           })
-          if (calcHeight) {
-            calcHeight = false
-          }
         }
       })
     default:
