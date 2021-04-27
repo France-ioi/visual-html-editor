@@ -46,7 +46,6 @@ function BlocksCategory(props: ToolboxCategory) {
               paired={block.paired}
               desc={block.desc}
               toggled={block.toggled}
-              maxHeight={block.maxHeight}
               id={block.id}
             />
           )

@@ -1,6 +1,5 @@
 import tbConf, {ToolboxConfiguration} from "../../../toolboxconfig"
 import {produce} from 'immer'
-import {MutableRefObject} from "react";
 
 // Define actions
 export enum ActionTypes {
@@ -19,8 +18,7 @@ type ToggleCategory = {
 type ToggleBlockDescription = {
   type: typeof ActionTypes.BlocksBlockDescriptionToggle,
   payload: {
-    block: number,
-    blockRef: MutableRefObject<any>
+    block: number
   }
 }
 
@@ -32,11 +30,10 @@ export const toggleCategoryAction = (categoryId: number): ToggleCategory => ({
   }
 })
 
-export const toggleBlockDescriptionAction = (blockId: number, blockRef: MutableRefObject<any>): ToggleBlockDescription => ({
+export const toggleBlockDescriptionAction = (blockId: number): ToggleBlockDescription => ({
   type: ActionTypes.BlocksBlockDescriptionToggle,
   payload: {
-    block: blockId,
-    blockRef: blockRef
+    block: blockId
   }
 })
 
@@ -62,7 +59,6 @@ const blocksReducer = (state: ToolboxConfiguration = tbConf, action: Actions) =>
     case ActionTypes.BlocksBlockDescriptionToggle:
       return produce(state, draftState => {
         const parentCategory = draftState.categories.find(c => c.blocks.find(b => b.id === action.payload.block))
-        const addHeight = action.payload.blockRef.current.getBoundingClientRect().height
         if (parentCategory) {
           parentCategory.openDesc = action.payload.block
           parentCategory.blocks.forEach(b => {
@@ -71,7 +67,6 @@ const blocksReducer = (state: ToolboxConfiguration = tbConf, action: Actions) =>
                 parentCategory.openDesc = null
               }
               b.toggled = !b.toggled
-              b.maxHeight = addHeight
             } else {
               b.toggled = false
             }
