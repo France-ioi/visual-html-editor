@@ -3,15 +3,11 @@ import {InitialEditorState} from "../../editorconfig"
 import Dropzone from "../draggables/Dropzone";
 
 function VisualHTMLEditor(props: InitialEditorState) {
-  function droppedTag(e: string) {
-    console.log(e)
-  }
-
   function indentify(tag: string) {
     const blockLevel = [
       'div', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
       'header', 'hr', 'li', 'main', 'nav', 'ol', 'ul', 'p', 'pre',
-      'section', 'table', 'video', 'body'
+      'section', 'table', 'video', 'body', 'head', '!doctype html'
     ]
     if (blockLevel.includes(tag)) {
       return true

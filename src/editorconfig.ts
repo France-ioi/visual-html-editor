@@ -1,4 +1,13 @@
-const initialCode = "<body><div><h1>Example Domain</h1><p>This domain is for use in illustrative examples in documents. You may use this domain in literature without prior coordination or asking for permission.</p><p>More <i>information</i>...</p></div></body>"
+const initialCode = "<body>" +
+  "<div>" +
+  "<?h1>" +
+  "Example Domain" +
+  "</?h1>" +
+  "<p>This domain is for use in illustrative examples in documents. " +
+  "You may use this domain in literature without prior coordination or asking for permission.</p>" +
+  "<p>More <i>information</i>...</p>" +
+  "</div>" +
+  "</body>"
 
 interface CodeSegment {
   type: string,
@@ -7,7 +16,6 @@ interface CodeSegment {
   pos?: number
 }
 
-type InitialCode = string
 type CodeSegments = Array<CodeSegment>
 
 export interface InitialEditorState {
@@ -15,25 +23,45 @@ export interface InitialEditorState {
   userCode?: CodeSegments
 }
 
+let lockedCode: CodeSegments = []
+let userCode: CodeSegments = []
 
 function htmlSegment(html: string) {
   let trimmed = html.trim()
   const reg = /<([^\/]+?)>|<\/(.+?)>|((?<=>)[^<>][\S].+?(?=<))/g
   const matches = trimmed.matchAll(reg)
   for (const m of matches) {
-    if (m[1] !== undefined) {
-      lockedCode.push({
-        type: 'opening',
-        value: m[1],
-        fullValue: m[0]
-      })
-    } else if (m[2] !== undefined) {
-      lockedCode.push({
-        type: 'closing',
-        value: m[2],
-        fullValue: m[0]
-      })
-    } else if (m[3] !== undefined) {
+    if (m[1] !== undefined) { // 1st bounding group, opening tags
+      if (m[1].charAt(0) === '?') { // Check for special ? syntax (editable block)
+        userCode.push({
+          type: 'opening',
+          value: m[1].substring(1),
+          fullValue: m[0].slice(0, 1) + m[0].slice(2), // Remove ?
+          pos: m.index
+        })
+      } else { // Else, readonly block
+        lockedCode.push({
+          type: 'opening',
+          value: m[1],
+          fullValue: m[0]
+        })
+      }
+    } else if (m[2] !== undefined) { // 2nd bounding group, closing tags
+      if (m[2].charAt(0) === '?') {
+        userCode.push({
+          type: 'closing',
+          value: m[2].substring(1),
+          fullValue: m[0].slice(0, 2) + m[0].slice(3), // Remove ?
+          pos: m.index
+        })
+      } else {
+        lockedCode.push({
+          type: 'closing',
+          value: m[2],
+          fullValue: m[0]
+        })
+      }
+    } else if (m[3] !== undefined) { // 3rd bounding group, text
       lockedCode.push({
         type: 'text',
         value: m[3],
@@ -43,13 +71,13 @@ function htmlSegment(html: string) {
   }
 }
 
-let lockedCode: CodeSegments = []
-let userCode: CodeSegments = []
-
 htmlSegment(initialCode)
 
 const editorConfig: InitialEditorState = {
-  lockedCode: lockedCode
+  lockedCode: lockedCode,
+  userCode: userCode
 }
+
+console.log(editorConfig)
 
 export default editorConfig
