@@ -1,6 +1,5 @@
 import './VisualHTMLEditor.css'
 import {InitialEditorState} from "../../editorconfig"
-import Dropzone from "../draggables/Dropzone";
 
 function VisualHTMLEditor(props: InitialEditorState) {
   function indentify(tag: string) {
