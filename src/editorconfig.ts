@@ -30,9 +30,9 @@ function htmlSegment(html: string) {
   let trimmed = html.trim()
   const reg = /<([^\/]+?)>|<\/(.+?)>|((?<=>)[^<>][\S].+?(?=<))/g
   const matches = trimmed.matchAll(reg)
-  let positionIncrement = -1
+  let positionIncrement = -1 // Set initial index to -1
   for (const m of matches) {
-    positionIncrement++
+    positionIncrement++ // 0 on start, ++ every iteration
     if (m[1] !== undefined) { // 1st bounding group, opening tags
       if (m[1].charAt(0) === '?') { // Check for special ? syntax (editable block)
         userCode.push({
@@ -49,7 +49,7 @@ function htmlSegment(html: string) {
         })
       }
     } else if (m[2] !== undefined) { // 2nd bounding group, closing tags
-      if (m[2].charAt(0) === '?') {
+      if (m[2].charAt(0) === '?') { // Check for special ? syntax (editable block)
         userCode.push({
           type: 'closing',
           value: m[2].substring(1),

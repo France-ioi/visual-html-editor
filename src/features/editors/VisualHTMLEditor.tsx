@@ -8,11 +8,7 @@ function VisualHTMLEditor(props: InitialEditorState) {
       'header', 'hr', 'li', 'main', 'nav', 'ol', 'ul', 'p', 'pre',
       'section', 'table', 'video', 'body', 'head', '!doctype html'
     ]
-    if (blockLevel.includes(tag)) {
-      return true
-    } else {
-      return false
-    }
+    return blockLevel.includes(tag)
   }
 
   function renderEditorCode(code1: any, code2: any) {
@@ -25,9 +21,9 @@ function VisualHTMLEditor(props: InitialEditorState) {
     editorCode.forEach((seg: any) => {
       if (indentify(seg.value)) { // If is block element
         if (prevWasBlock) {
-          codeToDisplay.push(<span>{seg.fullValue}<br/></span>)
+          codeToDisplay.push(<><span>{seg.fullValue}</span><br/></>)
         } else {
-          codeToDisplay.push(<span><br/>{seg.fullValue}<br/></span>)
+          codeToDisplay.push(<><br/><span>{seg.fullValue}</span><br/></>)
         }
         prevWasBlock = true
       } else { // If is not block element
@@ -35,6 +31,7 @@ function VisualHTMLEditor(props: InitialEditorState) {
         prevWasBlock = false
       }
     })
+    console.log(codeToDisplay)
     return codeToDisplay
   }
 
@@ -43,7 +40,11 @@ function VisualHTMLEditor(props: InitialEditorState) {
   return (
     <div style={{paddingLeft: "15px"}}>
       {display.map((e: any) => {
-        return e
+        if (e.props.children.length >= 2) {
+          return <span className="line"> {e} </span>
+        } else {
+          return e
+        }
       })}
     </div>
   )
