@@ -9,18 +9,18 @@ const initialCode = "<body>" +
   "</div>" +
   "</body>"
 
-interface CodeSegment {
+export interface CodeSegment {
   type: string,
   value: string,
   fullValue: string,
   pos?: number
 }
 
-type CodeSegments = Array<CodeSegment>
+export type CodeSegments = Array<CodeSegment>
 
 export interface InitialEditorState {
   lockedCode: CodeSegments,
-  userCode?: CodeSegments
+  userCode: CodeSegments,
 }
 
 let lockedCode: CodeSegments = []
