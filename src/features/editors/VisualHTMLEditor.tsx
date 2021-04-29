@@ -17,7 +17,7 @@ function VisualHTMLEditor(props: InitialEditorState) {
   }
 
   function renderEditorCode(locked: CodeSegments, unlocked: CodeSegments) {
-    let editorCode = locked.map((seg: CodeSegment) => seg)
+    let editorCode: CodeSegments = locked.map((seg: CodeSegment) => seg)
     unlocked.forEach((seg: CodeSegment) => {
       editorCode.splice(seg.pos!, 0, seg)
     })
