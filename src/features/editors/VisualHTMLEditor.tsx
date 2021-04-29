@@ -16,37 +16,48 @@ function VisualHTMLEditor(props: InitialEditorState) {
     br: string
   }
 
+  interface EditorCodeSegment {
+    type: string,
+    value: string,
+    fullValue: string,
+    pos?: number
+    locked: boolean
+  }
+
+  type EditorCode = Array<EditorCodeSegment>
+
   function renderEditorCode(locked: CodeSegments, unlocked: CodeSegments) {
-    let editorCode: CodeSegments = locked.map((seg: CodeSegment) => seg)
+    let editorCode: EditorCode = locked.map((seg: CodeSegment) => ({...seg, locked: true}))
     unlocked.forEach((seg: CodeSegment) => {
-      editorCode.splice(seg.pos!, 0, seg)
+      editorCode.splice(seg.pos!, 0, {...seg, locked: false})
     })
     let codeToDisplay: Array<JsxElementWithLinebreaks> = []
     let prevWasBlock = true
-    editorCode.forEach((seg: CodeSegment) => {
+    editorCode.forEach((seg: EditorCodeSegment) => {
       if (indentify(seg.value)) { // If is block element
         if (prevWasBlock) { // If is block and previous was block (new line br at end)
           codeToDisplay.push(
             {
-              jsx: <span>{seg.fullValue}</span>,
+              jsx: <span className={seg.locked ? '' : 'unlocked'}>{seg.fullValue}</span>,
               br: 'end'
             }
           )
         } else { // Is block but previous is inline (new line br both sides)
           codeToDisplay.push({
-            jsx: <span>{seg.fullValue}</span>,
+            jsx: <span className={seg.locked ? '' : 'unlocked'}>{seg.fullValue}</span>,
             br: 'both'
           })
         }
         prevWasBlock = true
       } else { // If is not block element
         codeToDisplay.push({
-          jsx: <span>{seg.fullValue}</span>,
+          jsx: <span className={seg.locked ? '' : 'unlocked'}>{seg.fullValue}</span>,
           br: 'none'
         })
         prevWasBlock = false
       }
     })
+    console.log(editorCode)
     return codeToDisplay
   }
 

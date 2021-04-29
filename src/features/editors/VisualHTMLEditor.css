@@ -21,3 +21,7 @@
 /*.line-content {*/
 /*    display: table-cell;*/
 /*}*/
+
+.unlocked {
+    color: red;
+}
