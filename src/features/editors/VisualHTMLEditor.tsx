@@ -9,30 +9,10 @@ function VisualHTMLEditor(props: InitialEditorState) {
 
   function indentify(tag: string) {
     const blockLevel = [
-      'div',
-      'footer',
-      'form',
-      'h1',
-      'h2',
-      'h3',
-      'h4',
-      'h5',
-      'h6',
-      'header',
-      'hr',
-      'li',
-      'main',
-      'nav',
-      'ol',
-      'ul',
-      'p',
-      'pre',
-      'section',
-      'table',
-      'video',
-      'body'
+      'div', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+      'header', 'hr', 'li', 'main', 'nav', 'ol', 'ul', 'p', 'pre',
+      'section', 'table', 'video', 'body'
     ]
-
     if (blockLevel.includes(tag)) {
       return true
     } else {
