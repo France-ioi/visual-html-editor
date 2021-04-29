@@ -80,6 +80,4 @@ const editorConfig: InitialEditorState = {
   userCode: userCode
 }
 
-console.log(editorConfig)
-
 export default editorConfig

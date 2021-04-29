@@ -47,7 +47,6 @@ function VisualHTMLEditor(props: InitialEditorState) {
         prevWasBlock = false
       }
     })
-    console.log(codeToDisplay)
     return codeToDisplay
   }
 
