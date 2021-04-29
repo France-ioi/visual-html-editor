@@ -4,12 +4,12 @@ import {useAppSelector} from "./hooks"
 
 function App() {
   const categories = useAppSelector(state => state.blocksReducer.categories)
-  const editorConfig = useAppSelector(state => state.visualHTMLReducer.value)
+  const editorConfig = useAppSelector(state => state.visualHTMLReducer)
 
   return (
     <div className="App">
       <BlocksToolbox categories={categories}/>
-      <VisualHTMLEditor value={editorConfig}/>
+      <VisualHTMLEditor lockedCode={editorConfig.lockedCode}/>
     </div>
   )
 }

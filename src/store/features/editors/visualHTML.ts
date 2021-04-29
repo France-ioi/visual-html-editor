@@ -1,4 +1,4 @@
-import editorConfig, {visualHTMLEditor} from "../../../editorconfig"
+import editorConfig, {InitialEditorState} from "../../../editorconfig"
 import {produce} from "immer"
 
 // Define actions
@@ -10,7 +10,7 @@ import {produce} from "immer"
 // Reducers
 type Actions = 'Yes' | 'No'
 
-const visualHTMLReducer = (state: visualHTMLEditor = editorConfig, action: Actions) => {
+const visualHTMLReducer = (state: InitialEditorState = editorConfig, action: Actions) => {
   switch (action) {
     case 'Yes':
       console.log('wow')
