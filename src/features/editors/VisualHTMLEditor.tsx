@@ -19,12 +19,12 @@ function VisualHTMLEditor(props: InitialEditorState) {
   type EditorCode = Array<CodeSegment>
 
   function renderEditorCode(locked: CodeSegments, unlocked: CodeSegments) {
-    let editorCode: EditorCode = locked.map((seg: CodeSegment) => seg)
+    let editorCode: EditorCode = locked.map((seg: CodeSegment) => seg) // Copy locked to editorCode
     unlocked.forEach((seg: CodeSegment) => {
-      editorCode.splice(seg.pos!, 0, seg)
+      editorCode.splice(seg.pos!, 0, seg) // Insert unlocked tags to editorCode at position
     })
     let codeToDisplay: Array<JsxElementWithLinebreaks> = []
-    let prevWasBlock = true
+    let prevWasBlock = true // Was previous element a block-level element
     editorCode.forEach((seg: CodeSegment) => {
       if (indentify(seg.value)) { // If is block element
         if (prevWasBlock) { // If is block and previous was block (new line br at end)

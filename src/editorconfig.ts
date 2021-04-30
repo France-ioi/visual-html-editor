@@ -32,6 +32,7 @@ function htmlSegment(html: string) {
   const reg = /<([^\/]+?)>|<\/(.+?)>|((?<=>)[^<>][\S].+?(?=<))/g
   const matches = trimmed.matchAll(reg)
   let positionIncrement = -1 // Set initial index to -1
+  // TODO Change for to forEach
   for (const m of matches) {
     positionIncrement++ // 0 on start, ++ every iteration
     if (m[1] !== undefined) { // 1st bounding group, opening tags
