@@ -13,7 +13,8 @@ export interface CodeSegment {
   type: string,
   value: string,
   fullValue: string,
-  pos?: number
+  pos?: number,
+  locked?: boolean
 }
 
 export type CodeSegments = Array<CodeSegment>
@@ -39,13 +40,15 @@ function htmlSegment(html: string) {
           type: 'opening',
           value: m[1].substring(1),
           fullValue: m[0].slice(0, 1) + m[0].slice(2), // Remove ?
-          pos: positionIncrement
+          pos: positionIncrement,
+          locked: false
         })
       } else { // Else, readonly block
         lockedCode.push({
           type: 'opening',
           value: m[1],
-          fullValue: m[0]
+          fullValue: m[0],
+          locked: true
         })
       }
     } else if (m[2] !== undefined) { // 2nd bounding group, closing tags
@@ -54,20 +57,23 @@ function htmlSegment(html: string) {
           type: 'closing',
           value: m[2].substring(1),
           fullValue: m[0].slice(0, 2) + m[0].slice(3), // Remove ?
-          pos: positionIncrement
+          pos: positionIncrement,
+          locked: false
         })
       } else {
         lockedCode.push({
           type: 'closing',
           value: m[2],
-          fullValue: m[0]
+          fullValue: m[0],
+          locked: true
         })
       }
     } else if (m[3] !== undefined) { // 3rd bounding group, text
       lockedCode.push({
         type: 'text',
         value: m[3],
-        fullValue: m[0]
+        fullValue: m[0],
+        locked: true
       })
     }
   }
