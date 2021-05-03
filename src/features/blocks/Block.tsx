@@ -3,7 +3,6 @@ import {ToolboxCategoryBlocks} from "../../toolboxconfig";
 import {useEffect, useRef} from "react";
 import {useAppDispatch} from "../../hooks";
 import {toggleBlockDescriptionAction} from "../../store/features/blocks/blocks";
-import Draggable from "../draggables/Draggable";
 
 function Block(props: ToolboxCategoryBlocks) {
   const dispatch = useAppDispatch()
@@ -33,16 +32,12 @@ function Block(props: ToolboxCategoryBlocks) {
     <div className={'toolbox-block'} onClick={() => toggleBlockDescription(props.id)}>
       <span>
         <span className={'toolbox-block-tag tag-open'}>
-          <Draggable key={props.tag + '-open'} dataItem={props.tag + '-open'}>
-            {openingTag}
-          </Draggable>
+          {openingTag}
         </span>
         {
           props.paired ?
             <span className={'toolbox-block-tag tag-close'}>
-              <Draggable key={props.tag + '-close'} dataItem={props.tag + '-close'}>
-                {closingTag}
-              </Draggable>
+              {closingTag}
             </span>
             :
             ''
