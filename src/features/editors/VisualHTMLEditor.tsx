@@ -1,8 +1,10 @@
 import './VisualHTMLEditor.css'
 import {CodeSegment, CodeSegments, InitialEditorState} from "../../editorconfig"
+import Line from "./VisualHTMLEditorLine"
 
 function VisualHTMLEditor(props: InitialEditorState) {
   function indentify(tag: string) { // Identify block type to determine linebreaks
+    // TODO Object to define types (4 types not 2)
     const blockLevel = [
       'div', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
       'header', 'hr', 'li', 'main', 'nav', 'ol', 'ul', 'p', 'pre',
@@ -18,8 +20,9 @@ function VisualHTMLEditor(props: InitialEditorState) {
 
   type EditorCode = Array<CodeSegment>
 
+  // TODO Single source for render for perf - also iframe
   function renderEditorCode(locked: CodeSegments, unlocked: CodeSegments) {
-    let editorCode: EditorCode = locked.map((seg: CodeSegment) => seg) // Copy locked to editorCode
+    let editorCode: EditorCode = {...locked} // Copy locked to editorCode
     unlocked.forEach((seg: CodeSegment) => {
       editorCode.splice(seg.pos!, 0, seg) // Insert unlocked tags to editorCode at position
     })
@@ -30,25 +33,26 @@ function VisualHTMLEditor(props: InitialEditorState) {
         if (prevWasBlock) { // If is block and previous was block (new line br at end)
           codeToDisplay.push(
             {
-              jsx: <span className={seg.locked ? '' : 'unlocked'}>{seg.fullValue}</span>,
+              jsx: <span className={seg.locked ? 'locked' : 'unlocked'}>{seg.fullValue}</span>,
               br: 'end'
             }
           )
         } else { // Is block but previous is inline (new line br both sides)
           codeToDisplay.push({
-            jsx: <span className={seg.locked ? '' : 'unlocked'}>{seg.fullValue}</span>,
+            jsx: <span className={seg.locked ? 'locked' : 'unlocked'}>{seg.fullValue}</span>,
             br: 'both'
           })
         }
         prevWasBlock = true
       } else { // If is not block element
         codeToDisplay.push({
-          jsx: <span className={seg.locked ? '' : 'unlocked'}>{seg.fullValue}</span>,
+          jsx: <span className={seg.locked ? 'locked' : 'unlocked'}>{seg.fullValue}</span>,
           br: 'none'
         })
         prevWasBlock = false
       }
     })
+    console.log(codeToDisplay)
     return codeToDisplay
   }
 
@@ -60,12 +64,11 @@ function VisualHTMLEditor(props: InitialEditorState) {
     <div style={{paddingLeft: "15px"}}>
       {display.map((e: JsxElementWithLinebreaks) => {
         if (e.br === 'end') {
-          return <><span className={'line'}>{e.jsx}</span><br/></>
+          return <><Line break={e.br}>{e.jsx}</Line></>
         } else if (e.br === 'both') {
           let completeLineContents = jsxInlineElements
           jsxInlineElements = []
-          return <><span className={'line'}>{completeLineContents.map(e => e)}</span><br/><span
-            className={'line'}>{e.jsx}</span><br/></>
+          return <><Line break={'none'}>{completeLineContents.map(e => e)}</Line><Line break={e.br}>{e.jsx}</Line></>
         } else if (e.br === 'none') {
           jsxInlineElements.push(e.jsx)
         }
