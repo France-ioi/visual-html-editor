@@ -1,4 +1,4 @@
-import editorConfig, {InitialEditorState} from "../../../editorconfig"
+import editorConfig from "../../../editorconfig"
 import {produce} from "immer"
 
 // Define actions
@@ -12,26 +12,8 @@ type Actions = 'Yes' | 'No'
 
 const initialState = {
   ...editorConfig,
-  lines: [
-    {
-      id: 1,
-      lineNumber: 1,
-      indent: 0,
-      elementIds: ['body']
-    },
-    {
-      id: 2,
-      lineNumber: 2,
-      indent: 1,
-      elementIds: ['div']
-    },
-    {
-      id: 3,
-      lineNumber: 3,
-      indent: 3,
-      elementIds: ['h1', 'Example Domain']
-    },
-  ]
+  indentCount: 0,
+  lineCount: 0
 }
 
 const visualHTMLReducer = (state = initialState, action: Actions) => {

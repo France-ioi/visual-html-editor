@@ -1,5 +1,6 @@
 interface ILine {
   break: string,
+  indent: number,
   children: any // TODO Type me
 }
 
@@ -26,7 +27,7 @@ function Line(props: ILine) {
   return (
     <>
       {breakStart ? <br/> : ''}
-      <span className={'line'}>
+      <span className={'line'} style={{paddingLeft: 20 * props.indent}}>
         {props.children}
       </span>
       {breakEnd ? <br/> : ''}

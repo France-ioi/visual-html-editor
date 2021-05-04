@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="App">
       <BlocksToolbox categories={categories}/>
-      <VisualHTMLEditor lockedCode={editorConfig.lockedCode} userCode={editorConfig.userCode}/>
+      <VisualHTMLEditor elements={editorConfig.codeElements} indent={editorConfig.indentCount}/>
     </div>
   )
 }
