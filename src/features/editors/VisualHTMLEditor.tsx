@@ -18,7 +18,7 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
     return blockLevel.includes(tag)
   }
 
-  function setClasses(element: CodeSegment) {
+  function setClasses(element: CodeSegment) { // Prepare classes for wrapTag
     let classes: string = element.unlocked ? 'unlocked' : 'locked'
     if (element.type !== 'text') {
       classes += element.type === 'opening' ? ' opening' : ' closing'
@@ -26,9 +26,11 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
     return classes
   }
 
+  // Function to wrap tag value to render a full tag
   const makeTag = (tag: CodeSegment) => tag.type !== 'text' ?
     tag.type === 'closing' ? `</${tag.value}>` : `<${tag.value}>` :
     tag.value
+  // Function to wrap element (tag) in a span
   const wrapTag = (ele: CodeSegment) => (tag: string) =>
     <span className={setClasses(ele)}>{tag}</span> // TODO Change span to element component with key
 
@@ -41,28 +43,28 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
         jsxInlineElements.push(wrapTag(e)(makeTag(e)))
         prevWasBlock = false
       } else { // If is block element
-        let completeLineContents = jsxInlineElements
-        jsxInlineElements = []
+        let completeLineContents = jsxInlineElements // Prep line contents for inline elements
+        jsxInlineElements = [] // Reset
         br = prevWasBlock ? 'end' : 'both'
         if (br === 'both') {
-          if (e.type === 'closing') {
+          if (e.type === 'closing') { // Indent before line creation
             indenter(e)
           }
           renderElements = <>
             <Line key={uuidv4()} break={'none'} indent={indentCounter + 1}>{[...completeLineContents]}</Line>
             <Line key={uuidv4()} break={br} indent={indentCounter}>{wrapTag(e)(makeTag(e))}</Line>
           </>
-          if (e.type === 'opening') {
+          if (e.type === 'opening') { // Indent after line creation
             indenter(e)
           }
         } else if (br === 'end') {
-          if (e.type === 'closing') {
+          if (e.type === 'closing') { // Indent before line creation
             indenter(e)
           }
           renderElements = <>
             <Line key={uuidv4()} break={br} indent={indentCounter}>{wrapTag(e)(makeTag(e))}</Line>
           </>
-          if (e.type === 'opening') {
+          if (e.type === 'opening') { // Indent after line creation
             indenter(e)
           }
         }
