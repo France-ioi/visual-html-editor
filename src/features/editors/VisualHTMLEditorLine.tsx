@@ -1,7 +1,7 @@
 interface ILine {
   break: string,
   indent: number,
-  children: any // TODO Type me
+  children: Array<JSX.Element> | JSX.Element // TODO Type me
 }
 
 function Line(props: ILine) {
