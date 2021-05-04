@@ -19,11 +19,19 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
     return blockLevel.includes(tag)
   }
 
+  function setClasses(element: CodeSegment) {
+    let classes: string = element.unlocked ? 'unlocked' : 'locked'
+    if (element.type !== 'text') {
+      classes += element.type === 'opening' ? ' opening' : ' closing'
+    }
+    return classes
+  }
+
   const makeTag = (tag: CodeSegment) => tag.type !== 'text' ?
     tag.type === 'closing' ? `</${tag.value}>` : `<${tag.value}>` :
     tag.value
-  const wrapTag = (unlocked: boolean) => (tag: string) =>
-    <span className={unlocked ? 'unlocked' : 'locked'}>{tag}</span> // TODO Change span to element component with key
+  const wrapTag = (ele: CodeSegment) => (tag: string) =>
+    <span className={setClasses(ele)}>{tag}</span> // TODO Change span to element component with key
 
   function printLines(elements: CodeSegments) {
     const indenter = (element: CodeSegment) => element.type === 'opening' ? indentCounter++ : indentCounter--
@@ -31,7 +39,7 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
     return elements.map((e, index) => {
       let renderElements: JSX.Element = <></>
       if (!identify(e.value)) { // If not block elements, add to inline constructor
-        jsxInlineElements.push(wrapTag(e.unlocked)(makeTag(e)))
+        jsxInlineElements.push(wrapTag(e)(makeTag(e)))
         prevWasBlock = false
       } else { // If is block element
         let completeLineContents = jsxInlineElements
@@ -43,7 +51,7 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
           }
           renderElements = <>
             <Line key={uuidv4()} break={'none'} indent={indentCounter + 1}>{[...completeLineContents]}</Line>
-            <Line key={uuidv4()} break={br} indent={indentCounter}>{wrapTag(e.unlocked)(makeTag(e))}</Line>
+            <Line key={uuidv4()} break={br} indent={indentCounter}>{wrapTag(e)(makeTag(e))}</Line>
           </>
           if (e.type === 'opening') {
             indenter(e)
@@ -53,7 +61,7 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
             indenter(e)
           }
           renderElements = <>
-            <Line key={uuidv4()} break={br} indent={indentCounter}>{wrapTag(e.unlocked)(makeTag(e))}</Line>
+            <Line key={uuidv4()} break={br} indent={indentCounter}>{wrapTag(e)(makeTag(e))}</Line>
           </>
           if (e.type === 'opening') {
             indenter(e)
