@@ -3,7 +3,7 @@ import './VisualHTMLEditorLine.css'
 interface ILine {
   break: string,
   indent: number,
-  children: Array<JSX.Element> | JSX.Element // TODO Type me
+  children: Array<JSX.Element> | JSX.Element
 }
 
 function Line(props: ILine) {
@@ -25,7 +25,6 @@ function Line(props: ILine) {
       break
   }
 
-  // TODO count elements
   return (
     <>
       {breakStart ? <br/> : ''}
