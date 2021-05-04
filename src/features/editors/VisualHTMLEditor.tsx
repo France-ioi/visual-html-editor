@@ -22,7 +22,7 @@ function VisualHTMLEditor(props: InitialEditorState) {
 
   // TODO Single source for render for perf - also iframe
   function renderEditorCode(locked: CodeSegments, unlocked: CodeSegments) {
-    let editorCode: EditorCode = {...locked} // Copy locked to editorCode
+    let editorCode: EditorCode = [...locked] // Copy locked to editorCode
     unlocked.forEach((seg: CodeSegment) => {
       editorCode.splice(seg.pos!, 0, seg) // Insert unlocked tags to editorCode at position
     })
