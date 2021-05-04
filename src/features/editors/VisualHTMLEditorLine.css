@@ -1,0 +1,61 @@
+/*TODO FIX LINE HEIGHT*/
+
+.opening, .closing {
+    display: inline-block;
+    color: white;
+    background: #4a90e2;
+    line-height: 20px;
+    position: relative;
+    height: 20px;
+}
+
+.opening:before, .closing:before {
+    position: absolute;
+    content: "";
+    width: 1px;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+}
+
+.opening {
+    margin-right: 1rem;
+    padding: 0 0 0 8px;
+    border-radius: 5px 0 0 5px;
+}
+
+.opening:before {
+    right: -15px;
+    border-left: 14px solid #4a90e2;
+}
+
+.closing {
+    margin-left: 1rem;
+    padding: 0 8px 0 0;
+    border-radius: 0 5px 5px 0;
+}
+
+.closing:before {
+    left: -15px;
+    border-right: 14px solid #4a90e2;
+}
+
+.locked.opening, .locked.closing {
+    opacity: 50%;
+}
+
+.unlocked.opening, .unlocked.closing {
+    background-color: coral;
+}
+
+.unlocked.opening:before {
+    border-left: 14px solid coral;
+}
+
+.unlocked.closing:before {
+    border-right: 14px solid coral;
+}
+
+.unlocked {
+    cursor: pointer;
+}

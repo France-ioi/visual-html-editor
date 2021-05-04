@@ -29,7 +29,7 @@ function Line(props: ILine) {
   return (
     <>
       {breakStart ? <br/> : ''}
-      <span className={'line'} style={{paddingLeft: 20 * props.indent}}>
+      <span className={'line'} style={{paddingLeft: 25 * props.indent}}>
         {props.children}
       </span>
       {breakEnd ? <br/> : ''}

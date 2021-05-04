@@ -75,7 +75,7 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
 
 
   return (
-    <div style={{paddingLeft: "15px"}}>
+    <div style={{paddingLeft: "15px"}} className={'visual-html-editor'}>
       {printLines(props.elements)}
     </div>
   )
