@@ -12,8 +12,6 @@ type Actions = 'Yes' | 'No'
 
 const initialState = {
   ...editorConfig,
-  indentCount: 0,
-  lineCount: 0
 }
 
 const visualHTMLReducer = (state = initialState, action: Actions) => {

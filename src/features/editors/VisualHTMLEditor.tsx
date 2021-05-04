@@ -4,8 +4,7 @@ import Line from "./VisualHTMLEditorLine"
 import {v4 as uuidv4} from 'uuid'
 
 interface IVisualHTMLEditor {
-  elements: CodeSegments,
-  indent: number
+  elements: CodeSegments
 }
 
 function VisualHTMLEditor(props: IVisualHTMLEditor) {
