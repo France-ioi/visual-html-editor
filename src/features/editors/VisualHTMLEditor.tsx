@@ -73,9 +73,9 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
     })
   }
 
-
+// TODO Line keys are overwritten on each render, figure out better key handling
   return (
-    <div style={{paddingLeft: "15px"}} className={'visual-html-editor'}>
+    <div className={'visual-html-editor'}>
       {printLines(props.elements)}
     </div>
   )
