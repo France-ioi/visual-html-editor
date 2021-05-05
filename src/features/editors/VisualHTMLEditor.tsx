@@ -2,7 +2,7 @@ import './VisualHTMLEditor.css'
 import {CodeSegment, CodeSegments} from "../../editorconfig"
 import Line from "./VisualHTMLEditorLine"
 import Element from "./VisualHTMLEditorElement"
-import {DragDropContext} from 'react-beautiful-dnd'
+import {DragDropContext, DropResult} from 'react-beautiful-dnd'
 import {useCallback} from "react";
 import {useAppDispatch} from "../../hooks"
 import {toggleCategoryAction} from "../../store/features/blocks/blocks";
@@ -111,15 +111,13 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
     })
   }
 
-  const onDragEnd = useCallback((result) => {
+  const onDragEnd = (result: DropResult) => {
     if (result.source && result.destination) {
       if (result.source.index !== result.destination.index) {
         dispatch(moveElement(result))
-      } else {
-        console.log(result)
       }
     }
-  }, [])
+  }
 
   return (
     // Synchronously update state onDragEnd
