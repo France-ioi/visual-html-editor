@@ -1,5 +1,10 @@
 /*TODO FIX LINE HEIGHT*/
 
+.text {
+    display: inline-block;
+    position: relative;
+}
+
 .opening, .closing {
     display: inline-block;
     color: white;

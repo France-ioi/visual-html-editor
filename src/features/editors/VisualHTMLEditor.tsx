@@ -29,6 +29,8 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
     let classes: string = element.unlocked ? 'unlocked' : 'locked'
     if (element.type !== 'text') {
       classes += element.type === 'opening' ? ' opening' : ' closing'
+    } else {
+      classes += ' text'
     }
     return classes
   }
@@ -37,7 +39,7 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
   const makeTag = (tag: CodeSegment) => tag.type !== 'text' ?
     tag.type === 'closing' ? `</${tag.value}>` : `<${tag.value}>` :
     tag.value
-  // Function to wrap element (tag) in a span
+  // Function to wrap element (tag) in component
   const wrapTag = (ele: CodeSegment, index: number) => (tag: string) =>
     <Element
       className={setClasses(ele)}
