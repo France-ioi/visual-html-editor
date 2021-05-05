@@ -3,12 +3,18 @@ import {CodeSegment, CodeSegments} from "../../editorconfig"
 import Line from "./VisualHTMLEditorLine"
 import Element from "./VisualHTMLEditorElement"
 import {DragDropContext} from 'react-beautiful-dnd'
+import {useCallback} from "react";
+import {useAppDispatch} from "../../hooks"
+import {toggleCategoryAction} from "../../store/features/blocks/blocks";
+import {moveElement} from "../../store/features/editors/visualHTML";
 
 interface IVisualHTMLEditor {
   elements: CodeSegments
 }
 
 function VisualHTMLEditor(props: IVisualHTMLEditor) {
+  const dispatch = useAppDispatch()
+
   function identify(tag: string) { // Identify block type to determine linebreaks
     // TODO Object to define types (4 types not 2)
     const blockLevel = [
@@ -105,9 +111,19 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
     })
   }
 
+  const onDragEnd = useCallback((result) => {
+    if (result.source && result.destination) {
+      if (result.source.index !== result.destination.index) {
+        dispatch(moveElement(result))
+      } else {
+        console.log(result)
+      }
+    }
+  }, [])
+
   return (
     // Synchronously update state onDragEnd
-    <DragDropContext onDragEnd={console.log}>
+    <DragDropContext onDragEnd={onDragEnd}>
       <div className={'visual-html-editor'}>
         {printLines(props.elements)}
       </div>

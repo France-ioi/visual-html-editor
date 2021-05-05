@@ -11,20 +11,18 @@ interface IElement {
 function Element(props: IElement) {
 
   return (
-    <>
-      <Draggable draggableId={props.id} index={props.index} isDragDisabled={!props.unlocked}>
-        {provided => (
-          <span
-            className={props.className}
-            ref={provided.innerRef}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-          >
-            {props.children}
-          </span>
-        )}
-      </Draggable>
-    </>
+    <Draggable key={props.id} draggableId={props.id} index={props.index} isDragDisabled={!props.unlocked}>
+      {provided => (
+        <span
+          className={props.className}
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          {props.children}
+        </span>
+      )}
+    </Draggable>
   )
 }
 

@@ -30,7 +30,7 @@ function Line(props: ILine) {
   return (
     <>
       {breakStart ? <br/> : ''}
-      <Droppable droppableId={props.id} direction={"horizontal"}>
+      <Droppable key={props.id} droppableId={props.id} direction={"horizontal"}>
         {provided => (
           <span
             className={'line'}
