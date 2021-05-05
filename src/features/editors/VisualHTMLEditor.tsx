@@ -75,7 +75,6 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
     })
   }
 
-  // TODO Line keys are overwritten on each render, figure out better key handling
   return (
     <div className={'visual-html-editor'}>
       {printLines(props.elements)}
