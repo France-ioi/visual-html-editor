@@ -32,7 +32,7 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
     tag.value
   // Function to wrap element (tag) in a span
   const wrapTag = (ele: CodeSegment) => (tag: string) =>
-    <span className={setClasses(ele)}>{tag}</span> // TODO Change span to element component with key
+    <span className={setClasses(ele)} key={ele.id}>{tag}</span> // TODO Change span to element component with key
 
   function printLines(elements: CodeSegments) {
     const indenter = (element: CodeSegment) => element.type === 'opening' ? indentCounter++ : indentCounter--
@@ -51,8 +51,9 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
             indenter(e)
           }
           renderElements = <>
-            <Line key={uuidv4()} break={'none'} indent={indentCounter + 1}>{[...completeLineContents]}</Line>
-            <Line key={uuidv4()} break={br} indent={indentCounter}>{wrapTag(e)(makeTag(e))}</Line>
+            <Line key={completeLineContents.map(c => c.key).join()} break={'none'}
+                  indent={indentCounter + 1}>{[...completeLineContents]}</Line>
+            <Line key={e.id.toString()} break={br} indent={indentCounter}>{wrapTag(e)(makeTag(e))}</Line>
           </>
           if (e.type === 'opening') { // Indent after line creation
             indenter(e)
@@ -62,7 +63,7 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
             indenter(e)
           }
           renderElements = <>
-            <Line key={uuidv4()} break={br} indent={indentCounter}>{wrapTag(e)(makeTag(e))}</Line>
+            <Line key={e.id.toString()} break={br} indent={indentCounter}>{wrapTag(e)(makeTag(e))}</Line>
           </>
           if (e.type === 'opening') { // Indent after line creation
             indenter(e)
@@ -74,7 +75,7 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
     })
   }
 
-// TODO Line keys are overwritten on each render, figure out better key handling
+  // TODO Line keys are overwritten on each render, figure out better key handling
   return (
     <div className={'visual-html-editor'}>
       {printLines(props.elements)}
