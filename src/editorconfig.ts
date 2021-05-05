@@ -2,13 +2,13 @@ import {v4 as uuidv4} from 'uuid'
 
 const initialCode = "<body>" +
   "<div>" +
-  "<?h1>" +
+  "<h1>" +
   "Example Domain" +
-  "</?h1>" +
+  "</h1>" +
   "<p>This domain is for use in illustrative examples in documents. " +
   "You may use this domain in literature without prior coordination or asking for permission.</p>" +
-  "<?p>More <i>information</i>...</?p>" +
-  "<span><i>Hello world</i></span>" +
+  "<p>More <i>information</i>...</p>" +
+  "<span><?i>Hello world</?i></span>" +
   "<p>Hello!</p>" +
   "</div>" +
   "</body>"

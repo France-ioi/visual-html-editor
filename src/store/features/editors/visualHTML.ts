@@ -30,13 +30,13 @@ const visualHTMLReducer = (state = initialState, action: Actions) => {
   switch (action.type) {
     case EditorActionsTypes.EditorElementMove:
       return produce(state, draftState => {
-        const draggedElement = action.payload.draggableId
+        const draggedElementId = action.payload.draggableId
         const source = action.payload.source
         const destination = action.payload.destination
-        const foundElement = draftState.codeElements.find(e => e.id === draggedElement)
+        const foundElement = draftState.codeElements.find(e => e.id === draggedElementId)
         if (source && destination && foundElement) {
           draftState.codeElements.splice(source.index, 1)
-          draftState.codeElements.splice(destination.index, 0, foundElement)
+          draftState.codeElements.splice((destination.index), 0, foundElement)
           console.log('Updated!')
         } else {
           console.log('Not found!')
