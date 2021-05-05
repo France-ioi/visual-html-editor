@@ -1,7 +1,8 @@
 import './VisualHTMLEditor.css'
 import {CodeSegment, CodeSegments} from "../../editorconfig"
 import Line from "./VisualHTMLEditorLine"
-import {v4 as uuidv4} from 'uuid'
+import Element from "./VisualHTMLEditorElement"
+import {DragDropContext} from 'react-beautiful-dnd'
 
 interface IVisualHTMLEditor {
   elements: CodeSegments
@@ -31,8 +32,16 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
     tag.type === 'closing' ? `</${tag.value}>` : `<${tag.value}>` :
     tag.value
   // Function to wrap element (tag) in a span
-  const wrapTag = (ele: CodeSegment) => (tag: string) =>
-    <span className={setClasses(ele)} key={ele.id}>{tag}</span> // TODO Change span to element component with key
+  const wrapTag = (ele: CodeSegment, index: number) => (tag: string) =>
+    <Element
+      className={setClasses(ele)}
+      unlocked={ele.unlocked}
+      key={ele.id}
+      id={ele.id}
+      index={index}
+    >
+      {tag}
+    </Element>
 
   function printLines(elements: CodeSegments) {
     const indenter = (element: CodeSegment) => element.type === 'opening' ? indentCounter++ : indentCounter--
@@ -40,7 +49,7 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
     return elements.map((e, index) => {
       let renderElements: JSX.Element = <></>
       if (!identify(e.value)) { // If not block elements, add to inline constructor
-        jsxInlineElements.push(wrapTag(e)(makeTag(e)))
+        jsxInlineElements.push(wrapTag(e, index)(makeTag(e)))
         prevWasBlock = false
       } else { // If is block element
         let completeLineContents = jsxInlineElements // Prep line contents for inline elements
@@ -50,10 +59,24 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
           if (e.type === 'closing') { // Indent before line creation
             indenter(e)
           }
+          let keyGen = completeLineContents.map(c => c.key).join()
           renderElements = <>
-            <Line key={completeLineContents.map(c => c.key).join()} break={'none'}
-                  indent={indentCounter + 1}>{[...completeLineContents]}</Line>
-            <Line key={e.id.toString()} break={br} indent={indentCounter}>{wrapTag(e)(makeTag(e))}</Line>
+            <Line
+              key={keyGen}
+              id={keyGen}
+              break={'none'}
+              indent={indentCounter + 1}
+            >
+              {[...completeLineContents]}
+            </Line>
+            <Line
+              key={e.id}
+              id={e.id}
+              break={br}
+              indent={indentCounter}
+            >
+              {wrapTag(e, index)(makeTag(e))}
+            </Line>
           </>
           if (e.type === 'opening') { // Indent after line creation
             indenter(e)
@@ -63,7 +86,14 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
             indenter(e)
           }
           renderElements = <>
-            <Line key={e.id.toString()} break={br} indent={indentCounter}>{wrapTag(e)(makeTag(e))}</Line>
+            <Line
+              key={e.id}
+              id={e.id}
+              break={br}
+              indent={indentCounter}
+            >
+              {wrapTag(e, index)(makeTag(e))}
+            </Line>
           </>
           if (e.type === 'opening') { // Indent after line creation
             indenter(e)
@@ -76,9 +106,12 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
   }
 
   return (
-    <div className={'visual-html-editor'}>
-      {printLines(props.elements)}
-    </div>
+    // Synchronously update state onDragEnd
+    <DragDropContext onDragEnd={console.log}>
+      <div className={'visual-html-editor'}>
+        {printLines(props.elements)}
+      </div>
+    </DragDropContext>
   )
 }
 
