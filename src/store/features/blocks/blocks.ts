@@ -2,21 +2,21 @@ import tbConf, {ToolboxConfiguration} from "../../../toolboxconfig"
 import {produce} from 'immer'
 
 // Define actions
-export enum ActionTypes {
+export enum BlockActionsTypes {
   BlocksCategoryToggle = 'Blocks.Category.Toggle',
   BlocksBlockDescriptionToggle = 'Blocks.Block.Description.Toggle'
 }
 
 // Type actions
 type ToggleCategory = {
-  type: typeof ActionTypes.BlocksCategoryToggle,
+  type: typeof BlockActionsTypes.BlocksCategoryToggle,
   payload: {
     category: number
   }
 }
 
 type ToggleBlockDescription = {
-  type: typeof ActionTypes.BlocksBlockDescriptionToggle,
+  type: typeof BlockActionsTypes.BlocksBlockDescriptionToggle,
   payload: {
     block: number
   }
@@ -24,14 +24,14 @@ type ToggleBlockDescription = {
 
 // Action creators
 export const toggleCategoryAction = (categoryId: number): ToggleCategory => ({
-  type: ActionTypes.BlocksCategoryToggle,
+  type: BlockActionsTypes.BlocksCategoryToggle,
   payload: {
     category: categoryId
   }
 })
 
 export const toggleBlockDescriptionAction = (blockId: number): ToggleBlockDescription => ({
-  type: ActionTypes.BlocksBlockDescriptionToggle,
+  type: BlockActionsTypes.BlocksBlockDescriptionToggle,
   payload: {
     block: blockId
   }
@@ -42,14 +42,14 @@ type Actions = ToggleCategory | ToggleBlockDescription
 
 const blocksReducer = (state: ToolboxConfiguration = tbConf, action: Actions) => {
   switch (action.type) {
-    case ActionTypes.BlocksCategoryToggle:
+    case BlockActionsTypes.BlocksCategoryToggle:
       return produce(state, draftState => {
         const foundCategory = draftState.categories.find(c => c.id === action.payload.category)
         if (foundCategory) {
           foundCategory.toggled = !foundCategory.toggled
         }
       })
-    case ActionTypes.BlocksBlockDescriptionToggle:
+    case BlockActionsTypes.BlocksBlockDescriptionToggle:
       return produce(state, draftState => {
         const parentCategory = draftState.categories.find(c => c.blocks.find(b => b.id === action.payload.block))
         if (parentCategory) {
