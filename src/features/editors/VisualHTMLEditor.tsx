@@ -3,8 +3,7 @@ import {CodeSegment, CodeSegments} from "../../editorconfig"
 import Line from "./VisualHTMLEditorLine"
 import {DragDropContext, DropResult} from 'react-beautiful-dnd'
 import {useAppDispatch} from "../../hooks"
-import {moveElement} from "../../store/features/editors/visualHTML";
-import {useEffect} from "react";
+import {moveElement} from "../../store/features/editors/visualHTML"
 
 interface IVisualHTMLEditor {
   elements: CodeSegments
@@ -26,9 +25,6 @@ type TLine = {
 }
 
 function VisualHTMLEditor(props: IVisualHTMLEditor) {
-  useEffect(() => {
-    console.log('Updated')
-  })
   let indentCounter = 0
   let lineBuilder: LineSegments = []
   let lines: Array<TLine> = []
