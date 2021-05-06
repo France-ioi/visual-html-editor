@@ -74,13 +74,14 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
     <DragDropContext onDragEnd={onDragEnd}>
       <div className={'visual-html-editor'}>
         {
-          lines.map(line => {
+          lines.map((line, index) => {
             let keyGen = line.lineContents.map(e => e.id).join()
             return <Line
               id={'line-' + keyGen}
               key={keyGen}
               children={line.lineContents}
               indent={line.lineIndentation}
+              lineNumber={index}
             />
           })
         }

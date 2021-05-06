@@ -1,7 +1,12 @@
-/*TODO FIX LINE HEIGHT*/
-
 .line {
     display: block;
+}
+
+.line::before {
+    position: absolute;
+    left: 5px;
+    font-size: 0.8em;
+    content: attr(data-line-number);
 }
 
 .text {
