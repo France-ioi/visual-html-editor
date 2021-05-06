@@ -67,3 +67,7 @@
 .unlocked {
     cursor: pointer;
 }
+
+.unlocked:hover {
+    opacity: 80%;
+}
