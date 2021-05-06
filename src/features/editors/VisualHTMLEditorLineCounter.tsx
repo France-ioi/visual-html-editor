@@ -13,8 +13,8 @@ function LineCounter(props: TLineCount) {
 
   return (
     <div className={'lines-counter-inner'}>
-      {lineCells.map(line => {
-        return <LineCounterCell line={line}/>
+      {lineCells.map((line, index) => {
+        return <LineCounterCell key={index} line={line}/>
       })}
     </div>
   )
