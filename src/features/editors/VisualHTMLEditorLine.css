@@ -1,5 +1,9 @@
 /*TODO FIX LINE HEIGHT*/
 
+.line {
+    display: block;
+}
+
 .text {
     display: inline-block;
     position: relative;

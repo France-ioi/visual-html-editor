@@ -25,33 +25,30 @@ function Line(props: ILine) {
   }
 
   return (
-    <>
-      <Droppable key={props.id} droppableId={props.id} direction={"horizontal"}>
-        {(provided, snapshot) => (
-          <span
-            className={'line'}
-            style={{paddingLeft: 25 * props.indent, backgroundColor: snapshot.isDraggingOver ? 'yellow' : 'white'}}
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-          >
-            {
-              props.children.map(c => {
-                return <Element
-                  id={c.id}
-                  key={c.id}
-                  index={c.index}
-                  className={setClasses(c)}
-                  children={makeTag(c)}
-                  unlocked={c.unlocked}
-                />
-              })
-            }
-            {provided.placeholder}
-          </span>
-        )}
-      </Droppable>
-      <br/>
-    </>
+    <Droppable key={props.id} droppableId={props.id} direction={"horizontal"}>
+      {(provided, snapshot) => (
+        <span
+          className={'line'}
+          style={{paddingLeft: 25 * props.indent, backgroundColor: snapshot.isDraggingOver ? 'yellow' : 'white'}}
+          ref={provided.innerRef}
+          {...provided.droppableProps}
+        >
+          {
+            props.children.map(c => {
+              return <Element
+                id={c.id}
+                key={c.id}
+                index={c.index}
+                className={setClasses(c)}
+                children={makeTag(c)}
+                unlocked={c.unlocked}
+              />
+            })
+          }
+          {provided.placeholder}
+        </span>
+      )}
+    </Droppable>
   )
 }
 
