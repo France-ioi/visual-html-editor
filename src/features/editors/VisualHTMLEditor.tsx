@@ -42,7 +42,7 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
     }
   }
 
-  function identify(tag: string) { // Identify block type to determine linebreaks
+  function identifyBlockType(tag: string) { // Identify block type to determine linebreaks
     // TODO Object to define types (4 types not 2)
     const blockLevel = [
       'div', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
@@ -53,7 +53,7 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
   }
 
   props.elements.forEach((e, index) => {
-    if (!identify(e.value)) { // If is inline element
+    if (!identifyBlockType(e.value)) { // If is inline element
       lineBuilder.push({...e, index: index}) // Add to current lineBuilder contents
       prevWasBlock = false
     } else { // If is block element
