@@ -1,7 +1,7 @@
 import './VisualHTMLEditor.css'
 import {CodeSegment, CodeSegments} from "../../editorconfig"
 import Line from "./VisualHTMLEditorLine"
-import {DragDropContext, DropResult} from 'react-beautiful-dnd'
+import {DragDropContext, DragUpdate, DropResult} from 'react-beautiful-dnd'
 import {useAppDispatch} from "../../hooks"
 import {moveElement} from "../../store/features/editors/visualHTML"
 import LineCounter from "./VisualHTMLEditorLineCounter";
@@ -43,6 +43,11 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
     }
   }
 
+  //TODO Insert animated cursor to show user precisely where their tag will be dropped
+  const onDragUpdate = (update: DragUpdate) => {
+    console.log('Dragging over: ' + update.destination?.index)
+  }
+
   function identifyBlockType(tag: string) { // Identify block type to determine linebreaks
     // TODO Object to define types (4 types not 2)
     const blockLevel = [
@@ -72,7 +77,7 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
   })
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <DragDropContext onDragEnd={onDragEnd} onDragUpdate={onDragUpdate}>
       <div className={'visual-html-editor'}>
         <div className={'lines-counter'}>
           <LineCounter lineCount={lines.length}/>
