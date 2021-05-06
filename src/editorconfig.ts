@@ -13,9 +13,16 @@ const initialCode = "<body>" +
   "</div>" +
   "</body>"
 
+enum TagType {
+  Opening = 'opening',
+  Closing = 'closing',
+  Text = 'text'
+
+}
+
 export interface CodeSegment {
   id: string,
-  type: string,
+  type: TagType,
   value: string,
   unlocked: boolean
 }
@@ -32,21 +39,21 @@ function htmlSegment(html: string) {
     if (m[1] !== undefined) { // 1st bounding group, opening tags
       editorCode.push({
         id: uuidv4(),
-        type: 'opening',
+        type: TagType.Opening,
         value: m[1].replace('?', ''),
         unlocked: m[1].charAt(0) === '?'
       })
     } else if (m[2] !== undefined) { // 2nd bounding group, closing tags
       editorCode.push({
         id: uuidv4(),
-        type: 'closing',
+        type: TagType.Closing,
         value: m[2].replace('?', ''),
         unlocked: m[2].charAt(0) === '?'
       })
     } else if (m[3] !== undefined) { // 3rd bounding group, text
       editorCode.push({
         id: uuidv4(),
-        type: 'text',
+        type: TagType.Text,
         value: m[3],
         unlocked: false
       })
