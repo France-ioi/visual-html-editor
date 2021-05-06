@@ -20,7 +20,6 @@ function Element(props: IElement) {
           {...provided.dragHandleProps}
         >
           {props.children}
-          {props.index}
         </span>
       )}
     </Draggable>
