@@ -1,7 +1,15 @@
 .visual-html-editor {
     line-height: 25px;
-    padding-left: 25px;
-    overflow-x: hidden;
     max-width: 80%;
+    height: 100%;
+    display: flex;
+    font-family: Consolas, monospace;
+    font-size: 14px;
+}
+
+.lines-counter {
+    width: 40px;
+    background-color: #f0f0f0;
+    color: #333;
     position: relative;
 }

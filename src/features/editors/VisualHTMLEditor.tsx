@@ -4,6 +4,7 @@ import Line from "./VisualHTMLEditorLine"
 import {DragDropContext, DropResult} from 'react-beautiful-dnd'
 import {useAppDispatch} from "../../hooks"
 import {moveElement} from "../../store/features/editors/visualHTML"
+import LineCounter from "./VisualHTMLEditorLineCounter";
 
 interface IVisualHTMLEditor {
   elements: CodeSegments
@@ -73,18 +74,22 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className={'visual-html-editor'}>
-        {
-          lines.map((line, index) => {
-            let keyGen = line.lineContents.map(e => e.id).join()
-            return <Line
-              id={'line-' + keyGen}
-              key={keyGen}
-              children={line.lineContents}
-              indent={line.lineIndentation}
-              lineNumber={index}
-            />
-          })
-        }
+        <div className={'lines-counter'}>
+          <LineCounter lineCount={lines.length}/>
+        </div>
+        <div className={'lines-container'}>
+          {
+            lines.map(line => {
+              let keyGen = line.lineContents.map(e => e.id).join()
+              return <Line
+                id={'line-' + keyGen}
+                key={keyGen}
+                children={line.lineContents}
+                indent={line.lineIndentation}
+              />
+            })
+          }
+        </div>
       </div>
     </DragDropContext>
   )

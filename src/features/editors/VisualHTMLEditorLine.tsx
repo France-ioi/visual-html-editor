@@ -5,7 +5,6 @@ import {LineSegments, LineSegment} from "./VisualHTMLEditor";
 
 interface ILine {
   indent: number,
-  lineNumber: number,
   id: string,
   children: LineSegments
 }
@@ -30,10 +29,9 @@ function Line(props: ILine) {
       {(provided, snapshot) => (
         <span
           className={'line'}
-          style={{paddingLeft: 25 * props.indent, backgroundColor: snapshot.isDraggingOver ? 'yellow' : 'white'}}
+          style={{paddingLeft: 25 * props.indent + 10, backgroundColor: snapshot.isDraggingOver ? '#f0f0f0' : 'white'}}
           ref={provided.innerRef}
           {...provided.droppableProps}
-          data-line-number={props.lineNumber}
         >
           {
             props.children.map(c => {
