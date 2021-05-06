@@ -27,9 +27,12 @@ function Line(props: ILine) {
   return (
     <Droppable key={props.id} droppableId={props.id} direction={"horizontal"}>
       {(provided, snapshot) => (
-        <span
+        <div
           className={'line'}
-          style={{paddingLeft: 25 * props.indent + 10, backgroundColor: snapshot.isDraggingOver ? '#f0f0f0' : 'white'}}
+          style={{
+            paddingLeft: 25 * props.indent + 10,
+            backgroundColor: snapshot.isDraggingOver ? '#f0f0f0' : 'white'
+          }}
           ref={provided.innerRef}
           {...provided.droppableProps}
         >
@@ -45,8 +48,7 @@ function Line(props: ILine) {
               />
             })
           }
-          {provided.placeholder}
-        </span>
+        </div>
       )}
     </Droppable>
   )
