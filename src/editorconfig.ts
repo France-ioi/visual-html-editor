@@ -25,7 +25,6 @@ let editorCode: CodeSegments = []
 
 function htmlSegment(html: string) {
   let trimmed = html.trim()
-  // const reg = /<([^/]+?)>|<\/(.+?)>|((?<=>)[^<>][\S].+?(?=<))/g
   const reg = /<([^/]+?)>|<\/(.+?)>|([^<>\s][a-zA-Z.]+)/g
   const matches = trimmed.matchAll(reg)
 
