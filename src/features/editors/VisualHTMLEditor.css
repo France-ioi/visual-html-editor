@@ -1,4 +1,6 @@
 .visual-html-editor {
     line-height: 25px;
     padding-left: 15px;
+    overflow-x: hidden;
+    max-width: 80%;
 }

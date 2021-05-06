@@ -2,6 +2,7 @@
     font-family: "Roboto";
     background-color: #dfe7f4;
     height: 100%;
-    width: 18rem;
+    min-width: 20%;
+    float: left;
     overflow: auto;
 }
