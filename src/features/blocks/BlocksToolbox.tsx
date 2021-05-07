@@ -9,11 +9,10 @@ function BlocksToolbox({categories}: ToolboxConfiguration) {
         return (
           <BlocksCategory
             key={category.id}
-            name={category.name}
-            blocks={category.blocks}
-            highlight={category.highlight}
             id={category.id}
-            toggled={category.toggled}
+            name={category.name}
+            highlight={category.highlight}
+            blocks={category.blocks}
             openDesc={category.openDesc}
           />
         )

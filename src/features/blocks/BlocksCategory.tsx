@@ -1,28 +1,18 @@
 import './BlocksCategory.css'
 import {ToolboxCategory} from "../../toolboxconfig"
 import Block from "./Block"
-import {toggleCategoryAction} from "../../store/features/blocks/blocks"
-import {useAppDispatch} from "../../hooks"
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react"
 
 function BlocksCategory(props: ToolboxCategory) {
+  const [open, setOpen] = useState(false)
   const categoryBlocksRef = useRef<HTMLDivElement>(null)
-  const dispatch = useAppDispatch()
-
-  function toggleCategory(categoryId: number) {
-    dispatch(toggleCategoryAction(categoryId))
-  }
-
-  const categoryStyle = {
-    borderLeft: `10px solid ${props.highlight}`
-  }
 
   useEffect(() => {
     (function () {
       let maxHeight = 0
       let blocksContainer = categoryBlocksRef.current
       if (blocksContainer) {
-        if (props.toggled) {
+        if (open) {
           (blocksContainer.childNodes as NodeListOf<HTMLDivElement>).forEach((block) => {
             maxHeight += block.getBoundingClientRect().height
           })
@@ -32,11 +22,11 @@ function BlocksCategory(props: ToolboxCategory) {
         blocksContainer.style.maxHeight = maxHeight + "px"
       }
     })()
-  }, [props.toggled, props.blocks])
+  }, [open, props.openDesc])
 
   return (
-    <div className={'toolbox-category'} style={categoryStyle}>
-      <span className={'toolbox-category-title'} onClick={() => toggleCategory(props.id)}>
+    <div className={'toolbox-category'} style={{borderLeft: `10px solid ${props.highlight}`}}>
+      <span className={'toolbox-category-title'} onClick={() => setOpen(!open)}>
         {props.name}
       </span>
       <div className={'toolbox-category-blocks'} ref={categoryBlocksRef}>
@@ -44,11 +34,10 @@ function BlocksCategory(props: ToolboxCategory) {
           return (
             <Block
               key={block.id}
+              id={block.id}
               tag={block.tag}
               paired={block.paired}
               desc={block.desc}
-              toggled={block.toggled}
-              id={block.id}
             />
           )
         })}

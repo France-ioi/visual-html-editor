@@ -1,24 +1,21 @@
 import './Block.css'
 import {ToolboxCategoryBlocks} from "../../toolboxconfig";
 import {useEffect, useRef} from "react";
-import {useAppDispatch} from "../../hooks";
+import {useAppDispatch, useAppSelector} from "../../hooks";
 import {toggleBlockDescriptionAction} from "../../store/features/blocks/blocks";
 
 function Block(props: ToolboxCategoryBlocks) {
+  const cat = useAppSelector(state => state.blocksReducer.categories.find((c) => c.blocks.find((b) => b.id === props.id)))
   const dispatch = useAppDispatch()
   const blockDescriptionRef = useRef<HTMLDivElement>(null)
   const openingTag = '<' + props.tag + '>'
   const closingTag = '</' + props.tag + '>'
 
-  function toggleBlockDescription(block: number) {
-    dispatch(toggleBlockDescriptionAction(block))
-  }
-
   useEffect(() => {
     (function () {
       let maxHeight = 0
       if (blockDescriptionRef.current && blockDescriptionRef.current.firstElementChild) {
-        if (props.toggled) {
+        if (cat && props.id === cat.openDesc) {
           maxHeight = blockDescriptionRef.current.firstElementChild.getBoundingClientRect().height
         } else {
           maxHeight = 0
@@ -26,10 +23,10 @@ function Block(props: ToolboxCategoryBlocks) {
         blockDescriptionRef.current.style.maxHeight = maxHeight + "px"
       }
     })()
-  }, [props.toggled])
+  }, [cat])
 
   return (
-    <div className={'toolbox-block'} onClick={() => toggleBlockDescription(props.id)}>
+    <div className={'toolbox-block'} onClick={() => dispatch(toggleBlockDescriptionAction(props.id))}>
       <span>
         <span className={'toolbox-block-tag tag-open'}>
           {openingTag}
