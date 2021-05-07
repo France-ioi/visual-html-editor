@@ -31,7 +31,7 @@ function Block(props: ToolboxCategoryBlocks) {
   return (
     <div className={'toolbox-block'} onClick={() => dispatch(toggleBlockDescriptionAction(props.id))}>
       <span>
-        <Draggable draggableId={props.id + '-opening'} index={props.id}>
+        <Draggable draggableId={props.tag + '-opening'} index={props.id}>
           {(provided, snapshot) => (
             <>
               <span
@@ -56,7 +56,7 @@ function Block(props: ToolboxCategoryBlocks) {
         </Draggable>
         {
           props.paired ?
-            <Draggable draggableId={props.id + '-closing'} index={props.id}>
+            <Draggable draggableId={props.tag + '-closing'} index={props.id}>
               {(provided, snapshot) => (
                 <>
                   <span

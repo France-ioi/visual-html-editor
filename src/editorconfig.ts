@@ -13,7 +13,7 @@ const initialCode = "<body>" +
   "</div>" +
   "</body>"
 
-enum TagType {
+export enum TagType {
   Opening = 'opening',
   Closing = 'closing',
   Text = 'text'

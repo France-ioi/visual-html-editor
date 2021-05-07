@@ -3,7 +3,7 @@ import VisualHTMLEditor from './features/editors/VisualHTMLEditor'
 import {useAppDispatch, useAppSelector} from "./hooks"
 import {DraggableStateSnapshot, DraggingStyle, DragUpdate, DropResult, NotDraggingStyle} from "react-beautiful-dnd"
 import {DragDropContext} from "react-beautiful-dnd"
-import {deleteElement, moveElement} from "./store/features/editors/visualHTML"
+import {createElement, deleteElement, moveElement} from "./store/features/editors/visualHTML"
 
 // Used to cancel transition animation for certain draggables
 export function getDragStyle(style: DraggingStyle | NotDraggingStyle | undefined, snapshot: DraggableStateSnapshot) {
@@ -28,8 +28,10 @@ function App() {
     if (result.source && result.destination) {
       if (result.destination.droppableId === 'toolbox-dropzone' && result.source.droppableId !== 'toolbox-dropzone') {
         dispatch(deleteElement(result))
-      } else if (result.source.index !== result.destination.index) {
+      } else if (result.source.droppableId !== 'toolbox-dropzone' && result.source.index !== result.destination.index) {
         dispatch(moveElement(result))
+      } else if (result.source.droppableId === 'toolbox-dropzone' && result.destination.droppableId !== 'toolbox-dropzone') {
+        dispatch(createElement(result))
       }
     }
   }

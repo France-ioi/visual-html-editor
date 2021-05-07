@@ -1,11 +1,14 @@
 import editorConfig from "../../../editorconfig"
 import {produce} from "immer"
-import {DropResult} from "react-beautiful-dnd";
+import {DropResult} from "react-beautiful-dnd"
+import {CodeSegment, TagType} from "../../../editorconfig"
+import {v4 as uuidv4} from "uuid"
 
 // Define actions
 export enum EditorActionsTypes {
   EditorElementMove = 'Editor.Element.Move',
-  EditorElementDelete = 'Editor.Element.Delete'
+  EditorElementDelete = 'Editor.Element.Delete',
+  EditorElementCreate = 'Editor.Element.Create'
 }
 
 // Type actions
@@ -16,6 +19,11 @@ type MoveElement = {
 
 type DeleteElement = {
   type: typeof EditorActionsTypes.EditorElementDelete
+  payload: DropResult
+}
+
+type CreateElement = {
+  type: typeof EditorActionsTypes.EditorElementCreate
   payload: DropResult
 }
 
@@ -30,8 +38,13 @@ export const deleteElement = (elementId: DropResult): DeleteElement => ({
   payload: elementId
 })
 
+export const createElement = (elementId: DropResult): CreateElement => ({
+  type: EditorActionsTypes.EditorElementCreate,
+  payload: elementId
+})
+
 // Reducers
-type Actions = MoveElement | DeleteElement
+type Actions = MoveElement | DeleteElement | CreateElement
 
 const initialState = {
   ...editorConfig,
@@ -59,6 +72,19 @@ const visualHTMLReducer = (state = initialState, action: Actions) => {
     case EditorActionsTypes.EditorElementDelete:
       return produce(state, draftState => {
         draftState.codeElements.splice(action.payload.source.index, 1)
+      })
+    case EditorActionsTypes.EditorElementCreate:
+      return produce(state, draftState => {
+        const elementTagType = action.payload.draggableId.split("-")
+        const elementToCreate: CodeSegment = {
+          id: uuidv4(),
+          type: elementTagType[1] === 'opening' ? TagType.Opening : TagType.Closing,
+          value: elementTagType[0],
+          unlocked: true
+        }
+        if (action.payload.destination) {
+          draftState.codeElements.splice(action.payload.destination.index, 0, elementToCreate)
+        }
       })
     default:
       return state
