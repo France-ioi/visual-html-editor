@@ -5,7 +5,7 @@ import {Droppable} from "react-beautiful-dnd";
 
 function BlocksToolbox({categories}: ToolboxConfiguration) {
   return (
-    <Droppable droppableId={'toolbox-dropzone'} isDropDisabled={true}>
+    <Droppable droppableId={'toolbox-dropzone'} isDropDisabled={false}>
       {provided => (
         <div
           className={'toolbox'}

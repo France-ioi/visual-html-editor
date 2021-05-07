@@ -26,7 +26,7 @@ function App() {
 
   const onDragEnd = (result: DropResult) => {
     if (result.source && result.destination) {
-      if (result.destination.droppableId === 'toolbox-dropzone') {
+      if (result.destination.droppableId === 'toolbox-dropzone' && result.source.droppableId !== 'toolbox-dropzone') {
         dispatch(deleteElement(result))
       } else if (result.source.index !== result.destination.index) {
         dispatch(moveElement(result))
