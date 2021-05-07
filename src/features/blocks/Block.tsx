@@ -42,7 +42,7 @@ function Block(props: ToolboxCategoryBlocks) {
         <i className={'chevron-right'}/>
         <div className={'toolbox-block-description'} ref={blockDescriptionRef}>
           <span>
-            {props.desc ? props.desc : ''}
+            {props.desc}
           </span>
         </div>
       </span>
