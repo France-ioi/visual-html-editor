@@ -30,7 +30,7 @@ function Block(props: ToolboxCategoryBlocks) {
 
   return (
     <div className={'toolbox-block'} onClick={() => toggleBlockDescription(props.id)}>
-      <span style={{pointerEvents: "none"}}>
+      <span>
         <span className={'toolbox-block-tag tag-open'}>
           {openingTag}
         </span>

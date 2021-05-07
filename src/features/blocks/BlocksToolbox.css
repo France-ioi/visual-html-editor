@@ -1,7 +1,17 @@
 .toolbox {
-    font-family: "Roboto";
+    font-family: Consolas, monospace;
     background-color: #dfe7f4;
     height: 100%;
-    width: 18rem;
+    min-width: 20%;
+    float: left;
     overflow: auto;
+}
+
+@media only screen and (max-width: 768px) {
+    .toolbox {
+        height: auto;
+        min-width: 100%;
+        float: none;
+        overflow: scroll;
+    }
 }
