@@ -1,11 +1,28 @@
 import './BlocksCategory.css'
-import {ToolboxCategory} from "../../toolboxconfig"
+import {ToolboxCategory, ToolboxCategoryBlocks} from "../../toolboxconfig"
 import Block from "./Block"
 import {useEffect, useRef, useState} from "react"
 
 function BlocksCategory(props: ToolboxCategory) {
   const [open, setOpen] = useState(false)
   const categoryBlocksRef = useRef<HTMLDivElement>(null)
+
+  let previousBlockIndex = props.blocksIndexStart
+  const makeBlockWithPreviousIndex = (block: ToolboxCategoryBlocks) => {
+    let currIndex = previousBlockIndex
+    previousBlockIndex! += block.paired ? 2 : 1
+    console.log('Block ' + block.id + ' indexes: ' + currIndex)
+    return (
+      <Block
+        key={block.id}
+        id={block.id}
+        index={currIndex}
+        tag={block.tag}
+        paired={block.paired}
+        desc={block.desc}
+      />
+    )
+  }
 
   // TODO Change behavior and fix height inconsistencies
   useEffect(() => {
@@ -32,15 +49,7 @@ function BlocksCategory(props: ToolboxCategory) {
       </span>
       <div className={'toolbox-category-blocks'} ref={categoryBlocksRef}>
         {props.blocks.map(block => {
-          return (
-            <Block
-              key={block.id}
-              id={block.id}
-              tag={block.tag}
-              paired={block.paired}
-              desc={block.desc}
-            />
-          )
+          return makeBlockWithPreviousIndex(block)
         })}
       </div>
     </div>

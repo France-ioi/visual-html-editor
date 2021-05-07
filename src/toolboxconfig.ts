@@ -5,6 +5,7 @@ export interface ToolboxCategoryBlocks {
   tag: string,
   paired: Boolean,
   desc: String,
+  index?: number
 }
 
 export interface ToolboxCategory {
@@ -12,7 +13,8 @@ export interface ToolboxCategory {
   name: String,
   highlight: String,
   blocks: ToolboxCategoryBlocks[],
-  openDesc?: ToolboxCategoryBlocks["id"] | null
+  openDesc?: ToolboxCategoryBlocks["id"] | null,
+  blocksIndexStart?: number,
 }
 
 export interface ToolboxConfiguration {
