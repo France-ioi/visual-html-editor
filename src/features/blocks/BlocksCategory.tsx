@@ -7,6 +7,7 @@ function BlocksCategory(props: ToolboxCategory) {
   const [open, setOpen] = useState(false)
   const categoryBlocksRef = useRef<HTMLDivElement>(null)
 
+  // TODO Change behavior and fix height inconsistencies
   useEffect(() => {
     (function () {
       let maxHeight = 0

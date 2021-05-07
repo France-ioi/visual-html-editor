@@ -13,6 +13,7 @@ function Block(props: ToolboxCategoryBlocks) {
   const openingTag = '<' + props.tag + '>'
   const closingTag = '</' + props.tag + '>'
 
+  // TODO Change behavior and fix height inconsistencies
   useEffect(() => {
     (function () {
       let maxHeight = 0
@@ -40,14 +41,16 @@ function Block(props: ToolboxCategoryBlocks) {
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
                 style={{
+                  //  Cancel return to source animation
                   ...getDragStyle(provided.draggableProps.style, snapshot),
+                  // Prevent element translation
                   transform: snapshot.isDragging ? provided.draggableProps.style?.transform : 'translate(0px, 0px)',
 
                 }}
               >
                 {openingTag}
               </span>
-              {snapshot.isDragging &&
+              {snapshot.isDragging && // Retain a copy of element in source position while dragging (copy effect)
               <span style={{transform: 'none !important'}} className={'toolbox-block-tag tag-open'}>
                 {openingTag}
               </span>}
