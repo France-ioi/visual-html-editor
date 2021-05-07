@@ -19,6 +19,7 @@ function Element(props: IElement) {
         transitionDuration: `0.001s`,
       }
     }
+    return style
   }
 
   return (
