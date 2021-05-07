@@ -71,3 +71,7 @@
 .unlocked:hover {
     opacity: 80%;
 }
+
+.is-dragged-over {
+    background-color: #f0f0f0;
+}

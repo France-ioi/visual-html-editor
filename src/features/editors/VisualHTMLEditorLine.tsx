@@ -28,11 +28,10 @@ function Line(props: ILine) {
     <Droppable key={props.id} droppableId={props.id} direction={"horizontal"}>
       {(provided, snapshot) => (
         <div
-          className={'line'}
-          style={{
-            paddingLeft: 25 * props.indent + 10,
-            backgroundColor: snapshot.isDraggingOver ? '#f0f0f0' : 'white'
-          }}
+          className={
+            snapshot.isDraggingOver ? 'line is-dragged-over' : 'line'
+          }
+          style={{paddingLeft: 25 * props.indent + 10}}
           ref={provided.innerRef}
           {...provided.droppableProps}
         >
