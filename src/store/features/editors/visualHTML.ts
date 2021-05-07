@@ -5,11 +5,17 @@ import {DropResult} from "react-beautiful-dnd";
 // Define actions
 export enum EditorActionsTypes {
   EditorElementMove = 'Editor.Element.Move',
+  EditorElementDelete = 'Editor.Element.Delete'
 }
 
 // Type actions
 type MoveElement = {
   type: typeof EditorActionsTypes.EditorElementMove
+  payload: DropResult
+}
+
+type DeleteElement = {
+  type: typeof EditorActionsTypes.EditorElementDelete
   payload: DropResult
 }
 
@@ -19,8 +25,13 @@ export const moveElement = (elementId: DropResult): MoveElement => ({
   payload: elementId
 })
 
+export const deleteElement = (elementId: DropResult): DeleteElement => ({
+  type: EditorActionsTypes.EditorElementDelete,
+  payload: elementId
+})
+
 // Reducers
-type Actions = MoveElement
+type Actions = MoveElement | DeleteElement
 
 const initialState = {
   ...editorConfig,
@@ -44,6 +55,10 @@ const visualHTMLReducer = (state = initialState, action: Actions) => {
         } else {
           console.log('Not found!')
         }
+      })
+    case EditorActionsTypes.EditorElementDelete:
+      return produce(state, draftState => {
+        draftState.codeElements.splice(action.payload.source.index, 1)
       })
     default:
       return state

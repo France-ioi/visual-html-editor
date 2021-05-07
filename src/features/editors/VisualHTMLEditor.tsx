@@ -1,9 +1,6 @@
 import './VisualHTMLEditor.css'
 import {CodeSegment, CodeSegments} from "../../editorconfig"
 import Line from "./VisualHTMLEditorLine"
-import {DragDropContext, DragUpdate, DropResult} from 'react-beautiful-dnd'
-import {useAppDispatch} from "../../hooks"
-import {moveElement} from "../../store/features/editors/visualHTML"
 import LineCounter from "./VisualHTMLEditorLineCounter";
 
 interface IVisualHTMLEditor {
@@ -31,22 +28,7 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
   let lines: Array<TLine> = []
   let prevWasBlock: boolean = true
 
-  const dispatch = useAppDispatch()
-
   const indenter = (element: CodeSegment) => element.type === 'opening' ? indentCounter++ : indentCounter--
-
-  const onDragEnd = (result: DropResult) => {
-    if (result.source && result.destination) {
-      if (result.source.index !== result.destination.index) {
-        dispatch(moveElement(result))
-      }
-    }
-  }
-
-  //TODO Insert animated cursor to show user precisely where their tag will be dropped
-  const onDragUpdate = (update: DragUpdate) => {
-    console.log('Dragging over: ' + update.destination?.index)
-  }
 
   function identifyBlockType(tag: string) { // Identify block type to determine linebreaks
     // TODO Object to define types (4 types not 2)
@@ -77,26 +59,24 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
   })
 
   return (
-    <DragDropContext onDragEnd={onDragEnd} onDragUpdate={onDragUpdate}>
-      <div className={'visual-html-editor'}>
-        <div className={'lines-counter'}>
-          <LineCounter lineCount={lines.length}/>
-        </div>
-        <div className={'lines-container'}>
-          {
-            lines.map(line => {
-              let keyGen = line.lineContents.map(e => e.id).join()
-              return <Line
-                id={'line-' + keyGen}
-                key={keyGen}
-                children={line.lineContents}
-                indent={line.lineIndentation}
-              />
-            })
-          }
-        </div>
+    <div className={'visual-html-editor'}>
+      <div className={'lines-counter'}>
+        <LineCounter lineCount={lines.length}/>
       </div>
-    </DragDropContext>
+      <div className={'lines-container'}>
+        {
+          lines.map(line => {
+            let keyGen = line.lineContents.map(e => e.id).join()
+            return <Line
+              id={'line-' + keyGen}
+              key={keyGen}
+              children={line.lineContents}
+              indent={line.lineIndentation}
+            />
+          })
+        }
+      </div>
+    </div>
   )
 }
 
