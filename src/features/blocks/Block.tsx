@@ -4,6 +4,7 @@ import {useEffect, useRef} from "react";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {toggleBlockDescriptionAction} from "../../store/features/blocks/blocks";
 import {Draggable} from "react-beautiful-dnd";
+import {getDragStyle} from "../../App";
 
 function Block(props: ToolboxCategoryBlocks) {
   const cat = useAppSelector(state => state.blocksReducer.categories.find((c) => c.blocks.find((b) => b.id === props.id)))
@@ -39,8 +40,9 @@ function Block(props: ToolboxCategoryBlocks) {
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
                 style={{
-                  ...provided.draggableProps.style,
+                  ...getDragStyle(provided.draggableProps.style, snapshot),
                   transform: snapshot.isDragging ? provided.draggableProps.style?.transform : 'translate(0px, 0px)',
+
                 }}
               >
                 {openingTag}
@@ -63,7 +65,7 @@ function Block(props: ToolboxCategoryBlocks) {
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     style={{
-                      ...provided.draggableProps.style,
+                      ...getDragStyle(provided.draggableProps.style, snapshot),
                       transform: snapshot.isDragging ? provided.draggableProps.style?.transform : 'translate(0px, 0px)',
                     }}
                   >

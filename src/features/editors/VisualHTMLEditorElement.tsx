@@ -1,4 +1,5 @@
-import {Draggable, DraggableStateSnapshot, DraggingStyle, NotDraggingStyle} from "react-beautiful-dnd"
+import {Draggable} from "react-beautiful-dnd"
+import {getDragStyle} from "../../App"
 
 interface IElement {
   className: string
@@ -9,19 +10,6 @@ interface IElement {
 }
 
 function Element(props: IElement) {
-  function getStyle(style: DraggingStyle | NotDraggingStyle | undefined, snapshot: DraggableStateSnapshot) {
-    if (!snapshot.isDropAnimating) {
-      return style
-    }
-    if (snapshot.draggingOver === 'toolbox-dropzone') {
-      return {
-        ...style,
-        transitionDuration: `0.001s`,
-      }
-    }
-    return style
-  }
-
   return (
     <Draggable key={props.id} draggableId={props.id} index={props.index} isDragDisabled={!props.unlocked}>
       {(provided, snapshot) => (
@@ -30,7 +18,7 @@ function Element(props: IElement) {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          style={getStyle(provided.draggableProps.style, snapshot)}
+          style={getDragStyle(provided.draggableProps.style, snapshot)}
         >
           {props.children}
         </span>

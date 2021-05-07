@@ -1,9 +1,23 @@
 import BlocksToolbox from './features/blocks/BlocksToolbox'
 import VisualHTMLEditor from './features/editors/VisualHTMLEditor'
 import {useAppDispatch, useAppSelector} from "./hooks"
-import {DragUpdate, DropResult} from "react-beautiful-dnd"
+import {DraggableStateSnapshot, DraggingStyle, DragUpdate, DropResult, NotDraggingStyle} from "react-beautiful-dnd"
 import {DragDropContext} from "react-beautiful-dnd"
 import {deleteElement, moveElement} from "./store/features/editors/visualHTML"
+
+// Used to cancel transition animation for certain draggables
+export function getDragStyle(style: DraggingStyle | NotDraggingStyle | undefined, snapshot: DraggableStateSnapshot) {
+  if (!snapshot.isDropAnimating) {
+    return style
+  }
+  if (snapshot.draggingOver === 'toolbox-dropzone') {
+    return {
+      ...style,
+      transitionDuration: `0.001s`,
+    }
+  }
+  return style
+}
 
 function App() {
   const categories = useAppSelector(state => state.blocksReducer.categories)
@@ -14,7 +28,7 @@ function App() {
     if (result.source && result.destination) {
       if (result.destination.droppableId === 'toolbox-dropzone') {
         dispatch(deleteElement(result))
-      }else if (result.source.index !== result.destination.index) {
+      } else if (result.source.index !== result.destination.index) {
         dispatch(moveElement(result))
       }
     }
