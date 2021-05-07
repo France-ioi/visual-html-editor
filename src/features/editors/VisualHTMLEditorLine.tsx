@@ -11,7 +11,8 @@ interface ILine {
 
 function Line(props: ILine) {
   const makeTag = (tag: LineSegment) => tag.type !== 'text' ?
-    tag.type === 'closing' ? `</${tag.value}>` : `<${tag.value}>` :
+    tag.type === 'closing' ? `</${tag.value}>` : `<${tag.value}>`
+    :
     tag.value + ' '
 
   function setClasses(element: LineSegment) {
