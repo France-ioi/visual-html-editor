@@ -26,64 +26,51 @@ function Block(props: ToolboxCategoryBlocks) {
         blockDescriptionRef.current.style.maxHeight = maxHeight + "px"
       }
     })()
-  }, [cat])
+  }, [cat, props.id])
 
-  // TODO Clean up this return. Too much repeated code
+  enum TagTypes {
+    Opening = 'opening',
+    Closing = 'closing'
+  }
+
+  function makeToolboxDraggable(tagProp: string, type: TagTypes, index: number) {
+    let classesToAdd = type === 'opening' ? 'toolbox-block-tag tag-open' : 'toolbox-block-tag tag-close'
+    let tagToAdd = type === 'opening' ? openingTag : closingTag
+    return (
+      <Draggable draggableId={tagProp + '-' + type} index={index}>
+        {(provided, snapshot) => (
+          <>
+            <span
+              className={classesToAdd}
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              style={{
+                //  Cancel return to source animation
+                ...getDragStyle(provided.draggableProps.style, snapshot),
+                // Prevent element translation
+                transform: snapshot.isDragging ? provided.draggableProps.style?.transform : 'translate(0px, 0px)',
+              }}
+            >
+              {tagToAdd}
+            </span>
+            {snapshot.isDragging && // Retain a copy of element in source position while dragging (copy effect)
+            <span style={{transform: 'none !important'}} className={classesToAdd}>
+              {tagToAdd}
+            </span>}
+          </>
+        )}
+      </Draggable>
+    )
+  }
+
   return (
     <div className={'toolbox-block'} onClick={() => dispatch(toggleBlockDescriptionAction(props.id))}>
       <span>
-        <Draggable draggableId={props.tag + '-opening'} index={props.id}>
-          {(provided, snapshot) => (
-            <>
-              <span
-                className={'toolbox-block-tag tag-open'}
-                ref={provided.innerRef}
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}
-                style={{
-                  //  Cancel return to source animation
-                  ...getDragStyle(provided.draggableProps.style, snapshot),
-                  // Prevent element translation
-                  transform: snapshot.isDragging ? provided.draggableProps.style?.transform : 'translate(0px, 0px)',
-
-                }}
-              >
-                {openingTag}
-              </span>
-              {snapshot.isDragging && // Retain a copy of element in source position while dragging (copy effect)
-              <span style={{transform: 'none !important'}} className={'toolbox-block-tag tag-open'}>
-                {openingTag}
-              </span>}
-            </>
-          )}
-        </Draggable>
-        {
-          props.paired ?
-            <Draggable draggableId={props.tag + '-closing'} index={props.id}>
-              {(provided, snapshot) => (
-                <>
-                  <span
-                    className={'toolbox-block-tag tag-close'}
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    style={{
-                      ...getDragStyle(provided.draggableProps.style, snapshot),
-                      transform: snapshot.isDragging ? provided.draggableProps.style?.transform : 'translate(0px, 0px)',
-                    }}
-                  >
-                    {closingTag}
-                  </span>
-                  {snapshot.isDragging &&
-                  <span style={{transform: 'none !important'}} className={'toolbox-block-tag tag-close'}>
-                    {closingTag}
-                  </span>}
-                </>
-              )}
-            </Draggable>
-            :
-            ''
-        }
+        {/* Opening tag */}
+        {makeToolboxDraggable(props.tag, TagTypes.Opening, props.id)}
+        {/* Closing tag */}
+        {props.paired ? makeToolboxDraggable(props.tag, TagTypes.Closing, props.id) : ''}
         <i className={'chevron-right'}/>
         <div className={'toolbox-block-description'} ref={blockDescriptionRef}>
           <span>
