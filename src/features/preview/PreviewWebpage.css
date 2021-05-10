@@ -1,4 +1,8 @@
 .webpage-preview-iframe {
-    background-color: red;
     flex-grow: 1;
+    border-left: 1px solid black;
+}
+
+#iframe-1 {
+    height: 100%;
 }
