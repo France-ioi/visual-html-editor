@@ -1,7 +1,13 @@
 import BlocksToolbox from './features/blocks/BlocksToolbox'
 import VisualHTMLEditor from './features/editors/VisualHTMLEditor'
 import {useAppDispatch, useAppSelector} from "./hooks"
-import {DraggableStateSnapshot, DraggingStyle, DragUpdate, DropResult, NotDraggingStyle} from "react-beautiful-dnd"
+import {
+  DraggableStateSnapshot,
+  DraggingStyle,
+  DragUpdate,
+  DropResult,
+  NotDraggingStyle,
+} from "react-beautiful-dnd"
 import {DragDropContext} from "react-beautiful-dnd"
 import {createElement, deleteElement, moveElement} from "./store/features/editors/visualHTML"
 
