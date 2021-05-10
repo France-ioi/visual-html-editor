@@ -10,6 +10,7 @@ import {
 } from "react-beautiful-dnd"
 import {DragDropContext} from "react-beautiful-dnd"
 import {createElement, deleteElement, moveElement} from "./store/features/editors/visualHTML"
+import PreviewWebpage from "./features/preview/PreviewWebpage";
 
 // Used to cancel transition animation for certain draggables
 export function getDragStyle(style: DraggingStyle | NotDraggingStyle | undefined, snapshot: DraggableStateSnapshot) {
@@ -51,6 +52,7 @@ function App() {
       <DragDropContext onDragEnd={onDragEnd} onDragUpdate={onDragUpdate}>
         <BlocksToolbox categories={categories}/>
         <VisualHTMLEditor elements={editorConfig}/>
+        <PreviewWebpage></PreviewWebpage>
       </DragDropContext>
     </div>
   )
