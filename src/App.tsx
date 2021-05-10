@@ -38,7 +38,6 @@ function App() {
 
   //TODO Insert animated cursor to show user precisely where their tag will be dropped
   const onDragUpdate = (update: DragUpdate) => {
-    console.log('Dragging over: ' + update.destination?.index)
   }
 
   return (
