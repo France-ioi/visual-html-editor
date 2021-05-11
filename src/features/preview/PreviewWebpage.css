@@ -1,8 +1,8 @@
-.webpage-preview-iframe {
+.webpage-preview {
     flex-grow: 1;
     border-left: 1px solid black;
 }
 
-#iframe-1 {
+#webpage-preview-iframe {
     height: 100%;
 }

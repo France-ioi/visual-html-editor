@@ -9,11 +9,11 @@ function PreviewWebpage(props: TPreviewWebpage) {
     console.log(props.code)
   }
   return (
-    <div className={'webpage-preview-iframe'}>
+    <div className={'webpage-preview'}>
       <iframe
         sandbox={'allow-same-origin'}
-        id={'iframe-1'}
-        name={'iframe-1'}
+        id={'webpage-preview-iframe'}
+        name={'webpage-preview-iframe'}
         title={'Webpage Preview'}
         srcDoc={props.code}
       />
