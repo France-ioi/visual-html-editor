@@ -5,9 +5,6 @@ type TPreviewWebpage = {
 }
 
 function PreviewWebpage(props: TPreviewWebpage) {
-  if (props.code) {
-    console.log(props.code)
-  }
   return (
     <div className={'webpage-preview'}>
       <iframe
