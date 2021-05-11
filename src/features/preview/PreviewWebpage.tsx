@@ -8,7 +8,7 @@ function PreviewWebpage(props: TPreviewWebpage) {
   return (
     <div className={'webpage-preview'}>
       <iframe
-        sandbox={'allow-same-origin'}
+        sandbox={''}
         id={'webpage-preview-iframe'}
         name={'webpage-preview-iframe'}
         title={'Webpage Preview'}
