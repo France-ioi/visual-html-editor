@@ -10,8 +10,8 @@ import {
 } from "react-beautiful-dnd"
 import {DragDropContext} from "react-beautiful-dnd"
 import {createElement, deleteElement, moveElement} from "./store/features/editors/visualHTML"
-import TextualHTMLEditor from "./features/editors/TextualHTMLEditor";
-import {CodeSegment, CodeSegments} from "./editorconfig";
+import TextualHTMLEditor from "./features/editors/TextualHTMLEditor"
+import {CodeSegments} from "./editorconfig"
 
 // Used to cancel transition animation for certain draggables
 export function getDragStyle(style: DraggingStyle | NotDraggingStyle | undefined, snapshot: DraggableStateSnapshot) {
@@ -30,6 +30,7 @@ export function getDragStyle(style: DraggingStyle | NotDraggingStyle | undefined
 function App() {
   const categories = useAppSelector(state => state.blocksReducer.categories)
   const editorConfig = useAppSelector(state => state.visualHTMLReducer)
+  const beautifyHTML = require('js-beautify').html
   const dispatch = useAppDispatch()
 
   const onDragEnd = (result: DropResult) => {
@@ -51,7 +52,7 @@ function App() {
   function parsedHTMLToString(elements: CodeSegments) {
     let stringedHTML = ''
     elements.map(e => {
-      let stripped = e.type === 'text' ? e.value : e.value.replace('?', '')
+      let stripped = e.type === 'text' ? `${e.value} ` : e.value.replace('?', '')
       if (e.type === 'opening') {
         stripped = '<' + stripped + '>'
       } else if (e.type === 'closing') {
@@ -59,7 +60,7 @@ function App() {
       }
       stringedHTML += stripped
     })
-    return stringedHTML
+    return beautifyHTML(stringedHTML, {wrap_line_length: 80})
   }
 
   return (
