@@ -17,7 +17,11 @@ export enum TagType {
   Opening = 'opening',
   Closing = 'closing',
   Text = 'text'
+}
 
+export enum EditorType {
+  Textual = 'textual',
+  Visual = 'visual'
 }
 
 export interface CodeSegment {
@@ -64,6 +68,7 @@ function htmlSegment(html: string) {
 htmlSegment(initialCode)
 
 const editorConfig = {
+  type: EditorType.Textual,
   codeElements: editorCode
 }
 

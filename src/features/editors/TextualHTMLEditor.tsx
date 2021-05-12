@@ -1,8 +1,32 @@
 import './TextualHTMLEditor.css'
+import AceEditor from "react-ace"
+import "ace-builds/src-noconflict/mode-html"
+import "ace-builds/src-noconflict/theme-xcode"
+import "ace-builds/src-noconflict/ext-beautify"
+import {CodeSegments} from "../../editorconfig";
 
-function TextualHTMLEditor() {
+interface ITextualHTMLEditor {
+  elements: string
+}
+
+function TextualHTMLEditor(props: ITextualHTMLEditor) {
+  function onChange() {
+    console.log('Wow')
+  }
+
   return (
-    <h1>Textual HTML Editor</h1>
+    <div className={'textual-html-editor'}>
+      <AceEditor
+        mode={"html"}
+        theme={"xcode"}
+        onChange={onChange}
+        name={"textual-html-editor-ace"}
+        height={"100%"}
+        width={"100%"}
+        fontSize={"14px"}
+        defaultValue={props.elements}
+      />
+    </div>
   )
 }
 
