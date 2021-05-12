@@ -10,6 +10,7 @@ import {
 } from "react-beautiful-dnd"
 import {DragDropContext} from "react-beautiful-dnd"
 import {createElement, deleteElement, moveElement} from "./store/features/editors/visualHTML"
+import TextualHTMLEditor from "./features/editors/TextualHTMLEditor";
 
 // Used to cancel transition animation for certain draggables
 export function getDragStyle(style: DraggingStyle | NotDraggingStyle | undefined, snapshot: DraggableStateSnapshot) {
@@ -25,9 +26,15 @@ export function getDragStyle(style: DraggingStyle | NotDraggingStyle | undefined
   return style
 }
 
+enum EditorType {
+  Textual,
+  Visual
+}
+
 function App() {
   const categories = useAppSelector(state => state.blocksReducer.categories)
   const editorConfig = useAppSelector(state => state.visualHTMLReducer.codeElements)
+  const editorType = EditorType.Textual
   const dispatch = useAppDispatch()
 
   const onDragEnd = (result: DropResult) => {
@@ -50,7 +57,12 @@ function App() {
     <div className="App">
       <DragDropContext onDragEnd={onDragEnd} onDragUpdate={onDragUpdate}>
         <BlocksToolbox categories={categories}/>
-        <VisualHTMLEditor elements={editorConfig}/>
+        {
+          editorType === 1 ?
+            <VisualHTMLEditor elements={editorConfig}/>
+            :
+            <TextualHTMLEditor/>
+        }
       </DragDropContext>
     </div>
   )
