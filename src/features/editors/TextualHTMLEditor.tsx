@@ -3,20 +3,24 @@ import AceEditor from "react-ace"
 import "ace-builds/src-noconflict/mode-html"
 import "ace-builds/src-noconflict/theme-xcode"
 import "ace-builds/src-noconflict/ext-beautify"
-import React from "react"
+import React, {FC} from "react"
 
 interface ITextualHTMLEditor {
   elements: string
 }
 
 function TextualHTMLEditor(props: ITextualHTMLEditor) {
-  function onChange() {
-    console.log('wow')
+  let editorRef: AceEditor | null
+  const onChange = () => {
+    console.log(editorRef?.editor.getValue())
   }
 
   return (
     <div className={'textual-html-editor'}>
       <AceEditor
+        ref={node => {
+          editorRef = node
+        }}
         mode={"html"}
         theme={"xcode"}
         onChange={onChange}

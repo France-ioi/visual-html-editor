@@ -12,6 +12,7 @@ function Block(props: ToolboxCategoryBlocks) {
   const blockDescriptionRef = useRef<HTMLDivElement>(null)
   const openingTag = '<' + props.tag + '>'
   const closingTag = '</' + props.tag + '>'
+  const editorMode = useAppSelector(state => state.visualHTMLReducer.type)
 
   // TODO Change behavior and fix height inconsistencies
   useEffect(() => {
@@ -36,10 +37,11 @@ function Block(props: ToolboxCategoryBlocks) {
   function makeToolboxDraggable(tagProp: string, type: TagTypes, index: number) {
     let classesToAdd = type === 'opening' ? 'toolbox-block-tag tag-open' : 'toolbox-block-tag tag-close'
     let tagToAdd = type === 'opening' ? openingTag : closingTag
-    return (
-      <Draggable draggableId={tagProp + '-' + type} index={index}>
-        {(provided, snapshot) => (
-          <>
+    if (editorMode === 'visual') {
+      return (
+        <Draggable draggableId={tagProp + '-' + type} index={index}>
+          {(provided, snapshot) => (
+            <>
             <span
               className={classesToAdd}
               ref={provided.innerRef}
@@ -54,14 +56,29 @@ function Block(props: ToolboxCategoryBlocks) {
             >
               {tagToAdd}
             </span>
-            {snapshot.isDragging && // Retain a copy of element in source position while dragging (copy effect)
-            <span style={{transform: 'none !important'}} className={classesToAdd}>
+              {snapshot.isDragging && // Retain a copy of element in source position while dragging (copy effect)
+              <span style={{transform: 'none !important'}} className={classesToAdd}>
               {tagToAdd}
             </span>}
-          </>
-        )}
-      </Draggable>
-    )
+            </>
+          )}
+        </Draggable>
+      )
+    } else {
+      function setDragContents(ev: any) {
+        ev.dataTransfer.setData("text", tagToAdd)
+      }
+      return (
+        <span
+          className={classesToAdd}
+          draggable={true}
+          onDragStart={setDragContents}
+        >
+          {tagToAdd}
+        </span>
+      )
+    }
+
   }
 
   return (
