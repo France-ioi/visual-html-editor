@@ -49,7 +49,7 @@ function App() {
   const onDragUpdate = (update: DragUpdate) => {
   }
 
-  function parsedHTMLToString(elements: CodeSegments) {
+  function parseHTMLToString(elements: CodeSegments) {
     let stringedHTML = ''
     elements.map(e => {
       let stripped = e.type === 'text' ? `${e.value} ` : e.value.replace('?', '')
@@ -71,7 +71,7 @@ function App() {
           editorConfig.type === 'visual' ?
             <VisualHTMLEditor elements={editorConfig.codeElements}/>
             :
-            <TextualHTMLEditor elements={parsedHTMLToString(editorConfig.codeElements)}/>
+            <TextualHTMLEditor elements={parseHTMLToString(editorConfig.codeElements)}/>
         }
       </DragDropContext>
     </div>

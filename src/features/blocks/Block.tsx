@@ -1,6 +1,6 @@
 import './Block.css'
 import {ToolboxCategoryBlocks} from "../../toolboxconfig";
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, DragEvent} from "react";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {toggleBlockDescriptionAction} from "../../store/features/blocks/blocks";
 import {Draggable} from "react-beautiful-dnd";
@@ -65,7 +65,7 @@ function Block(props: ToolboxCategoryBlocks) {
         </Draggable>
       )
     } else {
-      function setDragContents(ev: any) {
+      function setDragContents(ev: DragEvent) {
         ev.dataTransfer.setData("text", tagToAdd)
       }
       return (

@@ -3,7 +3,7 @@ import AceEditor from "react-ace"
 import "ace-builds/src-noconflict/mode-html"
 import "ace-builds/src-noconflict/theme-xcode"
 import "ace-builds/src-noconflict/ext-beautify"
-import React, {FC} from "react"
+import React from "react"
 
 interface ITextualHTMLEditor {
   elements: string
