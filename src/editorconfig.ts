@@ -32,9 +32,9 @@ export interface CodeSegment {
 }
 
 export type CodeSegments = Array<CodeSegment>
-let editorCode: CodeSegments = []
 
-export function htmlSegment(html: string) {
+export function htmlSegment(html: string, unlockAll: boolean) {
+  let editorCode: CodeSegments = []
   let trimmed = html.trim()
   const reg = /<([^/]+?)>|<\/(.+?)>|([^<>\s][a-zA-Z.]+)/g
   const matches = trimmed.matchAll(reg)
@@ -45,14 +45,14 @@ export function htmlSegment(html: string) {
         id: uuidv4(),
         type: TagType.Opening,
         value: m[1].replace('?', ''),
-        unlocked: m[1].charAt(0) === '?'
+        unlocked: m[1].charAt(0) === '?' || unlockAll
       })
     } else if (m[2] !== undefined) { // 2nd bounding group, closing tags
       editorCode.push({
         id: uuidv4(),
         type: TagType.Closing,
         value: m[2].replace('?', ''),
-        unlocked: m[2].charAt(0) === '?'
+        unlocked: m[2].charAt(0) === '?' || unlockAll
       })
     } else if (m[3] !== undefined) { // 3rd bounding group, text
       editorCode.push({
@@ -63,14 +63,34 @@ export function htmlSegment(html: string) {
       })
     }
   }
+
+  return editorCode
 }
 
-htmlSegment(initialCode)
+const beautifyHTML = require('js-beautify').html
+
+export function parseHTMLToString(elements: CodeSegments | string) {
+  let stringedHTML = ''
+  if (typeof elements === "string") {
+    stringedHTML = elements.replaceAll(/(?<=<|<\/)[?]/g, '')
+  } else {
+    elements.map(e => {
+      let stripped = e.type === 'text' ? `${e.value} ` : e.value.replace('?', '')
+      if (e.type === 'opening') {
+        stripped = '<' + stripped + '>'
+      } else if (e.type === 'closing') {
+        stripped = '</' + stripped + '>'
+      }
+      stringedHTML += stripped
+    })
+  }
+  return beautifyHTML(stringedHTML, {wrap_line_length: 80})
+}
 
 const editorConfig = {
   type: EditorType.Textual,
-  codeElements: editorCode,
-  codeString: initialCode
+  codeElements: htmlSegment(initialCode, false),
+  codeString: parseHTMLToString(initialCode)
 }
 
 export default editorConfig

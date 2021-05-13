@@ -1,4 +1,4 @@
-import editorConfig, {EditorType} from "../../../editorconfig"
+import editorConfig, {EditorType, htmlSegment, parseHTMLToString} from "../../../editorconfig"
 import {produce} from "immer"
 import {DropResult} from "react-beautiful-dnd"
 import {CodeSegment, TagType} from "../../../editorconfig"
@@ -9,6 +9,7 @@ export enum EditorActionsTypes {
   VisualEditorElementMove = 'Editor.Element.Move',
   VisualEditorElementDelete = 'Editor.Element.Delete',
   VisualEditorElementCreate = 'Editor.Element.Create',
+  SwitchEditorMode = 'Editor.Mode.Switch',
   TextualEditorUpdateCode = 'Editor.Textual.Update'
 }
 
@@ -26,6 +27,10 @@ type DeleteElement = {
 type CreateElement = {
   type: typeof EditorActionsTypes.VisualEditorElementCreate
   payload: DropResult
+}
+
+type SwitchEditorMode = {
+  type: typeof EditorActionsTypes.SwitchEditorMode
 }
 
 type UpdateTextual = {
@@ -49,13 +54,17 @@ export const createElement = (elementId: DropResult): CreateElement => ({
   payload: elementId
 })
 
+export const switchEditorMode = (): SwitchEditorMode => ({
+  type: EditorActionsTypes.SwitchEditorMode
+})
+
 export const updateTextual = (code: string): UpdateTextual => ({
   type: EditorActionsTypes.TextualEditorUpdateCode,
   payload: code
 })
 
 // Reducers
-type Actions = MoveElement | DeleteElement | CreateElement | UpdateTextual
+type Actions = MoveElement | DeleteElement | CreateElement | UpdateTextual | SwitchEditorMode
 
 const initialState = {
   ...editorConfig,
@@ -95,6 +104,16 @@ const visualHTMLReducer = (state = initialState, action: Actions) => {
         }
         if (action.payload.destination) {
           draftState.codeElements.splice(action.payload.destination.index, 0, elementToCreate)
+        }
+      })
+    case EditorActionsTypes.SwitchEditorMode:
+      return produce(state, draftState => {
+        if (draftState.type === EditorType.Textual) {
+          draftState.type = EditorType.Visual
+          draftState.codeElements = htmlSegment(draftState.codeString, true)
+        } else if (draftState.type === EditorType.Visual) {
+          draftState.type = EditorType.Textual
+          draftState.codeString = parseHTMLToString(draftState.codeElements)
         }
       })
     case EditorActionsTypes.TextualEditorUpdateCode:
