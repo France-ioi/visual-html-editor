@@ -69,7 +69,8 @@ htmlSegment(initialCode)
 
 const editorConfig = {
   type: EditorType.Textual,
-  codeElements: editorCode
+  codeElements: editorCode,
+  codeString: initialCode
 }
 
 export default editorConfig

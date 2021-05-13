@@ -49,17 +49,21 @@ function App() {
   const onDragUpdate = (update: DragUpdate) => {
   }
 
-  function parseHTMLToString(elements: CodeSegments) {
+  function parseHTMLToString(elements: CodeSegments | string) {
     let stringedHTML = ''
-    elements.map(e => {
-      let stripped = e.type === 'text' ? `${e.value} ` : e.value.replace('?', '')
-      if (e.type === 'opening') {
-        stripped = '<' + stripped + '>'
-      } else if (e.type === 'closing') {
-        stripped = '</' + stripped + '>'
-      }
-      stringedHTML += stripped
-    })
+    if (typeof elements === "string") {
+      stringedHTML = elements.replaceAll(/(?<=<|<\/)[?]/g, '')
+    } else {
+      elements.map(e => {
+        let stripped = e.type === 'text' ? `${e.value} ` : e.value.replace('?', '')
+        if (e.type === 'opening') {
+          stripped = '<' + stripped + '>'
+        } else if (e.type === 'closing') {
+          stripped = '</' + stripped + '>'
+        }
+        stringedHTML += stripped
+      })
+    }
     return beautifyHTML(stringedHTML, {wrap_line_length: 80})
   }
 
@@ -71,7 +75,7 @@ function App() {
           editorConfig.type === 'visual' ?
             <VisualHTMLEditor elements={editorConfig.codeElements}/>
             :
-            <TextualHTMLEditor elements={parseHTMLToString(editorConfig.codeElements)}/>
+            <TextualHTMLEditor elements={parseHTMLToString(editorConfig.codeString)}/>
         }
       </DragDropContext>
     </div>
