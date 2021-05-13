@@ -34,7 +34,7 @@ export interface CodeSegment {
 export type CodeSegments = Array<CodeSegment>
 let editorCode: CodeSegments = []
 
-function htmlSegment(html: string) {
+export function htmlSegment(html: string) {
   let trimmed = html.trim()
   const reg = /<([^/]+?)>|<\/(.+?)>|([^<>\s][a-zA-Z.]+)/g
   const matches = trimmed.matchAll(reg)

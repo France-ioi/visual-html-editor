@@ -9,7 +9,7 @@ import {
   NotDraggingStyle,
 } from "react-beautiful-dnd"
 import {DragDropContext} from "react-beautiful-dnd"
-import {createElement, deleteElement, moveElement} from "./store/features/editors/visualHTML"
+import {createElement, deleteElement, moveElement} from "./store/features/editors/HTMLEditors"
 import TextualHTMLEditor from "./features/editors/TextualHTMLEditor"
 import {CodeSegments} from "./editorconfig"
 

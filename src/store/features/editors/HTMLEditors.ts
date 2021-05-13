@@ -1,4 +1,4 @@
-import editorConfig from "../../../editorconfig"
+import editorConfig, {EditorType} from "../../../editorconfig"
 import {produce} from "immer"
 import {DropResult} from "react-beautiful-dnd"
 import {CodeSegment, TagType} from "../../../editorconfig"
@@ -6,45 +6,56 @@ import {v4 as uuidv4} from "uuid"
 
 // Define actions
 export enum EditorActionsTypes {
-  EditorElementMove = 'Editor.Element.Move',
-  EditorElementDelete = 'Editor.Element.Delete',
-  EditorElementCreate = 'Editor.Element.Create'
+  VisualEditorElementMove = 'Editor.Element.Move',
+  VisualEditorElementDelete = 'Editor.Element.Delete',
+  VisualEditorElementCreate = 'Editor.Element.Create',
+  TextualEditorUpdateCode = 'Editor.Textual.Update'
 }
 
 // Type actions
 type MoveElement = {
-  type: typeof EditorActionsTypes.EditorElementMove
+  type: typeof EditorActionsTypes.VisualEditorElementMove
   payload: DropResult
 }
 
 type DeleteElement = {
-  type: typeof EditorActionsTypes.EditorElementDelete
+  type: typeof EditorActionsTypes.VisualEditorElementDelete
   payload: DropResult
 }
 
 type CreateElement = {
-  type: typeof EditorActionsTypes.EditorElementCreate
+  type: typeof EditorActionsTypes.VisualEditorElementCreate
   payload: DropResult
+}
+
+type UpdateTextual = {
+  type: typeof EditorActionsTypes.TextualEditorUpdateCode
+  payload: string
 }
 
 // Action creators
 export const moveElement = (elementId: DropResult): MoveElement => ({
-  type: EditorActionsTypes.EditorElementMove,
+  type: EditorActionsTypes.VisualEditorElementMove,
   payload: elementId
 })
 
 export const deleteElement = (elementId: DropResult): DeleteElement => ({
-  type: EditorActionsTypes.EditorElementDelete,
+  type: EditorActionsTypes.VisualEditorElementDelete,
   payload: elementId
 })
 
 export const createElement = (elementId: DropResult): CreateElement => ({
-  type: EditorActionsTypes.EditorElementCreate,
+  type: EditorActionsTypes.VisualEditorElementCreate,
   payload: elementId
 })
 
+export const updateTextual = (code: string): UpdateTextual => ({
+  type: EditorActionsTypes.TextualEditorUpdateCode,
+  payload: code
+})
+
 // Reducers
-type Actions = MoveElement | DeleteElement | CreateElement
+type Actions = MoveElement | DeleteElement | CreateElement | UpdateTextual
 
 const initialState = {
   ...editorConfig,
@@ -52,7 +63,7 @@ const initialState = {
 
 const visualHTMLReducer = (state = initialState, action: Actions) => {
   switch (action.type) {
-    case EditorActionsTypes.EditorElementMove:
+    case EditorActionsTypes.VisualEditorElementMove:
       return produce(state, draftState => {
         const draggedElementId = action.payload.draggableId
         const source = action.payload.source
@@ -69,11 +80,11 @@ const visualHTMLReducer = (state = initialState, action: Actions) => {
           console.log('Not found!')
         }
       })
-    case EditorActionsTypes.EditorElementDelete:
+    case EditorActionsTypes.VisualEditorElementDelete:
       return produce(state, draftState => {
         draftState.codeElements.splice(action.payload.source.index, 1)
       })
-    case EditorActionsTypes.EditorElementCreate:
+    case EditorActionsTypes.VisualEditorElementCreate:
       return produce(state, draftState => {
         const elementTagType = action.payload.draggableId.split("-")
         const elementToCreate: CodeSegment = {
@@ -85,6 +96,10 @@ const visualHTMLReducer = (state = initialState, action: Actions) => {
         if (action.payload.destination) {
           draftState.codeElements.splice(action.payload.destination.index, 0, elementToCreate)
         }
+      })
+    case EditorActionsTypes.TextualEditorUpdateCode:
+      return produce(state, draftState => {
+        draftState.codeString = action.payload
       })
     default:
       return state

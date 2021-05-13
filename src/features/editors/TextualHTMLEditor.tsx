@@ -4,15 +4,26 @@ import "ace-builds/src-noconflict/mode-html"
 import "ace-builds/src-noconflict/theme-xcode"
 import "ace-builds/src-noconflict/ext-beautify"
 import React from "react"
+import {useAppDispatch} from "../../hooks";
+import {updateTextual} from "../../store/features/editors/HTMLEditors";
 
 interface ITextualHTMLEditor {
   elements: string
 }
 
+function debounce(callback: Function, wait: number) {
+  let timeout: NodeJS.Timeout
+  return (...args: any) => {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => callback(...args), wait)
+  }
+}
+
 function TextualHTMLEditor(props: ITextualHTMLEditor) {
   let editorRef: AceEditor | null
+  const dispatch = useAppDispatch()
   const onChange = () => {
-    console.log(editorRef?.editor.getValue())
+    dispatch(updateTextual(editorRef!.editor.getValue()))
   }
 
   return (
@@ -23,7 +34,7 @@ function TextualHTMLEditor(props: ITextualHTMLEditor) {
         }}
         mode={"html"}
         theme={"xcode"}
-        onChange={onChange}
+        onChange={debounce(onChange, 300)}
         name={"textual-html-editor-ace"}
         height={"100%"}
         width={"100%"}
