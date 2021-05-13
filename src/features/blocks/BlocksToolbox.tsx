@@ -28,7 +28,13 @@ function BlocksToolbox({categories}: ToolboxConfiguration) {
               />
             )
           })}
-          <input type={"checkbox"} checked={editorMode === 'visual'} onChange={() => dispatch(switchEditorMode())}/>
+          {/* TODO Move input */}
+          <input
+            type={"checkbox"}
+            id={'editor-mode-toggle'}
+            onChange={() => dispatch(switchEditorMode())}
+          />
+          <label htmlFor={'editor-mode-toggle'}>Toggle Visual/Textual</label>
         </div>
       )}
     </Droppable>
