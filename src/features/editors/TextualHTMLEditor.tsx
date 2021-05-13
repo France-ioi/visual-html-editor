@@ -3,8 +3,7 @@ import AceEditor from "react-ace"
 import "ace-builds/src-noconflict/mode-html"
 import "ace-builds/src-noconflict/theme-xcode"
 import "ace-builds/src-noconflict/ext-beautify"
-import {Droppable} from "react-beautiful-dnd"
-import React, {useEffect} from "react"
+import React from "react"
 
 interface ITextualHTMLEditor {
   elements: string
@@ -14,27 +13,6 @@ function TextualHTMLEditor(props: ITextualHTMLEditor) {
   function onChange() {
     console.log('wow')
   }
-
-  useEffect(() => {
-    let i = 0
-    const lineElements = document.querySelectorAll('.ace_line')
-    lineElements.forEach(line => {
-      let newLine = (
-        <Droppable droppableId={'ace-line-' + i} key={'ace-line-' + i} direction={"horizontal"}>
-          {provided => (
-            <div
-              className={'ace-line-droppable'}
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {{...line}}
-            </div>
-          )}
-        </Droppable>
-      )
-      // line.replaceWith(newLine) // TODO Figure out how to force element replacement
-    })
-  })
 
   return (
     <div className={'textual-html-editor'}>
