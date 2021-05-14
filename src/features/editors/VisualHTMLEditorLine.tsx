@@ -32,7 +32,7 @@ function Line(props: ILine) {
           className={
             snapshot.isDraggingOver ? 'line is-dragged-over' : 'line'
           }
-          style={{paddingLeft: 25 * props.indent + 10}}
+          style={{paddingLeft: 35 * props.indent + 4}}
           ref={provided.innerRef}
           {...provided.droppableProps}
         >

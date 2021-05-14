@@ -1,5 +1,6 @@
 .lines-counter-cell {
     height: 26px;
-    padding-right: 13px;
-    font-size: 12px;
+    font-size: 14px;
+    font-family: Consolas, monospace;
+    padding: 3px 13px 0 19px;
 }
