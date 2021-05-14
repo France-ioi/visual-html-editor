@@ -31,19 +31,32 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
   const indenter = (element: CodeSegment) => element.type === 'opening' ? indentCounter++ : indentCounter--
 
   function identifyBlockType(tag: string) { // Identify block type to determine linebreaks
-    // TODO Object to define types (4 types not 2)
-    const blockLevel = [
-      'div', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-      'header', 'hr', 'li', 'main', 'nav', 'ol', 'ul', 'p', 'pre',
-      'section', 'table', 'video', 'body', 'head', '!doctype html'
+    const block = [
+      'div', 'footer', 'form', 'header', 'hr', 'li', 'main', 'nav',
+      'ol', 'ul', 'pre', 'section', 'table', 'video', 'body',
+      'head', '!doctype html'
     ]
-    return blockLevel.includes(tag)
+    const inlineBlock = [
+      'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'
+    ]
+
+    if (block.includes(tag)) return 'block'
+    else if (inlineBlock.includes(tag)) return 'inline-block'
+    else return 'inline'
   }
 
   props.elements.forEach((e, index) => {
-    if (!identifyBlockType(e.value)) { // If is inline element
+    const blockType = identifyBlockType(e.value)
+    if (blockType === 'inline') { // If is inline element
       lineBuilder.push({...e, index: index}) // Add to current lineBuilder contents
       prevWasBlock = false
+    } else if (blockType === 'inline-block') { // If is inline-block element
+      lineBuilder.push({...e, index: index})
+      if (e.type === 'closing') {
+        prevWasBlock = true
+        lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
+        lineBuilder = [] // Reset lineBuilder for next element(s)
+      }
     } else { // If is block element
       if (!prevWasBlock) { // If previous element was inline
         // Push constructed lineBuilder to lines (new line)
