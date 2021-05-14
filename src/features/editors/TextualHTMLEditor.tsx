@@ -38,7 +38,8 @@ function TextualHTMLEditor(props: ITextualHTMLEditor) {
           cursorStyle: "wide",
           fontSize: 14,
           fontFamily: "Consolas, monospace",
-          dragEnabled: true
+          dragEnabled: true,
+
         }}
         style={{
           lineHeight: '26px',

@@ -34,7 +34,7 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
     const block = [
       'div', 'footer', 'form', 'header', 'hr', 'li', 'main', 'nav',
       'ol', 'ul', 'pre', 'section', 'table', 'video', 'body',
-      'head', '!doctype html'
+      'head', '!doctype html', 'textarea'
     ]
     const inlineBlock = [
       'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'
