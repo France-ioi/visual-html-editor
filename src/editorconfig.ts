@@ -1,4 +1,5 @@
 import {v4 as uuidv4} from 'uuid'
+import {LineSegment} from "./features/editors/VisualHTMLEditor";
 
 const initialCode = "<body>" +
   "<div>" +
@@ -32,6 +33,16 @@ export interface CodeSegment {
 }
 
 export type CodeSegments = Array<CodeSegment>
+
+export const makeTag = (tag: CodeSegment | LineSegment) => {
+  let returnTag: string
+  if (tag.type !== 'text') {
+    returnTag = tag.type === 'closing' ? `</${tag.value}>` : `<${tag.value}>`
+  } else {
+    returnTag = tag.value + ' '
+  }
+  return returnTag
+}
 
 export function htmlSegment(html: string, unlockAll: boolean) {
   let editorCode: CodeSegments = []
@@ -75,16 +86,10 @@ export function parseHTMLToString(elements: CodeSegments | string) {
     stringedHTML = elements.replaceAll(/(?<=<|<\/)[?]/g, '')
   } else {
     elements.map(e => {
-      let stripped = e.type === 'text' ? `${e.value} ` : e.value.replace('?', '')
-      if (e.type === 'opening') {
-        stripped = '<' + stripped + '>'
-      } else if (e.type === 'closing') {
-        stripped = '</' + stripped + '>'
-      }
-      stringedHTML += stripped
+      stringedHTML += makeTag(e)
     })
   }
-  return beautifyHTML(stringedHTML, {wrap_line_length: 0, preserve_newlines: true})
+  return beautifyHTML(stringedHTML, {wrap_line_length: 0})
 }
 
 const editorConfig = {
