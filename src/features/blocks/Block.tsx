@@ -66,8 +66,15 @@ function Block(props: ToolboxCategoryBlocks) {
       )
     } else {
       function setDragContents(ev: DragEvent) {
+        let crt = ev.currentTarget.cloneNode(true) as HTMLElement
+        document.body.appendChild(crt)
         ev.dataTransfer.setData("text", tagToAdd)
+        type === 'opening' ?
+          ev.dataTransfer.setDragImage(crt, 220, 15)
+          :
+          ev.dataTransfer.setDragImage(crt, -220, 15)
       }
+
       return (
         <span
           className={classesToAdd}
