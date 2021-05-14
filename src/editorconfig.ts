@@ -36,7 +36,7 @@ export type CodeSegments = Array<CodeSegment>
 export function htmlSegment(html: string, unlockAll: boolean) {
   let editorCode: CodeSegments = []
   let trimmed = html.trim()
-  const reg = /<([^/]+?)>|<\/(.+?)>|([^<>\s][a-zA-Z.]+)/g
+  const reg = /<([^/]+?)>|<\/(.+?)>|([^<>\s][a-zA-Z.!]*)/g
   const matches = trimmed.matchAll(reg)
 
   for (const m of matches) {
@@ -88,7 +88,7 @@ export function parseHTMLToString(elements: CodeSegments | string) {
 }
 
 const editorConfig = {
-  type: EditorType.Visual,
+  type: EditorType.Textual,
   codeElements: htmlSegment(initialCode, false),
   codeString: parseHTMLToString(initialCode)
 }
