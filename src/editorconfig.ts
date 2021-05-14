@@ -84,7 +84,7 @@ export function parseHTMLToString(elements: CodeSegments | string) {
       stringedHTML += stripped
     })
   }
-  return beautifyHTML(stringedHTML, {wrap_line_length: 0})
+  return beautifyHTML(stringedHTML, {wrap_line_length: 0, preserve_newlines: true})
 }
 
 const editorConfig = {

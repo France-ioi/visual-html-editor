@@ -51,11 +51,15 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
       lineBuilder.push({...e, index: index}) // Add to current lineBuilder contents
       prevWasBlock = false
     } else if (blockType === 'inline-block') { // If is inline-block element
-      lineBuilder.push({...e, index: index})
-      if (e.type === 'closing') {
-        prevWasBlock = true
+      if (e.type === 'opening' && lineBuilder.length > 0) {
         lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
         lineBuilder = [] // Reset lineBuilder for next element(s)
+      }
+      lineBuilder.push({...e, index: index})
+      if (e.type === 'closing') {
+        prevWasBlock = false
+        // lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
+        // lineBuilder = [] // Reset lineBuilder for next element(s)
       }
     } else { // If is block element
       if (!prevWasBlock) { // If previous element was inline
