@@ -5,8 +5,8 @@ import "ace-builds/src-noconflict/theme-xcode"
 import "ace-builds/src-noconflict/ext-beautify"
 import "ace-builds/src-noconflict/ext-language_tools"
 import React from "react"
-import {useAppDispatch} from "../../hooks";
-import {updateTextual} from "../../store/features/editors/HTMLEditors";
+import {useAppDispatch} from "../../hooks"
+import {updateTextual} from "../../store/features/editors/HTMLEditors"
 
 interface ITextualHTMLEditor {
   elements: string
@@ -32,8 +32,17 @@ function TextualHTMLEditor(props: ITextualHTMLEditor) {
         name={"textual-html-editor-ace"}
         height={"100%"}
         width={"100%"}
-        fontSize={"14px"}
+        wrapEnabled={false}
         enableLiveAutocompletion={true}
+        setOptions={{
+          cursorStyle: "wide",
+          fontSize: 14,
+          fontFamily: "Consolas, monospace",
+          dragEnabled: true
+        }}
+        style={{
+          lineHeight: '26px',
+        }}
         defaultValue={props.elements}
       />
     </div>
