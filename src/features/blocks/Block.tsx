@@ -5,6 +5,7 @@ import {useAppDispatch, useAppSelector} from "../../hooks";
 import {toggleBlockDescriptionAction} from "../../store/features/blocks/blocks";
 import {Draggable} from "react-beautiful-dnd";
 import {getDragStyle} from "../../App";
+import {TagType} from "../../editorconfig";
 
 function Block(props: ToolboxCategoryBlocks) {
   const cat = useAppSelector(state => state.blocksReducer.categories.find(c => c.blocks.find((b) => b.id === props.id)))
@@ -28,14 +29,9 @@ function Block(props: ToolboxCategoryBlocks) {
     })()
   }, [cat, props.id])
 
-  enum TagTypes {
-    Opening = 'opening',
-    Closing = 'closing'
-  }
-
-  function makeToolboxDraggable(tagProp: string, type: TagTypes, index: number) {
-    let classesToAdd = type === 'opening' ? 'toolbox-block-tag tag-open' : 'toolbox-block-tag tag-close'
-    let tagToAdd = type === 'opening' ? openingTag : closingTag
+  function makeToolboxDraggable(tagProp: string, type: TagType, index: number) {
+    let classesToAdd = type === TagType.Opening ? 'toolbox-block-tag tag-open' : 'toolbox-block-tag tag-close'
+    let tagToAdd = type === TagType.Opening ? openingTag : closingTag
     return (
       <Draggable draggableId={tagProp + '-' + type} index={index}>
         {(provided, snapshot) => (
@@ -68,9 +64,9 @@ function Block(props: ToolboxCategoryBlocks) {
     <div className={'toolbox-block'} onClick={() => dispatch(toggleBlockDescriptionAction(props.id))}>
       <span>
         {/* Opening tag */}
-        {makeToolboxDraggable(props.tag, TagTypes.Opening, props.id)}
+        {makeToolboxDraggable(props.tag, TagType.Opening, props.id)}
         {/* Closing tag */}
-        {props.paired ? makeToolboxDraggable(props.tag, TagTypes.Closing, props.id) : ''}
+        {props.paired ? makeToolboxDraggable(props.tag, TagType.Closing, props.id) : ''}
         <i className={'chevron-right'}/>
         <div className={'toolbox-block-description'} ref={blockDescriptionRef}>
           <span>
