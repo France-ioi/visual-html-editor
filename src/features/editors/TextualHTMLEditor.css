@@ -1,7 +1,5 @@
 .textual-html-editor {
-    /*height: 100%;*/
-    /*max-width: 80%;*/
+    height: 100%;
+    max-width: 80%;
     display: flex;
-    width: 830px;
-    overflow: auto;
 }
