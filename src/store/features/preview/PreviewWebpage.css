@@ -1,0 +1,8 @@
+.webpage-preview {
+    flex-grow: 1;
+    border-left: 1px solid black;
+}
+
+#webpage-preview-iframe {
+    height: 100%;
+}
