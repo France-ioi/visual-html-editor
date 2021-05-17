@@ -1,5 +1,5 @@
 import './VisualHTMLEditor.css'
-import {CodeSegment, CodeSegments} from "../../editorconfig"
+import {CodeSegment, CodeSegments, TagType} from "../../editorconfig"
 import Line from "./VisualHTMLEditorLine"
 import LineCounter from "./VisualHTMLEditorLineCounter";
 
@@ -26,18 +26,16 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
   let indentCounter = 0
   let lineBuilder: LineSegments = []
   let lines: Array<TLine> = []
-  let prevWasBlock: boolean = true
-
-  const indenter = (element: CodeSegment) => element.type === 'opening' ? indentCounter++ : indentCounter--
 
   function identifyBlockType(tag: string) { // Identify block type to determine linebreaks
+    tag = tag.split(" ")[0] // In case tag has attributes, isolate first word (tag name)
     const block = [
       'div', 'footer', 'form', 'header', 'hr', 'li', 'main', 'nav',
       'ol', 'ul', 'pre', 'section', 'table', 'video', 'body',
-      'head', '!doctype html', 'textarea'
+      'head', '!doctype html', 'textarea', 'p'
     ]
     const inlineBlock = [
-      'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'
+      'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
     ]
 
     if (block.includes(tag)) return 'block'
@@ -47,33 +45,28 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
 
   props.elements.forEach((e, index) => {
     const blockType = identifyBlockType(e.value)
-    if (blockType === 'inline') { // If is inline element
-      lineBuilder.push({...e, index: index}) // Add to current lineBuilder contents
-      prevWasBlock = false
-    } else if (blockType === 'inline-block') { // If is inline-block element
-      if (e.type === 'opening' && lineBuilder.length > 0) {
+    if (blockType === 'block') {
+      if (lineBuilder.length > 0) {
         lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
-        lineBuilder = [] // Reset lineBuilder for next element(s)
+        lineBuilder = []
+      }
+      if (e.type === TagType.Closing) indentCounter--
+      lineBuilder.push({...e, index: index})
+      lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
+      lineBuilder = []
+      if (e.type === TagType.Opening) indentCounter++
+    } else if (blockType === 'inline-block') {
+      if (lineBuilder.length > 0 && e.type === TagType.Opening) {
+        lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
+        lineBuilder = []
       }
       lineBuilder.push({...e, index: index})
-      if (e.type === 'closing') {
-        prevWasBlock = false
-        // lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
-        // lineBuilder = [] // Reset lineBuilder for next element(s)
-      }
-    } else { // If is block element
-      if (!prevWasBlock) { // If previous element was inline
-        // Push constructed lineBuilder to lines (new line)
+      if (e.type === TagType.Closing) {
         lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
-        lineBuilder = [] // Reset lineBuilder for next element(s)
+        lineBuilder = []
       }
-      if (e.type === 'closing') indenter(e)
-      lineBuilder.push({...e, index: index}) // Add block element to lineBuilder
-      // Push constructed lineBuilder to lines (new line)
-      lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
-      lineBuilder = [] // Reset lineBuilder for next element(s)
-      if (e.type === 'opening') indenter(e)
-      prevWasBlock = true
+    } else {
+      lineBuilder.push({...e, index: index})
     }
   })
 
