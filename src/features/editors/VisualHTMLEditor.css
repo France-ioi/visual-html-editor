@@ -1,11 +1,12 @@
 .visual-html-editor {
     line-height: 20px;
-    max-width: 80%;
-    height: 100%;
+    /*max-width: 80%;*/
+    /*height: 100%;*/
     display: flex;
     font-family: Consolas, monospace;
     font-size: 14px;
     overflow: auto;
+    flex-grow: 2;
 }
 
 .lines-counter {
