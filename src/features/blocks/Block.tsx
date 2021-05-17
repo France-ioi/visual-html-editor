@@ -1,6 +1,6 @@
 import './Block.css'
 import {ToolboxCategoryBlocks} from "../../toolboxconfig";
-import {useEffect, useRef, DragEvent} from "react";
+import {DragEvent, useEffect, useRef} from "react";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {toggleBlockDescriptionAction} from "../../store/features/blocks/blocks";
 import {Draggable} from "react-beautiful-dnd";
@@ -62,10 +62,10 @@ function Block(props: ToolboxCategoryBlocks) {
       )
     } else {
       function setDragContents(ev: DragEvent) {
-        let crt = ev.currentTarget.cloneNode(true) as HTMLElement
+        let crt = ev.currentTarget.cloneNode(true) as HTMLElement // Get drag target & clone
         document.body.appendChild(crt)
         ev.dataTransfer.setData("text", tagToAdd)
-        type === 'opening' ?
+        type === TagType.Opening ? // Set element location in relation to cursor depedning on opening or closing tag
           ev.dataTransfer.setDragImage(crt, 220, 15)
           :
           ev.dataTransfer.setDragImage(crt, -220, 15)

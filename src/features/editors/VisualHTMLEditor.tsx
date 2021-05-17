@@ -46,21 +46,25 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
   props.elements.forEach((e, index) => {
     const blockType = identifyBlockType(e.value)
     if (blockType === 'block') {
+      // If elements remain in lineBuilder, push them as new line before making current block's line
       if (lineBuilder.length > 0) {
         lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
         lineBuilder = []
       }
+      // Indent & build new line for element
       if (e.type === TagType.Closing) indentCounter--
       lineBuilder.push({...e, index: index})
       lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
       lineBuilder = []
       if (e.type === TagType.Opening) indentCounter++
     } else if (blockType === 'inline-block') {
+      // If elements in lineBuilder & curr = opening tag, push them as new line
       if (lineBuilder.length > 0 && e.type === TagType.Opening) {
         lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
         lineBuilder = []
       }
       lineBuilder.push({...e, index: index})
+      // If closing inline-block tag, finish this line and push it to lines
       if (e.type === TagType.Closing) {
         lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
         lineBuilder = []

@@ -53,7 +53,7 @@ function App() {
       <DragDropContext onDragEnd={onDragEnd} onDragUpdate={onDragUpdate}>
         <BlocksToolbox categories={categories}/>
         {
-          editorConfig.type === 'visual' ?
+          editorConfig.type === 'visual' ? // Load either visual or textual HTML editor with relevant code format
             <VisualHTMLEditor elements={editorConfig.codeElements}/>
             :
             <TextualHTMLEditor elements={editorConfig.codeString}/>

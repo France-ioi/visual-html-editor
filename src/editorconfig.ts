@@ -83,6 +83,8 @@ const beautifyHTML = require('js-beautify').html
 export function parseHTMLToString(elements: CodeSegments | string) {
   let stringedHTML = ''
   if (typeof elements === "string") {
+    // Remove question mark modifier (locked/unlocked tag) if element (start < or </)
+    // TODO Modify to ignore question marks that are not directly after tag opening
     stringedHTML = elements.replaceAll(/(?<=<|<\/)[?]/g, '')
   } else {
     elements.map(e => {
