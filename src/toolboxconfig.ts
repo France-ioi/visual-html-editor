@@ -5,16 +5,14 @@ export interface ToolboxCategoryBlocks {
   tag: string,
   paired: Boolean,
   desc: String,
-  toggled?: Boolean
 }
 
 export interface ToolboxCategory {
   id: number,
   name: String,
   highlight: String,
-  toggled?: boolean,
-  openDesc?: ToolboxCategoryBlocks["id"] | null,
-  blocks: ToolboxCategoryBlocks[]
+  blocks: ToolboxCategoryBlocks[],
+  openDesc?: ToolboxCategoryBlocks["id"] | null
 }
 
 export interface ToolboxConfiguration {

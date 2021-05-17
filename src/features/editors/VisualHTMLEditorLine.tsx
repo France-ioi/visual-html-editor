@@ -2,6 +2,7 @@ import './VisualHTMLEditorLine.css'
 import {Droppable} from "react-beautiful-dnd"
 import Element from "./VisualHTMLEditorElement";
 import {LineSegments, LineSegment} from "./VisualHTMLEditor";
+import {TagType} from "../../editorconfig";
 
 interface ILine {
   indent: number,
@@ -11,7 +12,8 @@ interface ILine {
 
 function Line(props: ILine) {
   const makeTag = (tag: LineSegment) => tag.type !== 'text' ?
-    tag.type === 'closing' ? `</${tag.value}>` : `<${tag.value}>` :
+    tag.type === TagType.Closing ? `</${tag.value}>` : `<${tag.value}>`
+    :
     tag.value + ' '
 
   function setClasses(element: LineSegment) {
