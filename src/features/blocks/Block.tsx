@@ -7,7 +7,7 @@ import {Draggable} from "react-beautiful-dnd";
 import {getDragStyle} from "../../App";
 
 function Block(props: ToolboxCategoryBlocks) {
-  const cat = useAppSelector(state => state.blocksReducer.categories.find((c) => c.blocks.find((b) => b.id === props.id)))
+  const cat = useAppSelector(state => state.blocksReducer.categories.find(c => c.blocks.find((b) => b.id === props.id)))
   const dispatch = useAppDispatch()
   const blockDescriptionRef = useRef<HTMLDivElement>(null)
   const openingTag = '<' + props.tag + '>'
