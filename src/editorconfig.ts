@@ -47,7 +47,7 @@ export const makeTag = (tag: CodeSegment | LineSegment) => {
 export function htmlSegment(html: string, unlockAll: boolean) {
   let editorCode: CodeSegments = []
   let trimmed = html.trim()
-  const reg = /<([^/]+?)>|<\/(.+?)>|([^<>\s][a-zA-Z.!]*)/g
+  const reg = /<([^/][^>]*?)>|<\/(.+?)>|([^<>\s][a-zA-Z.!]*)/g
   const matches = trimmed.matchAll(reg)
 
   for (const m of matches) {
