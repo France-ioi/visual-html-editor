@@ -8,7 +8,7 @@ export enum BlockActionsTypes {
 
 // Type actions
 type ToggleBlockDescription = {
-  type: typeof BlockActionsTypes.BlocksBlockDescriptionToggle,
+  type: BlockActionsTypes.BlocksBlockDescriptionToggle,
   payload: {
     block: number
   }

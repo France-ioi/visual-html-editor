@@ -13,17 +13,17 @@ export enum EditorActionsTypes {
 
 // Type actions
 type MoveElement = {
-  type: typeof EditorActionsTypes.EditorElementMove
+  type: EditorActionsTypes.EditorElementMove
   payload: DropResult
 }
 
 type DeleteElement = {
-  type: typeof EditorActionsTypes.EditorElementDelete
+  type: EditorActionsTypes.EditorElementDelete
   payload: DropResult
 }
 
 type CreateElement = {
-  type: typeof EditorActionsTypes.EditorElementCreate
+  type: EditorActionsTypes.EditorElementCreate
   payload: DropResult
 }
 
