@@ -74,9 +74,13 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
     }
   })
 
+  const styles = {
+    width: lines.length <= 9 ? '41px' : '49px'
+  }
+
   return (
     <div className={'visual-html-editor'}>
-      <div className={'lines-counter'}>
+      <div className={'lines-counter'} style={styles}>
         <LineCounter lineCount={lines.length}/>
       </div>
       <div className={'lines-container'}>
