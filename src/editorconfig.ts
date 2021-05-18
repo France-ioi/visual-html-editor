@@ -98,7 +98,7 @@ export function parseHTMLToString(elements: CodeSegments | string) {
 }
 
 const editorConfig = {
-  type: EditorType.Textual,
+  type: EditorType.Visual,
   codeElements: htmlSegment(initialCode, false),
   codeString: parseHTMLToString(initialCode)
 }

@@ -10,9 +10,12 @@ function LineCounter(props: TLineCount) {
   for (let i = 0; i < props.lineCount; i++) {
     lineCells.push(i)
   }
+  const styles = {
+    width: props.lineCount <= 9 ? '41px' : '49px'
+  }
 
   return (
-    <div className={'lines-counter-inner'}>
+    <div className={'lines-counter-inner'} style={styles}>
       {lineCells.map((line, index) => {
         return <LineCounterCell key={index} line={line + 1}/>
       })}
