@@ -1,18 +1,6 @@
 import {v4 as uuidv4} from 'uuid'
-import {LineSegment} from "./features/editors/VisualHTMLEditor";
-
-const initialCode = "<body>" +
-  "<div>" +
-  "<h1>" +
-  "Example Domain" +
-  "</h1>" +
-  "<p>This domain is for use in illustrative examples in documents. " +
-  "You may use this domain in literature without prior coordination or asking for permission.</p>" +
-  "<p>More <i>information</i>...</p>" +
-  "<span><?i>Hello world</?i></span>" +
-  "<p>Hello!</p>" +
-  "</div>" +
-  "</body>"
+import {LineSegment} from "./features/editors/VisualHTMLEditor"
+import {initialCode} from "./appconfig"
 
 export enum TagType {
   Opening = 'opening',
