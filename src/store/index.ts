@@ -5,14 +5,7 @@ import rootReducer from "./rootReducer"
 
 const sagaMiddleware = createSagaMiddleWare()
 
-const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ // Remove on production
-
-const store = createStore(
-  rootReducer,
-  composeEnhancers(
-    applyMiddleware(sagaMiddleware)
-  )
-)
+const store = createStore(rootReducer, applyMiddleware(sagaMiddleware))
 
 sagaMiddleware.run(rootSaga)
 
