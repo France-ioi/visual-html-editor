@@ -53,7 +53,7 @@
 }
 
 .locked.opening, .locked.closing {
-    opacity: 50%;
+    opacity: 0.5;
 }
 
 .unlocked.opening, .unlocked.closing {
