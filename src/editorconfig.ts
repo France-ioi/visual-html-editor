@@ -88,10 +88,13 @@ export function parseHTMLToString(elements: CodeSegments | string) {
     stringedHTML = elements.replaceAll(/(?<=<|<\/)[?]/g, '')
   } else {
     elements.map(e => {
+      if (e.value === 'p' && e.type === TagType.Closing) stringedHTML += '\n'
       stringedHTML += makeTag(e)
+      if (e.value === 'p') stringedHTML += '\n'
+      return stringedHTML
     })
   }
-  return beautifyHTML(stringedHTML, {wrap_line_length: 0})
+  return beautifyHTML(stringedHTML, {wrap_line_length: 0, preserve_newlines: true})
 }
 
 const editorConfig = {
