@@ -1,4 +1,9 @@
-// =============================SET DEFAULT HTML CODE HERE========================================
+// Set default editor mode (visual or textual)
+export const initialMode = 'visual'
+// Allow user to switch editor modes
+export const allowModeSwitch: boolean = true
+
+// =============================SET DEFAULT HTML CODE HERE============================================================
 export const initialCode = "<body>" +
   "<div>" +
   "<h1>" +
@@ -11,7 +16,7 @@ export const initialCode = "<body>" +
   "<p>Hello!</p>" +
   "</div>" +
   "</body>"
-// =================================================================================================
+// ===================================================================================================================
 
 // =============================SET AVAILABLE TOOLBOX CATEGORIES & BLOCKS HERE========================================
 // Each category has id (manually increment for now)

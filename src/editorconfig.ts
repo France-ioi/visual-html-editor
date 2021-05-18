@@ -1,6 +1,6 @@
 import {v4 as uuidv4} from 'uuid'
+import {initialMode, initialCode} from './appconfig'
 import {LineSegment} from "./features/editors/VisualHTMLEditor"
-import {initialCode} from "./appconfig"
 
 export enum TagType {
   Opening = 'opening',
@@ -86,7 +86,7 @@ export function parseHTMLToString(elements: CodeSegments | string) {
 }
 
 const editorConfig = {
-  type: EditorType.Visual,
+  type: initialMode,
   codeElements: htmlSegment(initialCode, false),
   codeString: parseHTMLToString(initialCode)
 }
