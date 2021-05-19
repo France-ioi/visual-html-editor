@@ -73,12 +73,6 @@ export function parseHTMLToString(elements: CodeSegments | string) {
     'hr', 'br'
   ]
   let stringedHTML = ''
-  // if (typeof elements === "string") {
-  //   // Remove question mark modifier (locked/unlocked tag) if element (start < or </)
-  //   // TODO Modify to ignore question marks that are not directly after tag opening
-  //
-  //   stringedHTML = elements.replaceAll(/(?:<|<\/)([?])/g, '')
-  // } else {
   if (typeof elements !== 'string')
     elements.map((e, index) => {
       if (
@@ -94,7 +88,6 @@ export function parseHTMLToString(elements: CodeSegments | string) {
       ) stringedHTML += '\n'
       return stringedHTML
     })
-  // }
   return beautifyHTML(stringedHTML, {wrap_line_length: 0, preserve_newlines: true})
 }
 
