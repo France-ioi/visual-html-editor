@@ -9,11 +9,19 @@ interface ILine {
   children: CodeSegments
 }
 
+const selfClosingTags = [
+  'area', 'base', 'br', 'col', 'embed', 'hr',
+  'img', 'link', 'meta', 'param', 'source'
+]
+
 function Line(props: ILine) {
   function setClasses(element: CodeSegment) {
     let classes: string = element.unlocked ? 'unlocked ' : 'locked '
     if (element.type !== 'text') {
-      classes += element.type === 'opening' ? 'opening ' : 'closing '
+      selfClosingTags.includes(element.value) ?
+        classes += 'self-closing '
+        :
+        classes += element.type === 'opening' ? 'opening ' : 'closing '
     } else {
       classes += 'text '
     }

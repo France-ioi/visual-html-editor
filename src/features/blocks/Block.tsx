@@ -30,8 +30,10 @@ function Block(props: ToolboxCategoryBlocks) {
     })()
   }, [cat, props.id])
 
-  function makeToolboxDraggable(tagProp: string, type: TagType, index: number) {
-    let classesToAdd = type === TagType.Opening ? 'toolbox-block-tag tag-open' : 'toolbox-block-tag tag-close'
+  function makeToolboxDraggable(tagProp: string, type: TagType, index: number, paired: boolean) {
+    let classesToAdd = 'toolbox-block-tag '
+    if (!paired) classesToAdd += 'tag-self-closing '
+    else classesToAdd += type === TagType.Opening ? 'tag-open ' : 'tag-close '
     let tagToAdd = type === TagType.Opening ? openingTag : closingTag
     if (editorMode === 'visual') {
       return (
@@ -88,9 +90,9 @@ function Block(props: ToolboxCategoryBlocks) {
     <div className={'toolbox-block'} onClick={() => dispatch(toggleBlockDescriptionAction(props.id))}>
       <span>
         {/* Opening tag */}
-        {makeToolboxDraggable(props.tag, TagType.Opening, props.id)}
+        {makeToolboxDraggable(props.tag, TagType.Opening, props.id, props.paired)}
         {/* Closing tag */}
-        {props.paired ? makeToolboxDraggable(props.tag, TagType.Closing, props.id) : ''}
+        {props.paired ? makeToolboxDraggable(props.tag, TagType.Closing, props.id, props.paired) : ''}
         <i className={'chevron-right'}/>
         <div className={'toolbox-block-description'} ref={blockDescriptionRef}>
           <span>
