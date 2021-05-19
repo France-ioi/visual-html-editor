@@ -10,6 +10,7 @@
     display: inline-block;
     position: relative;
     white-space: pre;
+    cursor: default;
 }
 
 .opening, .closing, .self-closing {
