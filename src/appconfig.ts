@@ -42,27 +42,27 @@ export const toolboxBlocks = {
         },
         {
           id: 2,
-          tag: 'span',
+          tag: 'h1',
           paired: true,
-          desc: 'This is a span element'
+          desc: 'This is an h1 element'
         },
         {
           id: 3,
-          tag: 'section',
-          paired: true,
-          desc: 'This is a section element'
-        },
-        {
-          id: 4,
           tag: 'p',
           paired: true,
           desc: 'This is a p element'
         },
         {
+          id: 4,
+          tag: 'ul',
+          paired: true,
+          desc: 'This is a ul element'
+        },
+        {
           id: 5,
-          tag: 'br',
-          paired: false,
-          desc: 'This is a br element'
+          tag: 'li',
+          paired: true,
+          desc: 'This is an li element'
         }
       ]
     },
@@ -116,52 +116,52 @@ export const toolboxBlocks = {
       blocks: [
         {
           id: 12,
-          tag: 'textarea',
+          tag: 'span',
           paired: true,
-          desc: 'This is a textarea tag'
+          desc: 'This is a span tag'
         },
         {
           id: 13,
-          tag: 'textarea',
+          tag: 'i',
           paired: true,
-          desc: 'This is a textarea tag'
+          desc: 'This is an i tag'
         },
         {
           id: 14,
-          tag: 'textarea',
+          tag: 'b',
           paired: true,
-          desc: 'This is a textarea tag'
+          desc: 'This is a b tag'
         }
       ]
     },
     {
       id: 4,
-      name: 'Attributes',
+      name: 'Miscellaneous',
       highlight: '#c346f0',
       blocks: [
         {
           id: 15,
-          tag: 'textarea',
+          tag: 'script',
           paired: true,
-          desc: 'This is a textarea tag'
+          desc: 'This is a script tag'
         },
         {
           id: 16,
-          tag: 'textarea',
+          tag: 'article',
           paired: true,
-          desc: 'This is a textarea tag'
+          desc: 'This is an article tag'
         },
         {
           id: 17,
-          tag: 'textarea',
+          tag: 'canvas',
           paired: true,
-          desc: 'This is a textarea tag'
+          desc: 'This is a canvas tag'
         },
         {
           id: 18,
-          tag: 'textarea',
+          tag: 'nav',
           paired: true,
-          desc: 'This is a textarea tag'
+          desc: 'This is a nav tag'
         }
       ]
     }
