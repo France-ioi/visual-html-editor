@@ -4,6 +4,7 @@
 }
 
 .toolbox-block-description {
+    margin-top: 7px;
     font-size: 0.7rem;
     font-style: italic;
     height: auto;
