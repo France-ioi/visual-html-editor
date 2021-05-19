@@ -1,5 +1,5 @@
 import './VisualHTMLEditor.css'
-import {CodeSegment, CodeSegments, TagType} from "../../editorconfig"
+import {CodeSegments, TagType} from "../../editorconfig"
 import Line from "./VisualHTMLEditorLine"
 import LineCounter from "./VisualHTMLEditorLineCounter";
 
@@ -7,38 +7,32 @@ interface IVisualHTMLEditor {
   elements: CodeSegments
 }
 
-export type LineSegment = {
-  id: string,
-  type: string,
-  value: string,
-  unlocked: boolean,
-  index: number
-}
-
-export type LineSegments = Array<LineSegment>
-
 type TLine = {
-  lineContents: LineSegments,
+  lineContents: CodeSegments,
   lineIndentation: number
 }
 
 function VisualHTMLEditor(props: IVisualHTMLEditor) {
   let indentCounter = 0
-  let lineBuilder: LineSegments = []
+  let lineBuilder: CodeSegments = []
   let lines: Array<TLine> = []
 
   function identifyBlockType(tag: string) { // Identify block type to determine linebreaks
     tag = tag.split(" ")[0] // In case tag has attributes, isolate first word (tag name)
     const block = [
-      'div', 'footer', 'form', 'header', 'hr', 'li', 'main', 'nav',
+      'div', 'footer', 'form', 'header', 'li', 'main', 'nav',
       'ol', 'ul', 'pre', 'section', 'table', 'video', 'body',
       'head', '!doctype html', 'textarea', 'p'
+    ]
+    const selfClosingBlock = [
+      'hr', 'br'
     ]
     const inlineBlock = [
       'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
     ]
 
     if (block.includes(tag)) return 'block'
+    else if (selfClosingBlock.includes(tag)) return 'self-closing'
     else if (inlineBlock.includes(tag)) return 'inline-block'
     else return 'inline'
   }
@@ -57,6 +51,16 @@ function VisualHTMLEditor(props: IVisualHTMLEditor) {
       lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
       lineBuilder = []
       if (e.type === TagType.Opening) indentCounter++
+    } else if (blockType === 'self-closing') {
+      // If elements remain in lineBuilder, push them as new line before making current block's line
+      if (lineBuilder.length > 0) {
+        lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
+        lineBuilder = []
+      }
+      // Build new line for element
+      lineBuilder.push({...e, index: index})
+      lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
+      lineBuilder = []
     } else if (blockType === 'inline-block') {
       // If elements in lineBuilder & curr = opening tag, push them as new line
       if (lineBuilder.length > 0 && e.type === TagType.Opening) {

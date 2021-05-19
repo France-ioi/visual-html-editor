@@ -10,9 +10,10 @@
     display: inline-block;
     position: relative;
     white-space: pre;
+    cursor: default;
 }
 
-.opening, .closing {
+.opening, .closing, .self-closing {
     display: inline-block;
     color: white;
     background: #4a90e2;
@@ -21,13 +22,19 @@
     height: 20px;
 }
 
-.opening:before, .closing:before {
+.opening:before, .closing:before, .self-closing:before {
     position: absolute;
     content: "";
     width: 1px;
     height: 0;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
+}
+
+.self-closing {
+    margin-right: 2px;
+    padding: 0 8px 0 8px;
+    border-radius: 5px;
 }
 
 .opening {
@@ -52,20 +59,24 @@
     border-right: 14px solid #4a90e2;
 }
 
-.locked.opening, .locked.closing {
+.locked.opening,
+.locked.closing,
+.locked.self-closing {
+    background: rgba(74, 144, 226, 0.5);
+}
+
+.locked.opening:before,
+.locked.closing:before,
+.locked.self-closing:before {
     opacity: 0.5;
 }
 
-.unlocked.opening, .unlocked.closing {
-    background-color: coral;
-}
-
 .unlocked.opening:before {
-    border-left: 14px solid coral;
+    border-left: 14px solid #4a90e2;
 }
 
 .unlocked.closing:before {
-    border-right: 14px solid coral;
+    border-right: 14px solid #4a90e2;
 }
 
 .unlocked {

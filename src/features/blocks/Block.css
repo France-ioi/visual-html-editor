@@ -4,6 +4,7 @@
 }
 
 .toolbox-block-description {
+    margin-top: 7px;
     font-size: 0.7rem;
     font-style: italic;
     height: auto;
@@ -16,7 +17,7 @@
     display: inline-block;
     color: white;
     background: #4a90e2;
-    line-height: 31px;
+    line-height: 30px;
     position: relative;
     height: 30px;
     cursor: pointer;
@@ -29,6 +30,11 @@
     height: 0;
     border-top: 15px solid transparent;
     border-bottom: 15px solid transparent;
+}
+
+.tag-self-closing {
+    padding: 0 8px 0 8px;
+    border-radius: 5px;
 }
 
 .tag-open {

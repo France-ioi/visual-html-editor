@@ -3,3 +3,10 @@
     max-width: 80%;
     display: flex;
 }
+
+@media only screen and (max-width: 768px) {
+    .textual-html-editor {
+        max-width: 100%;
+        width: 100%;
+    }
+}

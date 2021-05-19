@@ -6,6 +6,12 @@ import {toggleBlockDescriptionAction} from "../../store/features/blocks/blocks";
 import {Draggable} from "react-beautiful-dnd";
 import {getDragStyle} from "../../App";
 import {TagType} from "../../editorconfig";
+import {polyfill} from "mobile-drag-drop";
+import {scrollBehaviourDragImageTranslateOverride} from "mobile-drag-drop/scroll-behaviour";
+
+polyfill({
+  dragImageTranslateOverride: scrollBehaviourDragImageTranslateOverride
+})
 
 function Block(props: ToolboxCategoryBlocks) {
   const cat = useAppSelector(state => state.blocksReducer.categories.find(c => c.blocks.find((b) => b.id === props.id)))
@@ -14,6 +20,7 @@ function Block(props: ToolboxCategoryBlocks) {
   const openingTag = '<' + props.tag + '>'
   const closingTag = '</' + props.tag + '>'
   const editorMode = useAppSelector(state => state.visualHTMLReducer.type)
+  let prevCrt: Node
 
   // TODO Change behavior and fix height inconsistencies
   useEffect(() => {
@@ -30,8 +37,10 @@ function Block(props: ToolboxCategoryBlocks) {
     })()
   }, [cat, props.id])
 
-  function makeToolboxDraggable(tagProp: string, type: TagType, index: number) {
-    let classesToAdd = type === TagType.Opening ? 'toolbox-block-tag tag-open' : 'toolbox-block-tag tag-close'
+  function makeToolboxDraggable(tagProp: string, type: TagType, index: number, paired: boolean) {
+    let classesToAdd = 'toolbox-block-tag '
+    if (!paired) classesToAdd += 'tag-self-closing '
+    else classesToAdd += type === TagType.Opening ? 'tag-open ' : 'tag-close '
     let tagToAdd = type === TagType.Opening ? openingTag : closingTag
     if (editorMode === 'visual') {
       return (
@@ -63,12 +72,17 @@ function Block(props: ToolboxCategoryBlocks) {
     } else {
       function setDragContents(ev: DragEvent) {
         let crt = ev.currentTarget.cloneNode(true) as HTMLElement // Get drag target & clone
+        prevCrt = crt
         document.body.appendChild(crt)
         ev.dataTransfer.setData("text", tagToAdd)
         type === TagType.Opening ? // Set element location in relation to cursor depedning on opening or closing tag
-          ev.dataTransfer.setDragImage(crt, 220, 15)
+          ev.dataTransfer.setDragImage(crt, crt.clientWidth + 15, 15)
           :
-          ev.dataTransfer.setDragImage(crt, -220, 15)
+          ev.dataTransfer.setDragImage(crt, -1, 15)
+      }
+
+      function removeOldDrag() {
+        if (prevCrt) document.body.removeChild(prevCrt)
       }
 
       return (
@@ -76,6 +90,7 @@ function Block(props: ToolboxCategoryBlocks) {
           className={classesToAdd}
           draggable={true}
           onDragStart={setDragContents}
+          onDragEnd={removeOldDrag}
         >
           {tagToAdd}
         </span>
@@ -88,9 +103,9 @@ function Block(props: ToolboxCategoryBlocks) {
     <div className={'toolbox-block'} onClick={() => dispatch(toggleBlockDescriptionAction(props.id))}>
       <span>
         {/* Opening tag */}
-        {makeToolboxDraggable(props.tag, TagType.Opening, props.id)}
+        {makeToolboxDraggable(props.tag, TagType.Opening, props.id, props.paired)}
         {/* Closing tag */}
-        {props.paired ? makeToolboxDraggable(props.tag, TagType.Closing, props.id) : ''}
+        {props.paired ? makeToolboxDraggable(props.tag, TagType.Closing, props.id, props.paired) : ''}
         <i className={'chevron-right'}/>
         <div className={'toolbox-block-description'} ref={blockDescriptionRef}>
           <span>

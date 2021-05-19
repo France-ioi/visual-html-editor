@@ -1,6 +1,5 @@
 import {v4 as uuidv4} from 'uuid'
 import {initialMode, initialCode} from './appconfig'
-import {LineSegment} from "./features/editors/VisualHTMLEditor"
 
 export enum TagType {
   Opening = 'opening',
@@ -18,11 +17,12 @@ export interface CodeSegment {
   type: TagType,
   value: string,
   unlocked: boolean
+  index?: number
 }
 
 export type CodeSegments = Array<CodeSegment>
 
-export const makeTag = (tag: CodeSegment | LineSegment) => {
+export const makeTag = (tag: CodeSegment) => {
   let returnTag: string
   if (tag.type !== 'text') {
     returnTag = tag.type === 'closing' ? `</${tag.value}>` : `<${tag.value}>`
@@ -69,19 +69,25 @@ export function htmlSegment(html: string, unlockAll: boolean) {
 const beautifyHTML = require('js-beautify').html
 
 export function parseHTMLToString(elements: CodeSegments | string) {
+  const selfClosingBlock = [
+    'hr', 'br'
+  ]
   let stringedHTML = ''
-  if (typeof elements === "string") {
-    // Remove question mark modifier (locked/unlocked tag) if element (start < or </)
-    // TODO Modify to ignore question marks that are not directly after tag opening
-    stringedHTML = elements.replaceAll(/(?<=<|<\/)[?]/g, '')
-  } else {
-    elements.map(e => {
-      if (e.value === 'p' && e.type === TagType.Closing) stringedHTML += '\n'
+  if (typeof elements !== 'string')
+    elements.map((e, index) => {
+      if (
+        (e.value === 'p' && e.type === TagType.Closing)
+        ||
+        (selfClosingBlock.includes(e.value) && elements[index - 1].value !== 'p')
+      ) stringedHTML += '\n'
       stringedHTML += makeTag(e)
-      if (e.value === 'p') stringedHTML += '\n'
+      if (
+        e.value === 'p'
+        ||
+        (selfClosingBlock.includes(e.value) && elements[index + 1].value !== 'p')
+      ) stringedHTML += '\n'
       return stringedHTML
     })
-  }
   return beautifyHTML(stringedHTML, {wrap_line_length: 0, preserve_newlines: true})
 }
 
