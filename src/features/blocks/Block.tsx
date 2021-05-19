@@ -14,6 +14,7 @@ function Block(props: ToolboxCategoryBlocks) {
   const openingTag = '<' + props.tag + '>'
   const closingTag = '</' + props.tag + '>'
   const editorMode = useAppSelector(state => state.visualHTMLReducer.type)
+  let prevCrt: Node
 
   // TODO Change behavior and fix height inconsistencies
   useEffect(() => {
@@ -65,12 +66,17 @@ function Block(props: ToolboxCategoryBlocks) {
     } else {
       function setDragContents(ev: DragEvent) {
         let crt = ev.currentTarget.cloneNode(true) as HTMLElement // Get drag target & clone
+        prevCrt = crt
         document.body.appendChild(crt)
         ev.dataTransfer.setData("text", tagToAdd)
         type === TagType.Opening ? // Set element location in relation to cursor depedning on opening or closing tag
-          ev.dataTransfer.setDragImage(crt, 220, 15)
+          ev.dataTransfer.setDragImage(crt, crt.clientWidth + 15, 15)
           :
-          ev.dataTransfer.setDragImage(crt, -220, 15)
+          ev.dataTransfer.setDragImage(crt, -1, 15)
+      }
+
+      function removeOldDrag() {
+        if (prevCrt) document.body.removeChild(prevCrt)
       }
 
       return (
@@ -78,6 +84,7 @@ function Block(props: ToolboxCategoryBlocks) {
           className={classesToAdd}
           draggable={true}
           onDragStart={setDragContents}
+          onDragEnd={removeOldDrag}
         >
           {tagToAdd}
         </span>
