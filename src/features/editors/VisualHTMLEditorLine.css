@@ -12,7 +12,7 @@
     white-space: pre;
 }
 
-.opening, .closing {
+.opening, .closing, .self-closing {
     display: inline-block;
     color: white;
     background: #4a90e2;
@@ -21,13 +21,19 @@
     height: 20px;
 }
 
-.opening:before, .closing:before {
+.opening:before, .closing:before, .self-closing:before {
     position: absolute;
     content: "";
     width: 1px;
     height: 0;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
+}
+
+.self-closing {
+    margin-right: 2px;
+    padding: 0 8px 0 8px;
+    border-radius: 5px;
 }
 
 .opening {
@@ -52,11 +58,11 @@
     border-right: 14px solid #4a90e2;
 }
 
-.locked.opening, .locked.closing {
+.locked.opening, .locked.closing, .locked.self-closing {
     opacity: 0.5;
 }
 
-.unlocked.opening, .unlocked.closing {
+.unlocked.opening, .unlocked.closing, .unlocked.self-closing {
     background-color: coral;
 }
 
