@@ -69,16 +69,27 @@ export function htmlSegment(html: string, unlockAll: boolean) {
 const beautifyHTML = require('js-beautify').html
 
 export function parseHTMLToString(elements: CodeSegments | string) {
+  const selfClosingBlock = [
+    'hr', 'br'
+  ]
   let stringedHTML = ''
   if (typeof elements === "string") {
     // Remove question mark modifier (locked/unlocked tag) if element (start < or </)
     // TODO Modify to ignore question marks that are not directly after tag opening
     stringedHTML = elements.replaceAll(/(?<=<|<\/)[?]/g, '')
   } else {
-    elements.map(e => {
-      if (e.value === 'p' && e.type === TagType.Closing) stringedHTML += '\n'
+    elements.map((e, index) => {
+      if (
+        (e.value === 'p' && e.type === TagType.Closing)
+        ||
+        (selfClosingBlock.includes(e.value) && elements[index - 1].value !== 'p')
+      ) stringedHTML += '\n'
       stringedHTML += makeTag(e)
-      if (e.value === 'p') stringedHTML += '\n'
+      if (
+        e.value === 'p'
+        ||
+        (selfClosingBlock.includes(e.value) && elements[index + 1].value !== 'p')
+      ) stringedHTML += '\n'
       return stringedHTML
     })
   }
