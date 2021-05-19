@@ -6,6 +6,12 @@ import {toggleBlockDescriptionAction} from "../../store/features/blocks/blocks";
 import {Draggable} from "react-beautiful-dnd";
 import {getDragStyle} from "../../App";
 import {TagType} from "../../editorconfig";
+import {polyfill} from "mobile-drag-drop";
+import {scrollBehaviourDragImageTranslateOverride} from "mobile-drag-drop/scroll-behaviour";
+
+polyfill({
+  dragImageTranslateOverride: scrollBehaviourDragImageTranslateOverride
+})
 
 function Block(props: ToolboxCategoryBlocks) {
   const cat = useAppSelector(state => state.blocksReducer.categories.find(c => c.blocks.find((b) => b.id === props.id)))
