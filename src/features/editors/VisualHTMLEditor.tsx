@@ -1,5 +1,5 @@
 import './VisualHTMLEditor.css'
-import {CodeSegment, CodeSegments, TagType} from "../../editorconfig"
+import {CodeSegments, TagType} from "../../editorconfig"
 import Line from "./VisualHTMLEditorLine"
 import LineCounter from "./VisualHTMLEditorLineCounter";
 
@@ -7,24 +7,14 @@ interface IVisualHTMLEditor {
   elements: CodeSegments
 }
 
-export type LineSegment = {
-  id: string,
-  type: string,
-  value: string,
-  unlocked: boolean,
-  index: number
-}
-
-export type LineSegments = Array<LineSegment>
-
 type TLine = {
-  lineContents: LineSegments,
+  lineContents: CodeSegments,
   lineIndentation: number
 }
 
 function VisualHTMLEditor(props: IVisualHTMLEditor) {
   let indentCounter = 0
-  let lineBuilder: LineSegments = []
+  let lineBuilder: CodeSegments = []
   let lines: Array<TLine> = []
 
   function identifyBlockType(tag: string) { // Identify block type to determine linebreaks

@@ -1,22 +1,21 @@
 import './VisualHTMLEditorLine.css'
 import {Droppable} from "react-beautiful-dnd"
 import Element from "./VisualHTMLEditorElement";
-import {LineSegments, LineSegment} from "./VisualHTMLEditor";
-import {makeTag} from "../../editorconfig";
+import {CodeSegment, CodeSegments, makeTag} from "../../editorconfig";
 
 interface ILine {
   indent: number,
   id: string,
-  children: LineSegments
+  children: CodeSegments
 }
 
 function Line(props: ILine) {
-  function setClasses(element: LineSegment) {
-    let classes: string = element.unlocked ? 'unlocked' : 'locked'
+  function setClasses(element: CodeSegment) {
+    let classes: string = element.unlocked ? 'unlocked ' : 'locked '
     if (element.type !== 'text') {
-      classes += element.type === 'opening' ? ' opening' : ' closing'
+      classes += element.type === 'opening' ? 'opening ' : 'closing '
     } else {
-      classes += ' text'
+      classes += 'text '
     }
     return classes
   }
@@ -37,7 +36,7 @@ function Line(props: ILine) {
               return <Element
                 id={c.id}
                 key={c.id}
-                index={c.index}
+                index={c.index!}
                 className={setClasses(c)}
                 children={makeTag(c)}
                 unlocked={c.unlocked}

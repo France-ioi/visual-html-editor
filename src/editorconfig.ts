@@ -1,6 +1,5 @@
 import {v4 as uuidv4} from 'uuid'
 import {initialMode, initialCode} from './appconfig'
-import {LineSegment} from "./features/editors/VisualHTMLEditor"
 
 export enum TagType {
   Opening = 'opening',
@@ -18,11 +17,12 @@ export interface CodeSegment {
   type: TagType,
   value: string,
   unlocked: boolean
+  index?: number
 }
 
 export type CodeSegments = Array<CodeSegment>
 
-export const makeTag = (tag: CodeSegment | LineSegment) => {
+export const makeTag = (tag: CodeSegment) => {
   let returnTag: string
   if (tag.type !== 'text') {
     returnTag = tag.type === 'closing' ? `</${tag.value}>` : `<${tag.value}>`
