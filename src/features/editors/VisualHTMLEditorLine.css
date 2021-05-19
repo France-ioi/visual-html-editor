@@ -59,20 +59,24 @@
     border-right: 14px solid #4a90e2;
 }
 
-.locked.opening, .locked.closing, .locked.self-closing {
+.locked.opening,
+.locked.closing,
+.locked.self-closing {
+    background: rgba(74, 144, 226, 0.5);
+}
+
+.locked.opening:before,
+.locked.closing:before,
+.locked.self-closing:before {
     opacity: 0.5;
 }
 
-.unlocked.opening, .unlocked.closing, .unlocked.self-closing {
-    background-color: coral;
-}
-
 .unlocked.opening:before {
-    border-left: 14px solid coral;
+    border-left: 14px solid #4a90e2;
 }
 
 .unlocked.closing:before {
-    border-right: 14px solid coral;
+    border-right: 14px solid #4a90e2;
 }
 
 .unlocked {
