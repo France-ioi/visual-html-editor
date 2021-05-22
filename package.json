@@ -15,7 +15,7 @@
     "@types/uuid": "^8.3.0",
     "immer": "^9.0.1",
     "js-beautify": "^1.13.13",
-    "mobile-drag-drop": "^2.3.0-rc.2",
+    "mobile-drag-drop": "https://github.com/MushkyQT/mobile-drag-drop",
     "react": "^17.0.2",
     "react-ace": "^9.4.0",
     "react-beautiful-dnd": "^13.1.0",
