@@ -6,12 +6,14 @@ import {toggleBlockDescriptionAction} from "../../store/features/blocks/blocks";
 import {Draggable} from "react-beautiful-dnd";
 import {getDragStyle} from "../../App";
 import {TagType} from "../../editorconfig";
-import {polyfill} from "mobile-drag-drop";
+import {polyfill} from "mobile-drag-drop/";
 import {scrollBehaviourDragImageTranslateOverride} from "mobile-drag-drop/scroll-behaviour";
 
 polyfill({
-  dragImageTranslateOverride: scrollBehaviourDragImageTranslateOverride
+  dragImageTranslateOverride: scrollBehaviourDragImageTranslateOverride,
 })
+
+window.addEventListener( 'touchmove', function() {}, {passive: false});
 
 function Block(props: ToolboxCategoryBlocks) {
   const cat = useAppSelector(state => state.blocksReducer.categories.find(c => c.blocks.find((b) => b.id === props.id)))
@@ -74,7 +76,7 @@ function Block(props: ToolboxCategoryBlocks) {
         let crt = ev.currentTarget.cloneNode(true) as HTMLElement // Get drag target & clone
         prevCrt = crt
         document.body.appendChild(crt)
-        ev.dataTransfer.setData("text", tagToAdd)
+        ev.dataTransfer.setData("Text", tagToAdd)
         type === TagType.Opening ? // Set element location in relation to cursor depending on opening or closing tag
           ev.dataTransfer.setDragImage(crt, crt.clientWidth + 15, 15)
           :
