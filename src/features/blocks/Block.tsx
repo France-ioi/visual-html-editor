@@ -75,7 +75,7 @@ function Block(props: ToolboxCategoryBlocks) {
         prevCrt = crt
         document.body.appendChild(crt)
         ev.dataTransfer.setData("text", tagToAdd)
-        type === TagType.Opening ? // Set element location in relation to cursor depedning on opening or closing tag
+        type === TagType.Opening ? // Set element location in relation to cursor depending on opening or closing tag
           ev.dataTransfer.setDragImage(crt, crt.clientWidth + 15, 15)
           :
           ev.dataTransfer.setDragImage(crt, -1, 15)
