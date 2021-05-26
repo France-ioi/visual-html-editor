@@ -1,10 +1,12 @@
 import './TextualHTMLEditor.css'
+import React from "react"
 import AceEditor from "react-ace"
+import "ace-builds"
 import "ace-builds/src-noconflict/mode-html"
 import "ace-builds/src-noconflict/theme-xcode"
 import "ace-builds/src-noconflict/ext-beautify"
 import "ace-builds/src-noconflict/ext-language_tools"
-import React from "react"
+import 'ace-builds/webpack-resolver'
 import {useAppDispatch} from "../../hooks"
 import {updateTextual} from "../../store/features/editors/HTMLEditors"
 
