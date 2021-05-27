@@ -1,4 +1,4 @@
-import {toolboxBlocks} from "./appconfig";
+import {tbConf} from "./appconfig";
 
 export interface ToolboxCategoryBlocks {
   id: number,
@@ -18,7 +18,5 @@ export interface ToolboxCategory {
 export interface ToolboxConfiguration {
   categories: ToolboxCategory[]
 }
-
-const tbConf: ToolboxConfiguration = toolboxBlocks
 
 export default tbConf

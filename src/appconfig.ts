@@ -1,3 +1,5 @@
+import {ToolboxConfiguration} from "./toolboxconfig"
+
 // Set default editor mode (visual or textual)
 export const initialMode = 'visual'
 // Allow user to switch editor modes
@@ -23,11 +25,11 @@ export const initialCode = "<body>" +
 // Name of category
 // Color of category for side bar style
 // Blocks contained within category
-   // Blocks have id (manually increment for now)
-   // Tag (actual HTML tag value)
-   // Paired (whether the tag is self-closing or paired with a closing tag
-   // Desc (block description)
-export const toolboxBlocks = {
+// Blocks have id (manually increment for now)
+// Tag (actual HTML tag value)
+// Paired (whether the tag is self-closing or paired with a closing tag
+// Desc (block description)
+export const tbConf: ToolboxConfiguration = {
   categories: [
     {
       id: 1,
