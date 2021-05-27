@@ -5,7 +5,7 @@ import {useAppDispatch, useAppSelector} from "../../hooks";
 import {toggleBlockDescriptionAction} from "../../store/features/blocks/blocks";
 import {Draggable} from "react-beautiful-dnd";
 import {getDragStyle} from "../../App";
-import {TagType} from "../../editorconfig";
+import {EditorType, TagType} from "../../editorconfig";
 import {polyfill} from "mobile-drag-drop/release";
 import {scrollBehaviourDragImageTranslateOverride} from "mobile-drag-drop/release/scroll-behaviour";
 import {isTouchDevice} from "../editors/TextualHTMLEditor";
@@ -49,7 +49,7 @@ function Block(props: ToolboxCategoryBlocks) {
     if (!paired) classesToAdd += 'tag-self-closing '
     else classesToAdd += type === TagType.Opening ? 'tag-open ' : 'tag-close '
     let tagToAdd = type === TagType.Opening ? openingTag : closingTag
-    if (editorMode === 'visual') {
+    if (editorMode === EditorType.Visual) {
       return (
         <Draggable draggableId={tagProp + '-' + type} index={index}>
           {(provided, snapshot) => (

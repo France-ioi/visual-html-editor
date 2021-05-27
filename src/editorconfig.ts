@@ -24,8 +24,8 @@ export type CodeSegments = Array<CodeSegment>
 
 export const makeTag = (tag: CodeSegment) => {
   let returnTag: string
-  if (tag.type !== 'text') {
-    returnTag = tag.type === 'closing' ? `</${tag.value}>` : `<${tag.value}>`
+  if (tag.type !== TagType.Text) {
+    returnTag = tag.type === TagType.Closing ? `</${tag.value}>` : `<${tag.value}>`
   } else {
     returnTag = tag.value + ' '
   }
