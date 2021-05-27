@@ -5,12 +5,12 @@ import {Droppable} from "react-beautiful-dnd";
 import {useAppDispatch} from "../../hooks";
 import {switchEditorMode} from "../../store/features/editors/HTMLEditors";
 
-interface IBlocksToolbox {
+interface BlocksToolboxProps {
   categories: ToolboxConfiguration,
   allowModeSwitch: boolean
 }
 
-function BlocksToolbox(props: IBlocksToolbox) {
+function BlocksToolbox(props: BlocksToolboxProps) {
   const dispatch = useAppDispatch()
   const editorSwitcher: JSX.Element = <>
     <input

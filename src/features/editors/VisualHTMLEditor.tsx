@@ -3,7 +3,7 @@ import {CodeSegments, TagType} from "../../editorconfig"
 import Line from "./VisualHTMLEditorLine"
 import LineCounter from "./VisualHTMLEditorLineCounter";
 
-interface IVisualHTMLEditor {
+interface VisualHTMLEditorProps {
   elements: CodeSegments
 }
 
@@ -12,7 +12,7 @@ type TLine = {
   lineIndentation: number
 }
 
-function VisualHTMLEditor(props: IVisualHTMLEditor) {
+function VisualHTMLEditor(props: VisualHTMLEditorProps) {
   let indentCounter = 0
   let lineBuilder: CodeSegments = []
   let lines: Array<TLine> = []

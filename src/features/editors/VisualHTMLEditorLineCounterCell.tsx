@@ -1,10 +1,10 @@
 import './VisualHTMLEditorLineCounterCell.css'
 
-type TLineCounterCell = {
+interface LineCounterCellProps {
   line: number
 }
 
-function LineCounterCell(props: TLineCounterCell) {
+function LineCounterCell(props: LineCounterCellProps) {
   return (
     <div className={'lines-counter-cell'}>
       {props.line}

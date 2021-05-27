@@ -1,7 +1,7 @@
 import {Draggable} from "react-beautiful-dnd"
 import {getDragStyle} from "../../App"
 
-interface IElement {
+interface ElementProps {
   className: string
   unlocked: boolean
   children: string
@@ -9,7 +9,7 @@ interface IElement {
   index: number
 }
 
-function Element(props: IElement) {
+function Element(props: ElementProps) {
   return (
     <Draggable key={props.id} draggableId={props.id} index={props.index} isDragDisabled={!props.unlocked}>
       {(provided, snapshot) => (

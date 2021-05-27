@@ -1,11 +1,11 @@
 import './VisualHTMLEditorLineCounter.css'
 import LineCounterCell from "./VisualHTMLEditorLineCounterCell";
 
-type TLineCount = {
+interface LineCountProps {
   lineCount: number
 }
 
-function LineCounter(props: TLineCount) {
+function LineCounter(props: LineCountProps) {
   let lineCells = []
   for (let i = 0; i < props.lineCount; i++) {
     lineCells.push(i)
