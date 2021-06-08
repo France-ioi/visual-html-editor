@@ -99,7 +99,7 @@ const visualHTMLReducer = (state = initialState, action: Actions) => {
         const elementToCreate: CodeSegment = {
           id: uuidv4(),
           type: elementTagType[1] === 'opening' ? TagType.Opening : TagType.Closing,
-          value: elementTagType[0],
+          value: elementTagType[0]!,
           unlocked: true
         }
         if (action.payload.destination) {
