@@ -83,7 +83,7 @@ const visualHTMLReducer = (state = initialState, action: Actions) => {
           const modifier = (destination.index > source.index && destination.droppableId !== source.droppableId) ? 1 : 0
           // Insert element at destination index - modifier while removing element at source index
           draftState.codeElements.splice(
-            destination.index - modifier, 0, draftState.codeElements.splice(source.index, 1)[0]
+            destination.index - modifier, 0, draftState.codeElements.splice(source.index, 1)[0]!
           )
         } else {
           console.log('Not found!')
