@@ -1,68 +1,90 @@
 import './VisualHTMLEditor.css'
-import {CodeSegment, CodeSegments} from "../../editorconfig"
+import {CodeSegments, TagType} from "../../editorconfig"
 import Line from "./VisualHTMLEditorLine"
 import LineCounter from "./VisualHTMLEditorLineCounter";
 
-interface IVisualHTMLEditor {
+interface VisualHTMLEditorProps {
   elements: CodeSegments
 }
 
-export type LineSegment = {
-  id: string,
-  type: string,
-  value: string,
-  unlocked: boolean,
-  index: number
-}
-
-export type LineSegments = Array<LineSegment>
-
 type TLine = {
-  lineContents: LineSegments,
+  lineContents: CodeSegments,
   lineIndentation: number
 }
 
-function VisualHTMLEditor(props: IVisualHTMLEditor) {
+function VisualHTMLEditor(props: VisualHTMLEditorProps) {
   let indentCounter = 0
-  let lineBuilder: LineSegments = []
+  let lineBuilder: CodeSegments = []
   let lines: Array<TLine> = []
-  let prevWasBlock: boolean = true
-
-  const indenter = (element: CodeSegment) => element.type === 'opening' ? indentCounter++ : indentCounter--
 
   function identifyBlockType(tag: string) { // Identify block type to determine linebreaks
-    // TODO Object to define types (4 types not 2)
-    const blockLevel = [
-      'div', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-      'header', 'hr', 'li', 'main', 'nav', 'ol', 'ul', 'p', 'pre',
-      'section', 'table', 'video', 'body', 'head', '!doctype html'
+    tag = tag.split(" ")[0]! // In case tag has attributes, isolate first word (tag name)
+    const block = [
+      'div', 'footer', 'form', 'header', 'li', 'main', 'nav',
+      'ol', 'ul', 'pre', 'section', 'table', 'video', 'body',
+      'head', '!doctype html', 'textarea', 'p'
     ]
-    return blockLevel.includes(tag)
+    const selfClosingBlock = [
+      'hr', 'br'
+    ]
+    const inlineBlock = [
+      'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
+    ]
+
+    if (block.includes(tag)) return 'block'
+    else if (selfClosingBlock.includes(tag)) return 'self-closing'
+    else if (inlineBlock.includes(tag)) return 'inline-block'
+    else return 'inline'
   }
 
   props.elements.forEach((e, index) => {
-    if (!identifyBlockType(e.value)) { // If is inline element
-      lineBuilder.push({...e, index: index}) // Add to current lineBuilder contents
-      prevWasBlock = false
-    } else { // If is block element
-      if (!prevWasBlock) { // If previous element was inline
-        // Push constructed lineBuilder to lines (new line)
+    const blockType = identifyBlockType(e.value)
+    if (blockType === 'block') {
+      // If elements remain in lineBuilder, push them as new line before making current block's line
+      if (lineBuilder.length > 0) {
         lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
-        lineBuilder = [] // Reset lineBuilder for next element(s)
+        lineBuilder = []
       }
-      if (e.type === 'closing') indenter(e)
-      lineBuilder.push({...e, index: index}) // Add block element to lineBuilder
-      // Push constructed lineBuilder to lines (new line)
+      // Indent & build new line for element
+      if (e.type === TagType.Closing) indentCounter--
+      lineBuilder.push({...e, index: index})
       lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
-      lineBuilder = [] // Reset lineBuilder for next element(s)
-      if (e.type === 'opening') indenter(e)
-      prevWasBlock = true
+      lineBuilder = []
+      if (e.type === TagType.Opening) indentCounter++
+    } else if (blockType === 'self-closing') {
+      // If elements remain in lineBuilder, push them as new line before making current block's line
+      if (lineBuilder.length > 0) {
+        lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
+        lineBuilder = []
+      }
+      // Build new line for element
+      lineBuilder.push({...e, index: index})
+      lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
+      lineBuilder = []
+    } else if (blockType === 'inline-block') {
+      // If elements in lineBuilder & curr = opening tag, push them as new line
+      if (lineBuilder.length > 0 && e.type === TagType.Opening) {
+        lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
+        lineBuilder = []
+      }
+      lineBuilder.push({...e, index: index})
+      // If closing inline-block tag, finish this line and push it to lines
+      if (e.type === TagType.Closing) {
+        lines.push({lineContents: lineBuilder, lineIndentation: indentCounter})
+        lineBuilder = []
+      }
+    } else {
+      lineBuilder.push({...e, index: index})
     }
   })
 
+  const styles = {
+    width: lines.length <= 9 ? '41px' : '49px'
+  }
+
   return (
     <div className={'visual-html-editor'}>
-      <div className={'lines-counter'}>
+      <div className={'lines-counter'} style={styles}>
         <LineCounter lineCount={lines.length}/>
       </div>
       <div className={'lines-container'}>

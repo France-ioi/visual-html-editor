@@ -2,8 +2,25 @@ import './BlocksToolbox.css'
 import {ToolboxConfiguration} from "../../toolboxconfig"
 import BlocksCategory from './BlocksCategory'
 import {Droppable} from "react-beautiful-dnd";
+import {useAppDispatch} from "../../hooks";
+import {switchEditorMode} from "../../store/features/editors/HTMLEditors";
 
-function BlocksToolbox({categories}: ToolboxConfiguration) {
+interface BlocksToolboxProps {
+  categories: ToolboxConfiguration,
+  allowModeSwitch: boolean
+}
+
+function BlocksToolbox(props: BlocksToolboxProps) {
+  const dispatch = useAppDispatch()
+  const editorSwitcher: JSX.Element = <>
+    <input
+      type={"checkbox"}
+      id={'editor-mode-toggle'}
+      onChange={() => dispatch(switchEditorMode())}
+    />
+    <label htmlFor={'editor-mode-toggle'}>Toggle Visual/Textual</label>
+  </>
+
   return (
     <Droppable droppableId={'toolbox-dropzone'} isDropDisabled={false}>
       {provided => (
@@ -12,7 +29,7 @@ function BlocksToolbox({categories}: ToolboxConfiguration) {
           ref={provided.innerRef}
           {...provided.droppableProps}
         >
-          {categories.map(category => {
+          {props.categories.categories.map(category => {
             return (
               <BlocksCategory
                 key={category.id}
@@ -24,6 +41,8 @@ function BlocksToolbox({categories}: ToolboxConfiguration) {
               />
             )
           })}
+          {/* TODO Move input */}
+          {props.allowModeSwitch ? editorSwitcher : ''}
         </div>
       )}
     </Droppable>

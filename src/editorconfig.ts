@@ -1,23 +1,15 @@
 import {v4 as uuidv4} from 'uuid'
-
-const initialCode = "<body>" +
-  "<div>" +
-  "<h1>" +
-  "Example Domain" +
-  "</h1>" +
-  "<p>This domain is for use in illustrative examples in documents. " +
-  "You may use this domain in literature without prior coordination or asking for permission.</p>" +
-  "<p>More <i>information</i>...</p>" +
-  "<span><?i>Hello world</?i></span>" +
-  "<p>Hello!</p>" +
-  "</div>" +
-  "</body>"
+import {initialMode, initialCode} from './appconfig'
 
 export enum TagType {
   Opening = 'opening',
   Closing = 'closing',
   Text = 'text'
+}
 
+export enum EditorType {
+  Textual = 'textual',
+  Visual = 'visual'
 }
 
 export interface CodeSegment {
@@ -25,14 +17,25 @@ export interface CodeSegment {
   type: TagType,
   value: string,
   unlocked: boolean
+  index?: number
 }
 
 export type CodeSegments = Array<CodeSegment>
-let editorCode: CodeSegments = []
 
-function htmlSegment(html: string) {
+export const makeTag = (tag: CodeSegment) => {
+  let returnTag: string
+  if (tag.type !== TagType.Text) {
+    returnTag = tag.type === TagType.Closing ? `</${tag.value}>` : `<${tag.value}>`
+  } else {
+    returnTag = tag.value + ' '
+  }
+  return returnTag
+}
+
+export function htmlSegment(html: string, unlockAll: boolean) {
+  let editorCode: CodeSegments = []
   let trimmed = html.trim()
-  const reg = /<([^/]+?)>|<\/(.+?)>|([^<>\s][a-zA-Z.]+)/g
+  const reg = /<([^/][^>]*?)>|<\/(.+?)>|([^<>\s][a-zA-Z.!]*)/g
   const matches = trimmed.matchAll(reg)
 
   for (const m of matches) {
@@ -41,14 +44,14 @@ function htmlSegment(html: string) {
         id: uuidv4(),
         type: TagType.Opening,
         value: m[1].replace('?', ''),
-        unlocked: m[1].charAt(0) === '?'
+        unlocked: m[1].charAt(0) === '?' || unlockAll
       })
     } else if (m[2] !== undefined) { // 2nd bounding group, closing tags
       editorCode.push({
         id: uuidv4(),
         type: TagType.Closing,
         value: m[2].replace('?', ''),
-        unlocked: m[2].charAt(0) === '?'
+        unlocked: m[2].charAt(0) === '?' || unlockAll
       })
     } else if (m[3] !== undefined) { // 3rd bounding group, text
       editorCode.push({
@@ -59,12 +62,39 @@ function htmlSegment(html: string) {
       })
     }
   }
+
+  return editorCode
 }
 
-htmlSegment(initialCode)
+const beautifyHTML = require('js-beautify').html
+
+export function parseHTMLToString(elements: CodeSegments | string) {
+  const selfClosingBlock = [
+    'hr', 'br'
+  ]
+  let stringedHTML = ''
+  if (typeof elements !== 'string')
+    elements.map((e, index) => {
+      if (
+        (e.value === 'p' && e.type === TagType.Closing)
+        ||
+        (selfClosingBlock.includes(e.value) &&  elements[index - 1]?.value !== 'p')
+      ) stringedHTML += '\n'
+      stringedHTML += makeTag(e)
+      if (
+        e.value === 'p'
+        ||
+        (selfClosingBlock.includes(e.value) && elements[index + 1]?.value !== 'p')
+      ) stringedHTML += '\n'
+      return stringedHTML
+    })
+  return beautifyHTML(stringedHTML, {wrap_line_length: 0, preserve_newlines: true})
+}
 
 const editorConfig = {
-  codeElements: editorCode
+  type: initialMode,
+  codeElements: htmlSegment(initialCode, false),
+  codeString: parseHTMLToString(initialCode)
 }
 
 export default editorConfig

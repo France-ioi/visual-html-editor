@@ -1,4 +1,4 @@
-import editorConfig from "../../../editorconfig"
+import editorConfig, {EditorType, htmlSegment, parseHTMLToString} from "../../../editorconfig"
 import {produce} from "immer"
 import {DropResult} from "react-beautiful-dnd"
 import {CodeSegment, TagType} from "../../../editorconfig"
@@ -6,45 +6,65 @@ import {v4 as uuidv4} from "uuid"
 
 // Define actions
 export enum EditorActionsTypes {
-  EditorElementMove = 'Editor.Element.Move',
-  EditorElementDelete = 'Editor.Element.Delete',
-  EditorElementCreate = 'Editor.Element.Create'
+  VisualEditorElementMove = 'Editor.Element.Move',
+  VisualEditorElementDelete = 'Editor.Element.Delete',
+  VisualEditorElementCreate = 'Editor.Element.Create',
+  SwitchEditorMode = 'Editor.Mode.Switch',
+  TextualEditorUpdateCode = 'Editor.Textual.Update'
 }
 
 // Type actions
 type MoveElement = {
-  type: EditorActionsTypes.EditorElementMove
+  type: EditorActionsTypes.VisualEditorElementMove
   payload: DropResult
 }
 
 type DeleteElement = {
-  type: EditorActionsTypes.EditorElementDelete
+  type: EditorActionsTypes.VisualEditorElementDelete
   payload: DropResult
 }
 
 type CreateElement = {
-  type: EditorActionsTypes.EditorElementCreate
+  type: EditorActionsTypes.VisualEditorElementCreate
   payload: DropResult
+}
+
+type SwitchEditorMode = {
+  type: typeof EditorActionsTypes.SwitchEditorMode
+}
+
+type UpdateTextual = {
+  type: typeof EditorActionsTypes.TextualEditorUpdateCode
+  payload: string
 }
 
 // Action creators
 export const moveElement = (elementId: DropResult): MoveElement => ({
-  type: EditorActionsTypes.EditorElementMove,
+  type: EditorActionsTypes.VisualEditorElementMove,
   payload: elementId
 })
 
 export const deleteElement = (elementId: DropResult): DeleteElement => ({
-  type: EditorActionsTypes.EditorElementDelete,
+  type: EditorActionsTypes.VisualEditorElementDelete,
   payload: elementId
 })
 
 export const createElement = (elementId: DropResult): CreateElement => ({
-  type: EditorActionsTypes.EditorElementCreate,
+  type: EditorActionsTypes.VisualEditorElementCreate,
   payload: elementId
 })
 
+export const switchEditorMode = (): SwitchEditorMode => ({
+  type: EditorActionsTypes.SwitchEditorMode
+})
+
+export const updateTextual = (code: string): UpdateTextual => ({
+  type: EditorActionsTypes.TextualEditorUpdateCode,
+  payload: code
+})
+
 // Reducers
-type Actions = MoveElement | DeleteElement | CreateElement
+type Actions = MoveElement | DeleteElement | CreateElement | UpdateTextual | SwitchEditorMode
 
 const initialState = {
   ...editorConfig,
@@ -52,7 +72,7 @@ const initialState = {
 
 const visualHTMLReducer = (state = initialState, action: Actions) => {
   switch (action.type) {
-    case EditorActionsTypes.EditorElementMove:
+    case EditorActionsTypes.VisualEditorElementMove:
       return produce(state, draftState => {
         const draggedElementId = action.payload.draggableId
         const source = action.payload.source
@@ -63,28 +83,42 @@ const visualHTMLReducer = (state = initialState, action: Actions) => {
           const modifier = (destination.index > source.index && destination.droppableId !== source.droppableId) ? 1 : 0
           // Insert element at destination index - modifier while removing element at source index
           draftState.codeElements.splice(
-            destination.index - modifier, 0, draftState.codeElements.splice(source.index, 1)[0]
+            destination.index - modifier, 0, draftState.codeElements.splice(source.index, 1)[0]!
           )
         } else {
           console.log('Not found!')
         }
       })
-    case EditorActionsTypes.EditorElementDelete:
+    case EditorActionsTypes.VisualEditorElementDelete:
       return produce(state, draftState => {
         draftState.codeElements.splice(action.payload.source.index, 1)
       })
-    case EditorActionsTypes.EditorElementCreate:
+    case EditorActionsTypes.VisualEditorElementCreate:
       return produce(state, draftState => {
         const elementTagType = action.payload.draggableId.split("-")
         const elementToCreate: CodeSegment = {
           id: uuidv4(),
           type: elementTagType[1] === 'opening' ? TagType.Opening : TagType.Closing,
-          value: elementTagType[0],
+          value: elementTagType[0]!,
           unlocked: true
         }
         if (action.payload.destination) {
           draftState.codeElements.splice(action.payload.destination.index, 0, elementToCreate)
         }
+      })
+    case EditorActionsTypes.SwitchEditorMode:
+      return produce(state, draftState => {
+        if (draftState.type === EditorType.Textual) {
+          draftState.type = EditorType.Visual
+          draftState.codeElements = htmlSegment(draftState.codeString, true)
+        } else if (draftState.type === EditorType.Visual) {
+          draftState.type = EditorType.Textual
+          draftState.codeString = parseHTMLToString(draftState.codeElements)
+        }
+      })
+    case EditorActionsTypes.TextualEditorUpdateCode:
+      return produce(state, draftState => {
+        draftState.codeString = action.payload
       })
     default:
       return state

@@ -1,27 +1,29 @@
 import './VisualHTMLEditorLine.css'
 import {Droppable} from "react-beautiful-dnd"
 import Element from "./VisualHTMLEditorElement";
-import {LineSegments, LineSegment} from "./VisualHTMLEditor";
-import {TagType} from "../../editorconfig";
+import {CodeSegment, CodeSegments, makeTag} from "../../editorconfig";
 
-interface ILine {
+interface LineProps {
   indent: number,
   id: string,
-  children: LineSegments
+  children: CodeSegments
 }
 
-function Line(props: ILine) {
-  const makeTag = (tag: LineSegment) => tag.type !== 'text' ?
-    tag.type === TagType.Closing ? `</${tag.value}>` : `<${tag.value}>`
-    :
-    tag.value + ' '
+const selfClosingTags = [
+  'area', 'base', 'br', 'col', 'embed', 'hr',
+  'img', 'link', 'meta', 'param', 'source'
+]
 
-  function setClasses(element: LineSegment) {
-    let classes: string = element.unlocked ? 'unlocked' : 'locked'
+function Line(props: LineProps) {
+  function setClasses(element: CodeSegment) {
+    let classes: string = element.unlocked ? 'unlocked ' : 'locked '
     if (element.type !== 'text') {
-      classes += element.type === 'opening' ? ' opening' : ' closing'
+      selfClosingTags.includes(element.value) ?
+        classes += 'self-closing '
+        :
+        classes += element.type === 'opening' ? 'opening ' : 'closing '
     } else {
-      classes += ' text'
+      classes += 'text '
     }
     return classes
   }
@@ -33,7 +35,7 @@ function Line(props: ILine) {
           className={
             snapshot.isDraggingOver ? 'line is-dragged-over' : 'line'
           }
-          style={{paddingLeft: 25 * props.indent + 10}}
+          style={{paddingLeft: 35 * props.indent + 4}}
           ref={provided.innerRef}
           {...provided.droppableProps}
         >
@@ -42,7 +44,7 @@ function Line(props: ILine) {
               return <Element
                 id={c.id}
                 key={c.id}
-                index={c.index}
+                index={c.index!}
                 className={setClasses(c)}
                 children={makeTag(c)}
                 unlocked={c.unlocked}

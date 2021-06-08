@@ -2,14 +2,17 @@ import BlocksToolbox from './features/blocks/BlocksToolbox'
 import VisualHTMLEditor from './features/editors/VisualHTMLEditor'
 import {useAppDispatch, useAppSelector} from "./hooks"
 import {
+  DragDropContext,
   DraggableStateSnapshot,
   DraggingStyle,
   DragUpdate,
   DropResult,
   NotDraggingStyle,
 } from "react-beautiful-dnd"
-import {DragDropContext} from "react-beautiful-dnd"
-import {createElement, deleteElement, moveElement} from "./store/features/editors/visualHTML"
+import {createElement, deleteElement, moveElement} from "./store/features/editors/HTMLEditors"
+import TextualHTMLEditor from "./features/editors/TextualHTMLEditor"
+import {EditorType} from "./editorconfig"
+import {allowModeSwitch} from "./appconfig";
 
 // Used to cancel transition animation for certain draggables
 export function getDragStyle(style: DraggingStyle | NotDraggingStyle | undefined, snapshot: DraggableStateSnapshot) {
@@ -26,8 +29,8 @@ export function getDragStyle(style: DraggingStyle | NotDraggingStyle | undefined
 }
 
 function App() {
-  const categories = useAppSelector(state => state.blocksReducer.categories)
-  const editorConfig = useAppSelector(state => state.visualHTMLReducer.codeElements)
+  const categories = useAppSelector(state => state.blocksReducer)
+  const editorConfig = useAppSelector(state => state.visualHTMLReducer)
   const dispatch = useAppDispatch()
 
   const onDragEnd = (result: DropResult) => {
@@ -49,8 +52,13 @@ function App() {
   return (
     <div className="App">
       <DragDropContext onDragEnd={onDragEnd} onDragUpdate={onDragUpdate}>
-        <BlocksToolbox categories={categories}/>
-        <VisualHTMLEditor elements={editorConfig}/>
+        <BlocksToolbox categories={categories} allowModeSwitch={allowModeSwitch}/>
+        {
+          editorConfig.type === EditorType.Visual ? // Load either visual or textual HTML editor with relevant code
+            <VisualHTMLEditor elements={editorConfig.codeElements}/>
+            :
+            <TextualHTMLEditor elements={editorConfig.codeString}/>
+        }
       </DragDropContext>
     </div>
   )

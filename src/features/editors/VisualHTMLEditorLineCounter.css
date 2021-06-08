@@ -1,5 +1,7 @@
 .lines-counter-inner {
     height: 100%;
-    width: 40px;
+    user-select: none;
     text-align: right;
+    position: relative;
+    background-color: #E8E8E8;
 }
