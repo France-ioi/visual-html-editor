@@ -18,7 +18,7 @@ function VisualHTMLEditor(props: VisualHTMLEditorProps) {
   let lines: Array<TLine> = []
 
   function identifyBlockType(tag: string) { // Identify block type to determine linebreaks
-    tag = tag.split(" ")[0] // In case tag has attributes, isolate first word (tag name)
+    tag = tag.split(" ")[0]! // In case tag has attributes, isolate first word (tag name)
     const block = [
       'div', 'footer', 'form', 'header', 'li', 'main', 'nav',
       'ol', 'ul', 'pre', 'section', 'table', 'video', 'body',
