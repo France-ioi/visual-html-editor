@@ -78,13 +78,13 @@ export function parseHTMLToString(elements: CodeSegments | string) {
       if (
         (e.value === 'p' && e.type === TagType.Closing)
         ||
-        (selfClosingBlock.includes(e.value) && elements[index - 1].value !== 'p')
+        (selfClosingBlock.includes(e.value) &&  elements[index - 1]?.value !== 'p')
       ) stringedHTML += '\n'
       stringedHTML += makeTag(e)
       if (
         e.value === 'p'
         ||
-        (selfClosingBlock.includes(e.value) && elements[index + 1].value !== 'p')
+        (selfClosingBlock.includes(e.value) && elements[index + 1]?.value !== 'p')
       ) stringedHTML += '\n'
       return stringedHTML
     })
