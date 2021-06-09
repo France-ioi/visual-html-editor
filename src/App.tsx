@@ -13,6 +13,7 @@ import {createElement, deleteElement, moveElement} from "./store/features/editor
 import TextualHTMLEditor from "./features/editors/TextualHTMLEditor"
 import {EditorType} from "./editorconfig"
 import {allowModeSwitch} from "./appconfig";
+import HTMLParser from "./features/parsers/HTMLParser";
 
 // Used to cancel transition animation for certain draggables
 export function getDragStyle(style: DraggingStyle | NotDraggingStyle | undefined, snapshot: DraggableStateSnapshot) {
@@ -60,6 +61,7 @@ function App() {
             <TextualHTMLEditor elements={editorConfig.codeString}/>
         }
       </DragDropContext>
+      <HTMLParser/>
     </div>
   )
 }
