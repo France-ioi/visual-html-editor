@@ -10727,6 +10727,11 @@ timsort@^0.3.0:
   resolved "https://registry.yarnpkg.com/timsort/-/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
 
+tiny-html-lexer@^1.0.0-rc:
+  version "1.0.0-rc"
+  resolved "https://registry.yarnpkg.com/tiny-html-lexer/-/tiny-html-lexer-1.0.0-rc.tgz#d102c3c71cc32a860643e0cd04e39c90b6a0c1e0"
+  integrity sha512-IxhiiqnkpJ1E93eF3cVGoCWmIPal1rvE48VNswkBkkRyimRXzpdHyojNm6R4hno8eiiL4vWL8vFuTXDhpqHO6A==
+
 tiny-invariant@^1.0.6:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/tiny-invariant/-/tiny-invariant-1.1.0.tgz#634c5f8efdc27714b7f386c35e6760991d230875"
