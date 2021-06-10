@@ -3,7 +3,7 @@ import {CodeSegments, TagType} from "../../editorconfig"
 import Line from "./VisualHTMLEditorLine"
 import LineCounter from "./VisualHTMLEditorLineCounter";
 
-interface IVisualHTMLEditor {
+interface VisualHTMLEditorProps {
   elements: CodeSegments
 }
 
@@ -12,13 +12,13 @@ type TLine = {
   lineIndentation: number
 }
 
-function VisualHTMLEditor(props: IVisualHTMLEditor) {
+function VisualHTMLEditor(props: VisualHTMLEditorProps) {
   let indentCounter = 0
   let lineBuilder: CodeSegments = []
   let lines: Array<TLine> = []
 
   function identifyBlockType(tag: string) { // Identify block type to determine linebreaks
-    tag = tag.split(" ")[0] // In case tag has attributes, isolate first word (tag name)
+    tag = tag.split(" ")[0]! // In case tag has attributes, isolate first word (tag name)
     const block = [
       'div', 'footer', 'form', 'header', 'li', 'main', 'nav',
       'ol', 'ul', 'pre', 'section', 'table', 'video', 'body',

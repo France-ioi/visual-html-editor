@@ -24,8 +24,8 @@ export type CodeSegments = Array<CodeSegment>
 
 export const makeTag = (tag: CodeSegment) => {
   let returnTag: string
-  if (tag.type !== 'text') {
-    returnTag = tag.type === 'closing' ? `</${tag.value}>` : `<${tag.value}>`
+  if (tag.type !== TagType.Text) {
+    returnTag = tag.type === TagType.Closing ? `</${tag.value}>` : `<${tag.value}>`
   } else {
     returnTag = tag.value + ' '
   }
@@ -78,13 +78,13 @@ export function parseHTMLToString(elements: CodeSegments | string) {
       if (
         (e.value === 'p' && e.type === TagType.Closing)
         ||
-        (selfClosingBlock.includes(e.value) && elements[index - 1].value !== 'p')
+        (selfClosingBlock.includes(e.value) &&  elements[index - 1]?.value !== 'p')
       ) stringedHTML += '\n'
       stringedHTML += makeTag(e)
       if (
         e.value === 'p'
         ||
-        (selfClosingBlock.includes(e.value) && elements[index + 1].value !== 'p')
+        (selfClosingBlock.includes(e.value) && elements[index + 1]?.value !== 'p')
       ) stringedHTML += '\n'
       return stringedHTML
     })

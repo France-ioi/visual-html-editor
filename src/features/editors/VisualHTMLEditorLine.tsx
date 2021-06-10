@@ -3,7 +3,7 @@ import {Droppable} from "react-beautiful-dnd"
 import Element from "./VisualHTMLEditorElement";
 import {CodeSegment, CodeSegments, makeTag} from "../../editorconfig";
 
-interface ILine {
+interface LineProps {
   indent: number,
   id: string,
   children: CodeSegments
@@ -14,7 +14,7 @@ const selfClosingTags = [
   'img', 'link', 'meta', 'param', 'source'
 ]
 
-function Line(props: ILine) {
+function Line(props: LineProps) {
   function setClasses(element: CodeSegment) {
     let classes: string = element.unlocked ? 'unlocked ' : 'locked '
     if (element.type !== 'text') {
