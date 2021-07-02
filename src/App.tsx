@@ -11,6 +11,8 @@ import {
 } from "react-beautiful-dnd"
 import {createElement, deleteElement, moveElement} from "./store/features/editors/HTMLEditors"
 import TextualHTMLEditor from "./features/editors/TextualHTMLEditor"
+import PreviewWebpage from "./features/preview/PreviewWebpage"
+import {TagType} from "./editorconfig"
 import {EditorType} from "./editorconfig"
 import {allowModeSwitch} from "./appconfig";
 
@@ -32,6 +34,23 @@ function App() {
   const categories = useAppSelector(state => state.blocksReducer)
   const editorConfig = useAppSelector(state => state.visualHTMLReducer)
   const dispatch = useAppDispatch()
+  let codeToInsert = ""
+
+  function refreshPreview() {
+    // If editor type is visual, build code string from codeElements
+    // otherwise use codeString directly
+    editorConfig.type === EditorType.Visual ?
+      editorConfig.codeElements.map(e => {
+        let tag = ''
+        if (e.type === TagType.Opening) tag = '<' + e.value + '>'
+        else if (e.type === TagType.Closing) tag = '</' + e.value + '>'
+        else tag = `${e.value} `
+        return codeToInsert += tag
+      })
+      :
+      codeToInsert = editorConfig.codeString
+    return codeToInsert
+  }
 
   const onDragEnd = (result: DropResult) => {
     if (result.source && result.destination) {
@@ -49,6 +68,8 @@ function App() {
   const onDragUpdate = (update: DragUpdate) => {
   }
 
+  refreshPreview()
+
   return (
     <div className="App">
       <DragDropContext onDragEnd={onDragEnd} onDragUpdate={onDragUpdate}>
@@ -59,6 +80,7 @@ function App() {
             :
             <TextualHTMLEditor elements={editorConfig.codeString}/>
         }
+        <PreviewWebpage code={codeToInsert}/>
       </DragDropContext>
     </div>
   )
